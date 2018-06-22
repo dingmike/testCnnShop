@@ -34,7 +34,7 @@
                          style="text-align: center;font-size: 18px;font-weight: 600;color: white;">
                         综合管理平台
                     </div>
-                    <div class="logo-element">大平台
+                    <div class="logo-element">管理
                     </div>
                 </li>
                 <menu-item :item="item" v-for="item in menuList"></menu-item>
@@ -81,7 +81,7 @@
                                 <a class="J_menuItem" href="profile.html">
                                     <div>
                                         <i class="fa fa-qq fa-fw"></i> 1条新回复
-                                        <span class="pull-right text-muted small">12分钟钱</span>
+                                        <span class="pull-right text-muted small">12分钟前</span>
                                     </div>
                                 </a>
                             </li>
@@ -409,7 +409,7 @@
         created: function () {
             this.getUser();
             this.getMenuList();
-            this.love();
+//            this.love();
         },
         updated: function () {
             // MetsiMenu
