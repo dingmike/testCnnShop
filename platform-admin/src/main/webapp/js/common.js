@@ -49,7 +49,7 @@ window.confirm = function (msg, callback) {
  * @param options
  */
 window.openWindow = function (options) {
-    let globalParams = {
+     globalParams = {
         skin: 'layui-layer-molv',//皮肤
         title: '标题',//标题
         type: 1,//打开窗口的类型 1：html里的div内容 2：iframe方式，页面的路径
@@ -139,7 +139,7 @@ function eyeImages(data) {
             "data": data
         }, anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机
     });
-};
+};var
 
 /**
  * 重置验证
@@ -260,10 +260,12 @@ function dialogLoading(flag) {
 function getQueryString(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
     var r = window.location.search.substr(1).match(reg);
-    if (r != null) {
+    /*if (r != null) {
         return unescape(r[2]);
+
     }
-    return null;
+    return null;*/
+    if (r != null) return decodeURIComponent(r[2]); return null;
 }
 
 /**
