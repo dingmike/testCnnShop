@@ -14,9 +14,11 @@
 
     <!-- 配置JedisPoolConfig连接池-->
     <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
-        <property name="maxIdle" value="${redis.pool.maxIdle}"></property>
-        <property name="minIdle" value="${redis.pool.minIdle}"></property>
-        <property name="maxWaitMillis" value="${redis.pool.maxWaitMillis}"></property>
+        <property name="maxIdle" value="${redis.pool.maxIdle}"/>
+        <property name="minIdle" value="${redis.pool.minIdle}"/>
+        <property name="maxWaitMillis" value="${redis.pool.maxWaitMillis}"/>
+        <property name="testOnBorrow" value="${redis.pool.testOnBorrow}"/>
+        <property name="testOnReturn" value="${redis.pool.testOnReturn}"/>
     </bean>
 
     <!-- 配置jedis连接工厂 -->
