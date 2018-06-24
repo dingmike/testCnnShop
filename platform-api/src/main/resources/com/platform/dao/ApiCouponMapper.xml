@@ -20,11 +20,13 @@
         <result property="user_id" column="user_id"/>
         <result property="coupon_number" column="coupon_number"/>
         <result property="min_transmit_num" column="min_transmit_num"/>
+        <result property="user_coupon_id" column="user_coupon_id"/>
+        <result property="coupon_status" column="coupon_status"/>
     </resultMap>
 
     <select id="queryObject" resultMap="couponMap">
-		select * from nideshop_coupon where id = #{value}
-	</select>
+        select * from nideshop_coupon where id = #{value}
+    </select>
 
     <select id="queryList" resultMap="couponMap">
         select * from nideshop_coupon a
@@ -50,33 +52,33 @@
     </select>
 
     <insert id="save" parameterType="com.platform.entity.CouponVo" useGeneratedKeys="true" keyProperty="id">
-		insert into nideshop_coupon
-		(
-			`name`, 
-			`type_money`, 
-			`send_type`, 
-			`min_amount`, 
-			`max_amount`, 
-			`send_start_date`, 
-			`send_end_date`, 
-			`use_start_date`, 
-			`use_end_date`, 
-			`min_goods_amount`
-		)
-		values
-		(
-			#{name}, 
-			#{type_money},
-			#{send_type},
-			#{min_amount},
-			#{max_amount},
-			#{send_start_date},
-			#{send_end_date},
-			#{use_start_date},
-			#{use_end_date},
-			#{min_goods_amount}
-		)
-	</insert>
+        insert into nideshop_coupon
+        (
+        `name`,
+        `type_money`,
+        `send_type`,
+        `min_amount`,
+        `max_amount`,
+        `send_start_date`,
+        `send_end_date`,
+        `use_start_date`,
+        `use_end_date`,
+        `min_goods_amount`
+        )
+        values
+        (
+        #{name},
+        #{type_money},
+        #{send_type},
+        #{min_amount},
+        #{max_amount},
+        #{send_start_date},
+        #{send_end_date},
+        #{use_start_date},
+        #{use_end_date},
+        #{min_goods_amount}
+        )
+    </insert>
 
     <update id="update" parameterType="com.platform.entity.CouponVo">
         update nideshop_coupon
@@ -101,12 +103,12 @@
         <set>
             <if test="coupon_status != null">`coupon_status` = #{coupon_status}</if>
         </set>
-        where coupon_id = #{id}
+        where id = #{user_coupon_id}
     </update>
 
     <delete id="delete">
-		delete from nideshop_coupon where id = #{value}
-	</delete>
+        delete from nideshop_coupon where id = #{value}
+    </delete>
 
     <delete id="deleteBatch">
         delete from nideshop_coupon where id in
@@ -116,7 +118,7 @@
     </delete>
 
     <select id="queryUserCoupons" resultMap="couponMap">
-        select a.*,b.coupon_number,b.user_id,b.coupon_status
+        select a.*,b.coupon_number,b.user_id,b.coupon_status,b.id user_coupon_id
         from nideshop_coupon a
         left join nideshop_user_coupon b on a.id = b.coupon_id
         where 1 = 1
@@ -183,4 +185,13 @@
         and a.send_type in (1,4)
         and b.user_id = #{user_id} and b.order_id is null
     </select>
+
+    <select id="getUserCoupon" resultMap="couponMap">
+        select a.*,b.coupon_number,b.user_id,b.coupon_status,b.id user_coupon_id
+        from nideshop_coupon a
+        left join nideshop_user_coupon b on a.id = b.coupon_id
+        where 1 = 1
+        and b.id = #{id}
+    </select>
+
 </mapper>
