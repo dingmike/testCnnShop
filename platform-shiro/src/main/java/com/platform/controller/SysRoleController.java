@@ -21,8 +21,8 @@ import java.util.Map;
 /**
  * 角色管理
  *
- * @author lipengjun
- * @email 939961241@qq.com
+ * @author admin
+ * @email admin@qq.com
  * @date 2016年11月8日 下午2:18:33
  */
 @RestController

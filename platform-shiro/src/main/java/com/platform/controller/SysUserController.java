@@ -21,9 +21,9 @@ import java.util.Map;
 /**
  * 系统用户
  *
- * @author lipengjun
- * @email 939961241@qq.com
- * @date 2016年10月31日 上午10:40:10
+ * @author admin
+ * @email mikeding@qq.com
+ * @date 2018年10月31日 上午10:40:10
  */
 @RestController
 @RequestMapping("/sys/user")
