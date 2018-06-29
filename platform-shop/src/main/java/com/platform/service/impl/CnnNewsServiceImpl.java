@@ -9,6 +9,7 @@ import java.util.Map;
 import com.platform.dao.CnnNewsDao;
 import com.platform.entity.CnnNewsEntity;
 import com.platform.service.CnnNewsService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service实现类
@@ -38,12 +39,14 @@ public class CnnNewsServiceImpl implements CnnNewsService {
     }
 
     @Override
+    @Transactional
     public int save(CnnNewsEntity cnnNews) {
 
         return cnnNewsDao.save(cnnNews);
     }
 
     @Override
+    @Transactional
     public int update(CnnNewsEntity cnnNews) {
         return cnnNewsDao.update(cnnNews);
     }

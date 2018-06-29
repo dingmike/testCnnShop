@@ -4,15 +4,15 @@ $(function () {
         colModel: [
 			{label: 'id', name: 'id', index: 'id', key: true, hidden: true},
 			{label: '文章标题', name: 'title', index: 'title', width: 80},
-			{label: '文章详情', name: 'newsDetail', index: 'news_detail', width: 80},
-			{label: '用户数据表ID', name: 'userId', index: 'user_id', width: 80},
+			//{label: '文章详情', name: 'newsDetail', index: 'news_detail', width: 80},
+			//{label: '用户数据表ID', name: 'userId', index: 'user_id', width: 80},
             {
                 label: '添加时间', name: 'addTime', index: 'add_time', width: 80, formatter: function (value) {
-                return transDate(value, 'yyyy-MM-dd');
+                return transDate(value, 'yyyy-MM-dd hh:mm:ss');
             }},
 			{
                 label: '修改时间', name: 'updateTime', index: 'update_time', width: 80, formatter: function (value) {
-                return transDate(value, 'yyyy-MM-dd');
+                return transDate(value, 'yyyy-MM-dd hh:mm:ss');
             }},
             {
                 label: '发布状态', name: 'isUse', index: 'is_use', width: 80,
@@ -120,6 +120,7 @@ let vm = new Vue({
                 async: true,
                 successCallback: function (r) {
                     vm.cnnNews = r.cnnNews;
+                    $('#newsDetail').editable('setHTML', vm.cnnNews.newsDetail);
                 }
             });
 		},

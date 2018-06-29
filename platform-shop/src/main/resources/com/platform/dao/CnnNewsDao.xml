@@ -73,8 +73,8 @@
 			#{title},
 			#{newsDetail},
 			#{userId},
-			#{addTime},
-			#{updateTime},
+			now(),
+			now(),
 			#{isUse})
 	</insert>
 	 
@@ -85,7 +85,7 @@
 			<if test="newsDetail != null">`news_detail` = #{newsDetail}, </if>
 			<if test="userId != null">`user_id` = #{userId}, </if>
 			<if test="addTime != null">`add_time` = #{addTime}, </if>
-			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="updateTime != null">`update_time` = now(), </if>
 			<if test="isUse != null">`is_use` = #{isUse}</if>
 		</set>
 		where id = #{id}
