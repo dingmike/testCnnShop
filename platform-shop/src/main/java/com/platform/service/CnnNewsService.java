@@ -1,6 +1,6 @@
 package com.platform.service;
 
-import com.platform.entity.NewsEntity;
+import com.platform.entity.CnnNewsEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -8,11 +8,11 @@ import java.util.Map;
 /**
  * Service接口
  *
- * @author zdj
- * @email mikeding@qq.com
- * @date 2018-06-27 21:19:49
+ * @author admin
+ * @email 2252277509@qq.com
+ * @date 2018-06-29 09:17:59
  */
-public interface NewsService {
+public interface CnnNewsService {
 
     /**
      * 根据主键查询实体
@@ -20,7 +20,7 @@ public interface NewsService {
      * @param id 主键
      * @return 实体
      */
-    NewsEntity queryObject(Integer id);
+    CnnNewsEntity queryObject(Integer id);
 
     /**
      * 分页查询
@@ -28,7 +28,7 @@ public interface NewsService {
      * @param map 参数
      * @return list
      */
-    List<NewsEntity> queryList(Map<String, Object> map);
+    List<CnnNewsEntity> queryList(Map<String, Object> map);
 
     /**
      * 分页统计总数
@@ -41,18 +41,18 @@ public interface NewsService {
     /**
      * 保存实体
      *
-     * @param goods 实体
+     * @param cnnNews 实体
      * @return 保存条数
      */
-    int save(NewsEntity goods);
+    int save(CnnNewsEntity cnnNews);
 
     /**
      * 根据主键更新实体
      *
-     * @param goods 实体
+     * @param cnnNews 实体
      * @return 更新条数
      */
-    int update(NewsEntity goods);
+    int update(CnnNewsEntity cnnNews);
 
     /**
      * 根据主键删除
@@ -69,28 +69,4 @@ public interface NewsService {
      * @return 删除条数
      */
     int deleteBatch(Integer[] ids);
-
-    /**
-     * 商品从回收站恢复
-     *
-     * @param ids
-     * @return
-     */
-    int back(Integer[] ids);
-
-    /**
-     * 上架
-     *
-     * @param id
-     * @return
-     */
-    int enSale(Integer id);
-
-    /**
-     * 下架
-     *
-     * @param id
-     * @return
-     */
-    int unSale(Integer id);
 }

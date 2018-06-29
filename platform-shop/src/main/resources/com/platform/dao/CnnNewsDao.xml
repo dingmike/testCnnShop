@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.dao.CnnNewsDao">
+
+    <resultMap type="com.platform.entity.CnnNewsEntity" id="cnnNewsMap">
+        <result property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="newsDetail" column="news_detail"/>
+        <result property="userId" column="user_id"/>
+        <result property="addTime" column="add_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isUse" column="is_use"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="com.platform.entity.CnnNewsEntity">
+		select
+			`id`,
+			`title`,
+			`news_detail`,
+			`user_id`,
+			`add_time`,
+			`update_time`,
+			`is_use`
+		from cnn_news
+		where id = #{id}
+	</select>
+
+	<select id="queryList" resultType="com.platform.entity.CnnNewsEntity">
+		select
+    		`id`,
+    		`title`,
+    		`news_detail`,
+    		`user_id`,
+    		`add_time`,
+    		`update_time`,
+    		`is_use`
+		from cnn_news
+		WHERE 1=1
+		<if test="name != null and name.trim() != ''">
+			AND name LIKE concat('%',#{name},'%')
+		</if>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from cnn_news
+		WHERE 1=1
+        <if test="name != null and name.trim() != ''">
+            AND name LIKE concat('%',#{name},'%')
+        </if>
+	</select>
+	 
+	<insert id="save" parameterType="com.platform.entity.CnnNewsEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into cnn_news(
+			`title`,
+			`news_detail`,
+			`user_id`,
+			`add_time`,
+			`update_time`,
+			`is_use`)
+		values(
+			#{title},
+			#{newsDetail},
+			#{userId},
+			#{addTime},
+			#{updateTime},
+			#{isUse})
+	</insert>
+	 
+	<update id="update" parameterType="com.platform.entity.CnnNewsEntity">
+		update cnn_news 
+		<set>
+			<if test="title != null">`title` = #{title}, </if>
+			<if test="newsDetail != null">`news_detail` = #{newsDetail}, </if>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="addTime != null">`add_time` = #{addTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="isUse != null">`is_use` = #{isUse}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from cnn_news where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from cnn_news where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
