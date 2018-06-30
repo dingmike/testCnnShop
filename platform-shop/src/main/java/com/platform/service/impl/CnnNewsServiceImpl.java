@@ -1,5 +1,7 @@
 package com.platform.service.impl;
 
+import com.platform.entity.SysUserEntity;
+import com.platform.utils.ShiroUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +43,9 @@ public class CnnNewsServiceImpl implements CnnNewsService {
     @Override
     @Transactional
     public int save(CnnNewsEntity cnnNews) {
-
+        SysUserEntity user = ShiroUtils.getUserEntity();
+        cnnNews.setCreateUserId(user.getUserId());
+        cnnNews.setUpdateUserId(user.getUserId());
         return cnnNewsDao.save(cnnNews);
     }
 

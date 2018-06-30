@@ -21,8 +21,10 @@ public class CnnNewsEntity implements Serializable {
     private String title;
     //文章详情
     private String newsDetail;
-    //用户数据表ID
-    private Integer userId;
+    //创建文章用户ID
+    private Long createUserId;
+    //修改文章用户ID
+    private Long updateUserId;
     //添加时间
     private Date addTime;
     //修改时间
@@ -69,19 +71,33 @@ public class CnnNewsEntity implements Serializable {
     public String getNewsDetail() {
         return newsDetail;
     }
-    /**
-     * 设置：用户数据表ID
-     */
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+
+
+
+
+
+    public Long getCreateUserId() {
+        return createUserId;
     }
 
-    /**
-     * 获取：用户数据表ID
-     */
-    public Integer getUserId() {
-        return userId;
+    public void setCreateUserId(Long createUserId) {
+        this.createUserId = createUserId;
     }
+
+    public Long getUpdateUserId() {
+        return updateUserId;
+    }
+
+    public void setUpdateUserId(Long updateUserId) {
+        this.updateUserId = updateUserId;
+    }
+
+
+
+
+
+
+
     /**
      * 设置：添加时间
      */

@@ -64,7 +64,6 @@ public class CnnNewsController {
     @RequestMapping("/save")
     @RequiresPermissions("cnnnews:save")
     public R save(@RequestBody CnnNewsEntity cnnNews) {
-        System.out.println("newsData: " + cnnNews);
         cnnNewsService.save(cnnNews);
 
         return R.ok();
