@@ -84,11 +84,11 @@ let vm = new Vue({
             vm.cnnNews.newsDetail = $('#newsDetail').editable('getHTML');
 
 
-            $.ajax({
+            /*$.ajax({
                 type: "POST",
                 url: url,
-                contentType: "application/json",
-                data: vm.cnnNews,
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify(vm.cnnNews),
                 success: function (r) {
                     if (r.code === 0) {
                         alert('操作成功', function (index) {
@@ -98,18 +98,18 @@ let vm = new Vue({
                         alert('操作失败');
                     }
                 }
-            });
-            /*Ajax.request({
+            });*/
+            Ajax.request({
 			    url: url,
                 params: JSON.stringify(vm.cnnNews),
                 type: "POST",
-			    contentType: "application/json",
+			    contentType: "application/json;charset=utf-8",
                 successCallback: function (r) {
                     alert('操作成功', function (index) {
                         vm.reload();
                     });
                 }
-			});*/
+			});
 		},
 		del: function (event) {
             let ids = getSelectedRows("#jqGrid");

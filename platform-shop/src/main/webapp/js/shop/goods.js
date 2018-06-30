@@ -168,7 +168,7 @@ var vm = new Vue({
             $.ajax({
                 type: "POST",
                 url: url,
-                contentType: "application/json",
+                contentType: "application/json;charset=utf-8",
                 data: JSON.stringify(vm.goods),
                 success: function (r) {
                     if (r.code === 0) {
