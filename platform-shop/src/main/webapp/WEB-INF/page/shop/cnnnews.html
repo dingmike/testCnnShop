@@ -38,22 +38,9 @@
                 <i-input v-model="cnnNews.title" placeholder="文章标题"/>
             </Form-item>
             <Form-item label="文章详情" prop="newsDetail">
-                <!--<i-input v-model="cnnNews.newsDetail" placeholder="文章详情"/>-->
                 <!--详情富文本-->
                 <div id="newsDetail"></div>
             </Form-item>
-           <!-- <Form-item label="用户数据表ID" prop="userId">
-                <i-input v-model="cnnNews.userId" placeholder="用户数据表ID"/>
-            </Form-item>-->
-           <!-- <Form-item label="添加时间" prop="addTime">
-                <i-input v-model="cnnNews.addTime" placeholder="添加时间"/>
-            </Form-item>
-            <Form-item label="修改时间" prop="updateTime">
-                <i-input v-model="cnnNews.updateTime" placeholder="修改时间"/>
-            </Form-item>-->
-           <!-- <Form-item label="是否使用0：不，1：是" prop="isUse">
-                <i-input v-model="cnnNews.isUse" placeholder="是否使用0：不，1：是"/>
-            </Form-item>-->
             <Form-item label="发布" prop="isUse">
                 <Radio-group v-model="cnnNews.isUse">
                     <Radio label="1">

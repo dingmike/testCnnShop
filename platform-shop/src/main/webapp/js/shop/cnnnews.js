@@ -82,23 +82,6 @@ let vm = new Vue({
 		saveOrUpdate: function (event) {
             let url = vm.cnnNews.id == null ? "../cnnnews/save" : "../cnnnews/update";
             vm.cnnNews.newsDetail = $('#newsDetail').editable('getHTML');
-
-
-            /*$.ajax({
-                type: "POST",
-                url: url,
-                contentType: "application/json;charset=utf-8",
-                data: JSON.stringify(vm.cnnNews),
-                success: function (r) {
-                    if (r.code === 0) {
-                        alert('操作成功', function (index) {
-                            vm.reload();
-                        });
-                    } else {
-                        alert('操作失败');
-                    }
-                }
-            });*/
             Ajax.request({
 			    url: url,
                 params: JSON.stringify(vm.cnnNews),

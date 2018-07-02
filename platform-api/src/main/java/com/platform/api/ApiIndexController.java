@@ -32,6 +32,9 @@ public class ApiIndexController extends ApiBaseAction {
     @Autowired
     private ApiAdService adService;
     @Autowired
+    private ApiCnnAdService cnnAdService;
+
+    @Autowired
     private ApiChannelService channelService;
     @Autowired
     private ApiGoodsService goodsService;
@@ -55,9 +58,23 @@ public class ApiIndexController extends ApiBaseAction {
     }
 
     /**
-     * app首页
+     *  cnn首页数据
      */
-    @ApiOperation(value = "首页")
+    @ApiOperation(value = "cnn首页")
+    @IgnoreAuth
+    @RequestMapping(value = "cnnIndex", method = RequestMethod.GET)
+    public Object cnnIndex() {
+        Map<String, Object> resultObj = new HashMap();
+        Map param = new HashMap();
+        List<CnnAdVo> banner = cnnAdService.queryList(param);
+        resultObj.put("banner", banner);
+        return toResponsSuccess(resultObj);
+    }
+
+    /**
+     * app商城首页
+     */
+    @ApiOperation(value = "商城首页")
     @IgnoreAuth
     @RequestMapping(value = "index", method = RequestMethod.GET)
     public Object index() {
