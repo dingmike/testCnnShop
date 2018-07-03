@@ -33,7 +33,8 @@ public class ApiIndexController extends ApiBaseAction {
     private ApiAdService adService;
     @Autowired
     private ApiCnnAdService cnnAdService;
-
+    @Autowired
+    private ApiCnnNewsService cnnNewsService;
     @Autowired
     private ApiChannelService channelService;
     @Autowired
@@ -68,6 +69,15 @@ public class ApiIndexController extends ApiBaseAction {
         Map param = new HashMap();
         List<CnnAdVo> banner = cnnAdService.queryList(param);
         resultObj.put("banner", banner);
+
+        param = new HashMap();
+
+        List<CnnNewsVo> newsList = cnnNewsService.queryList(param);
+
+        resultObj.put("newsList", newsList);
+
+
+
         return toResponsSuccess(resultObj);
     }
 
