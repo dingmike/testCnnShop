@@ -1,15 +1,15 @@
 $(function () {
     $("#jqGrid").Grid({
-        url: '../cnnlearntype/list',
+        url: '../cnnuserlearn/list',
         colModel: [
 			{label: 'id', name: 'id', index: 'id', key: true, hidden: true},
-			{label: '学习类型名称', name: 'learnType', index: 'learn_type', width: 80},
-			{label: '添加时间', name: 'addTime', index: 'add_time', width: 80, formatter: function (value) {
-                return transDate(value, 'yyyy-MM-dd hh:mm:ss');
-            }},
-			{label: '更新时间', name: 'updateTime', index: 'update_time', width: 80, formatter: function (value) {
-                return transDate(value, 'yyyy-MM-dd hh:mm:ss');
-            }}]
+			{label: '学习类型ID', name: 'learnTypeId', index: 'learn_type_id', width: 80},
+			{label: '用户ID', name: 'userid', index: 'userid', width: 80},
+			{label: '已打卡阅读天数', name: 'unlocks', index: 'unlocks', width: 80},
+			{label: '是否开始学习', name: 'startStatus', index: 'start_status', width: 80},
+			{label: '提醒打卡时间', name: 'setupTime', index: 'setup_time', width: 80},
+			{label: '添加时间', name: 'addTime', index: 'add_time', width: 80},
+			{label: '更新时间', name: 'updateTime', index: 'update_time', width: 80}]
     });
 });
 
@@ -18,7 +18,7 @@ let vm = new Vue({
 	data: {
         showList: true,
         title: null,
-		cnnLearnType: {},
+		cnnUserLearn: {},
 		ruleValidate: {
 			name: [
 				{required: true, message: '名称不能为空', trigger: 'blur'}
@@ -35,7 +35,7 @@ let vm = new Vue({
 		add: function () {
 			vm.showList = false;
 			vm.title = "新增";
-			vm.cnnLearnType = {};
+			vm.cnnUserLearn = {};
 		},
 		update: function (event) {
             let id = getSelectedRow("#jqGrid");
@@ -48,10 +48,10 @@ let vm = new Vue({
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
-            let url = vm.cnnLearnType.id == null ? "../cnnlearntype/save" : "../cnnlearntype/update";
+            let url = vm.cnnUserLearn.id == null ? "../cnnuserlearn/save" : "../cnnuserlearn/update";
             Ajax.request({
 			    url: url,
-                params: JSON.stringify(vm.cnnLearnType),
+                params: JSON.stringify(vm.cnnUserLearn),
                 type: "POST",
 			    contentType: "application/json",
                 successCallback: function (r) {
@@ -69,7 +69,7 @@ let vm = new Vue({
 
 			confirm('确定要删除选中的记录？', function () {
                 Ajax.request({
-				    url: "../cnnlearntype/delete",
+				    url: "../cnnuserlearn/delete",
                     params: JSON.stringify(ids),
                     type: "POST",
 				    contentType: "application/json",
@@ -83,10 +83,10 @@ let vm = new Vue({
 		},
 		getInfo: function(id){
             Ajax.request({
-                url: "../cnnlearntype/info/"+id,
+                url: "../cnnuserlearn/info/"+id,
                 async: true,
                 successCallback: function (r) {
-                    vm.cnnLearnType = r.cnnLearnType;
+                    vm.cnnUserLearn = r.cnnUserLearn;
                 }
             });
 		},
