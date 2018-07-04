@@ -79,8 +79,8 @@
 			#{unlocks},
 			#{startStatus},
 			#{setupTime},
-			#{addTime},
-			#{updateTime})
+			now(),
+			now())
 	</insert>
 	 
 	<update id="update" parameterType="com.platform.entity.CnnUserLearnEntity">
@@ -91,8 +91,8 @@
 			<if test="unlocks != null">`unlocks` = #{unlocks}, </if>
 			<if test="startStatus != null">`start_status` = #{startStatus}, </if>
 			<if test="setupTime != null">`setup_time` = #{setupTime}, </if>
-			<if test="addTime != null">`add_time` = #{addTime}, </if>
-			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+			<if test="addTime != null">`add_time` = now(), </if>
+			<if test="updateTime != null">`update_time` = now()</if>
 		</set>
 		where id = #{id}
 	</update>

@@ -8,8 +8,12 @@ $(function () {
 			{label: '已打卡阅读天数', name: 'unlocks', index: 'unlocks', width: 80},
 			{label: '是否开始学习', name: 'startStatus', index: 'start_status', width: 80},
 			{label: '提醒打卡时间', name: 'setupTime', index: 'setup_time', width: 80},
-			{label: '添加时间', name: 'addTime', index: 'add_time', width: 80},
-			{label: '更新时间', name: 'updateTime', index: 'update_time', width: 80}]
+			{label: '添加时间', name: 'addTime', index: 'add_time', width: 80, formatter: function (value) {
+                return transDate(value, 'yyyy-MM-dd hh:mm:ss');
+            }},
+			{label: '更新时间', name: 'updateTime', index: 'update_time', width: 80, formatter: function (value) {
+                return transDate(value, 'yyyy-MM-dd hh:mm:ss');
+            }}]
     });
 });
 
