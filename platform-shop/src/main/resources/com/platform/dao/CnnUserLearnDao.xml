@@ -12,6 +12,10 @@
         <result property="setupTime" column="setup_time"/>
         <result property="addTime" column="add_time"/>
         <result property="updateTime" column="update_time"/>
+		<result property="userName" column="username"/>
+		<result property="avatar" column="avatar"/>
+		<result property="nickname" column="nickname"/>
+		<result property="learnType" column="learntype"/>
     </resultMap>
 
 	<select id="queryObject" resultType="com.platform.entity.CnnUserLearnEntity">
@@ -29,28 +33,23 @@
 	</select>
 
 	<select id="queryList" resultType="com.platform.entity.CnnUserLearnEntity">
-		select
-    		`id`,
-    		`learn_type_id`,
-    		`userid`,
-    		`unlocks`,
-    		`start_status`,
-    		`setup_time`,
-    		`add_time`,
-    		`update_time`
-		from cnn_user_learn
+
+		select o.*,u.username as username,u.nickname as nickname,u.avatar as avatar,l.learn_type as learntype,
+		from cnn_user_learn o
+		left join nideshop_user u on o.userid = u.id
+		left join cnn_learn_type l on o.learn_type_id = l.id
 		WHERE 1=1
 		<if test="name != null and name.trim() != ''">
 			AND name LIKE concat('%',#{name},'%')
 		</if>
-        <choose>
-            <when test="sidx != null and sidx.trim() != ''">
-                order by ${sidx} ${order}
-            </when>
+		<choose>
+			<when test="sidx != null and sidx.trim() != ''">
+				order by ${sidx} ${order}
+			</when>
 			<otherwise>
-                order by id desc
+				order by id desc
 			</otherwise>
-        </choose>
+		</choose>
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>

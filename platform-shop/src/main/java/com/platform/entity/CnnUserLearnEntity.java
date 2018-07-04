@@ -32,6 +32,16 @@ public class CnnUserLearnEntity implements Serializable {
     //更新时间
     private Date updateTime;
 
+    //用户名称
+    private String userName;
+    //用户头像
+    private String avatar;
+
+    //用户头像
+    private String nickname;
+    //用户学习类型
+    private String learnType;
+
     /**
      * 设置：用户学习状态ID
      */
@@ -135,5 +145,37 @@ public class CnnUserLearnEntity implements Serializable {
      */
     public Date getUpdateTime() {
         return updateTime;
+    }
+
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+    public String getLearnType() {
+        return learnType;
+    }
+
+    public void setLearnType(String learnType) {
+        this.learnType = learnType;
     }
 }
