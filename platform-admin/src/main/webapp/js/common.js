@@ -70,6 +70,12 @@ window.openWindow = function (options) {
     }
 };
 
+function transTimeString(value) {
+    debugger;
+
+}
+
+
 //获取选中的数据
 function getSelectedRowData(gridId) {
     var id = getSelectedRow(gridId);

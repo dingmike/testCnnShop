@@ -34,20 +34,42 @@
     <Card v-show="!showList">
         <p slot="title">{{title}}</p>
 		<i-form ref="formValidate" :model="cnnUserLearn" :rules="ruleValidate" :label-width="80">
-            <Form-item label="学习类型ID" prop="learnTypeId">
+          <!--  <Form-item label="学习类型ID" prop="learnTypeId">
                 <i-input v-model="cnnUserLearn.learnTypeId" placeholder="类型ID"/>
+            </Form-item>-->
+            <Form-item label="学习类型" prop="learnTypeId" style="width: 268px;">
+                <i-select v-model="cnnUserLearn.learnTypeId" filterable>
+                    <i-option v-for="learnType in learnTypes" :value="learnType.id" :key="learnType.id">{{learnType.learnType}}
+                    </i-option>
+                </i-select>
             </Form-item>
-            <Form-item label="用户ID" prop="userid">
+           <!-- <Form-item label="用户ID" prop="userid">
                 <i-input v-model="cnnUserLearn.userid" placeholder="用户ID"/>
+            </Form-item>-->
+            <Form-item label="已打卡天数" prop="unlocks">
+                <!--<i-input v-model="cnnUserLearn.unlocks" placeholder="已打卡阅读天数"/>-->
+                <Input-number :max="21" :min="0" v-model="cnnUserLearn.unlocks"></Input-number>
             </Form-item>
-            <Form-item label="已打卡阅读天数" prop="unlocks">
-                <i-input v-model="cnnUserLearn.unlocks" placeholder="已打卡阅读天数"/>
-            </Form-item>
-            <Form-item label="是否开始学习" prop="startStatus">
+           <!-- <Form-item label="开始状态" prop="startStatus">
                 <i-input v-model="cnnUserLearn.startStatus" placeholder="是否开始学习"/>
-            </Form-item>
-            <Form-item label="提醒打卡时间" prop="setupTime">
+            </Form-item>-->
+            <Form-item label="提醒时间" prop="setupTime">
                 <i-input v-model="cnnUserLearn.setupTime" placeholder="提醒打卡时间"/>
+
+            </Form-item>
+            <Form-item>
+                <Time-picker v-model="cnnUserLearn.setupTime" format="HH:mm" placeholder="Select time"></Time-picker>
+                <!--{{cnnUserLearn.setupTime}}-->
+            </Form-item>
+            <Form-item label="开始状态" prop="startStatus">
+                <Radio-group v-model="cnnUserLearn.startStatus">
+                    <Radio label="1">
+                        <span>已开始学习</span>
+                    </Radio>
+                    <Radio label="0">
+                        <span>未开始学习</span>
+                    </Radio>
+                </Radio-group>
             </Form-item>
            <!-- <Form-item label="添加时间" prop="addTime">
                 <i-input v-model="cnnUserLearn.addTime" placeholder="添加时间"/>

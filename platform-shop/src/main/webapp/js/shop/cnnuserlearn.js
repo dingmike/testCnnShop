@@ -3,11 +3,19 @@ $(function () {
         url: '../cnnuserlearn/list',
         colModel: [
 			{label: 'id', name: 'id', index: 'id', key: true, hidden: true},
-			{label: '学习类型ID', name: 'learnTypeId', index: 'learn_type_id', width: 80},
-			{label: '用户ID', name: 'userid', index: 'userid', width: 80},
+			{label: '微信名', name: 'nickname', index: 'nickname', width: 80},
+			{label: '头像', name: 'avatar', index: 'avatar', width: 80, formatter: function (value) {
+                return transImg(value);
+            }},
+			{label: '学习类型', name: 'learnType', index: 'learn_type', width: 80},
+			// {label: '用户ID', name: 'userid', index: 'userid', width: 80},
 			{label: '已打卡阅读天数', name: 'unlocks', index: 'unlocks', width: 80},
-			{label: '是否开始学习', name: 'startStatus', index: 'start_status', width: 80},
-			{label: '提醒打卡时间', name: 'setupTime', index: 'setup_time', width: 80},
+			{label: '提醒打卡时间', name: 'setupTime', index: 'setup_time', width: 80, formatter:function (value) {
+				return transTimeString(value)
+            }},
+            {label: '是否开始学习', name: 'startStatus', index: 'start_status', width: 80,  formatter: function (value) {
+                return transIsNot(value);
+            }},
 			{label: '添加时间', name: 'addTime', index: 'add_time', width: 80, formatter: function (value) {
                 return transDate(value, 'yyyy-MM-dd hh:mm:ss');
             }},
@@ -30,7 +38,8 @@ let vm = new Vue({
 		},
 		q: {
 		    name: ''
-		}
+		},
+		learnTypes: []
 	},
 	methods: {
 		query: function () {
@@ -40,24 +49,36 @@ let vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.cnnUserLearn = {};
+            vm.learnTypes = [];
+            vm.getLearnTypes();
 		},
 		update: function (event) {
+			debugger
             let id = getSelectedRow("#jqGrid");
 			if (id == null) {
 				return;
 			}
 			vm.showList = false;
             vm.title = "修改";
-
+            vm.getLearnTypes();
             vm.getInfo(id)
 		},
+        /**
+         * 获取学习类型
+         */
+        getLearnTypes: function () {
+        	debugger
+            $.get("../cnnlearntype/queryAll", function (r) {
+                vm.learnTypes = r.list;
+            });
+        },
 		saveOrUpdate: function (event) {
             let url = vm.cnnUserLearn.id == null ? "../cnnuserlearn/save" : "../cnnuserlearn/update";
             Ajax.request({
 			    url: url,
                 params: JSON.stringify(vm.cnnUserLearn),
                 type: "POST",
-			    contentType: "application/json",
+			    contentType: "application/json;charset=utf-8",
                 successCallback: function (r) {
                     alert('操作成功', function (index) {
                         vm.reload();
