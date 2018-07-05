@@ -34,7 +34,7 @@
     <Card v-show="!showList">
         <p slot="title">{{title}}</p>
 		<i-form ref="formValidate" :model="cnnLearnType" :rules="ruleValidate" :label-width="80">
-            <Form-item label="学习类型名称" prop="learnType">
+            <Form-item label="类型名称" prop="learnType">
                 <i-input v-model="cnnLearnType.learnType" placeholder="类型名称"/>
             </Form-item>
            <!-- <Form-item label="添加时间" prop="addTime">
