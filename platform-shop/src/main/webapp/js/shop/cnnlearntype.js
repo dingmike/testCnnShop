@@ -4,6 +4,12 @@ $(function () {
         colModel: [
 			{label: 'id', name: 'id', index: 'id', key: true, hidden: true},
 			{label: '学习类型名称', name: 'learnType', index: 'learn_type', width: 80},
+            {
+                label: '状态', name: 'status', index: 'status', width: 80, formatter: function (value) {
+                return value == 0 ?
+                    '<span class="label label-danger">禁用</span>' :
+                    '<span class="label label-success">启用</span>';
+            }},
 			{label: '添加时间', name: 'addTime', index: 'add_time', width: 80, formatter: function (value) {
                 return transDate(value, 'yyyy-MM-dd hh:mm:ss');
             }},

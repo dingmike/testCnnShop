@@ -6,6 +6,7 @@
     <resultMap type="com.platform.entity.CnnLearnTypeEntity" id="cnnLearnTypeMap">
         <result property="id" column="id"/>
         <result property="learnType" column="learn_type"/>
+        <result property="status" column="status"/>
         <result property="addTime" column="add_time"/>
         <result property="updateTime" column="update_time"/>
     </resultMap>
@@ -14,6 +15,7 @@
 		select
 			`id`,
 			`learn_type`,
+			`status`,
 			`add_time`,
 			`update_time`
 		from cnn_learn_type
@@ -24,6 +26,7 @@
 		select
     		`id`,
     		`learn_type`,
+    		`status`,
     		`add_time`,
     		`update_time`
 		from cnn_learn_type
@@ -55,6 +58,7 @@
 	<insert id="save" parameterType="com.platform.entity.CnnLearnTypeEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into cnn_learn_type(
 			`learn_type`,
+			`status`,
 			`add_time`,
 			`update_time`)
 		values(
@@ -67,6 +71,7 @@
 		update cnn_learn_type 
 		<set>
 			<if test="learnType != null">`learn_type` = #{learnType}, </if>
+			<if test="status != null">`status` = #{status}, </if>
 			<if test="addTime != null">`add_time` = now(), </if>
 			<if test="updateTime != null">`update_time` = now()</if>
 		</set>

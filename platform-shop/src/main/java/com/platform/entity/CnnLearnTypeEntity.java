@@ -19,6 +19,9 @@ public class CnnLearnTypeEntity implements Serializable {
     private Integer id;
     //学习类型名称
     private String learnType;
+
+    //学习类型开启状态
+    private String status;
     //添加时间
     private Date addTime;
     //更新时间
@@ -49,6 +52,20 @@ public class CnnLearnTypeEntity implements Serializable {
      */
     public String getLearnType() {
         return learnType;
+    }
+
+    /**
+     * 设置：学习类型状态
+     */
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    /**
+     * 获取：学习类型状态
+     */
+    public String getStatus() {
+        return status;
     }
     /**
      * 设置：添加时间

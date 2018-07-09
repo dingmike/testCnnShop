@@ -34,6 +34,8 @@ public class ApiIndexController extends ApiBaseAction {
     @Autowired
     private ApiCnnAdService cnnAdService;
     @Autowired
+    private ApiUserLearnService userLearnService;
+    @Autowired
     private ApiCnnNewsService cnnNewsService;
     @Autowired
     private ApiChannelService channelService;
@@ -65,6 +67,8 @@ public class ApiIndexController extends ApiBaseAction {
     @IgnoreAuth
     @RequestMapping(value = "cnnIndex", method = RequestMethod.GET)
     public Object cnnIndex() {
+
+        String learnTypeId = request.getParameter("learnTypeId"); // 只获取一种学习类型的用户学习情况
         Map<String, Object> resultObj = new HashMap();
         Map param = new HashMap();
         List<CnnAdVo> banner = cnnAdService.queryList(param);
@@ -76,7 +80,17 @@ public class ApiIndexController extends ApiBaseAction {
 
         resultObj.put("newsList", newsList);
 
+        param = new HashMap();
 
+        param.put("learnTypeId", learnTypeId);
+        List<UserLearnVo> userLearnList = userLearnService.queryList(param);
+        resultObj.put("userLearnList", userLearnList);
+
+        param = new HashMap();
+        int sum = userLearnService.queryTotal(param);
+
+
+        resultObj.put("userListTotal", sum);
 
         return toResponsSuccess(resultObj);
     }
