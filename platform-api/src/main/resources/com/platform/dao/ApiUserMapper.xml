@@ -26,7 +26,15 @@
 	</select>
 
     <select id="queryByOpenId" resultMap="userMap">
-        select * from nideshop_user
+        select
+        `id`,
+        `gender`,
+        `nickname`,
+        `register_time`,
+        `mobile`,
+        `avatar`,
+        `weixin_openid`
+        from nideshop_user
         where 1 = 1
         <if test="openId != null">
             and `weixin_openid` = #{openId}

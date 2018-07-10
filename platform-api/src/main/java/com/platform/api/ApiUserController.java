@@ -113,4 +113,23 @@ public class ApiUserController extends ApiBaseAction {
         }
         return toResponsSuccess("手机绑定成功");
     }
+
+    /**
+     * 微信授权后更新微信用户的信息
+     */
+    @RequestMapping("updateUserInfo")
+    public Object updateUserInfo(@LoginUser UserVo loginUser) {
+        JSONObject jsonParams = getJsonRequest();
+        UserVo entity = new UserVo();
+        String openid =  loginUser.getWeixin_openid();
+        if (null != jsonParams&& openid.equals(jsonParams.getString("uid"))) {
+            entity.setUsername(jsonParams.getString("userName"));
+            entity.setAvatar(jsonParams.getString("avatar"));
+            entity.setWeixin_openid(jsonParams.getString("uid"));
+            entity.setNickname(jsonParams.getString("nickname"));
+            entity.setGender(jsonParams.getInteger("gender"));
+        }
+
+        return toResponsSuccess("更新成功");
+    }
 }
