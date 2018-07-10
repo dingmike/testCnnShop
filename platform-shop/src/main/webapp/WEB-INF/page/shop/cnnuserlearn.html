@@ -50,6 +50,10 @@
                 <!--<i-input v-model="cnnUserLearn.unlocks" placeholder="已打卡阅读天数"/>-->
                 <Input-number :max="21" :min="0" v-model="cnnUserLearn.unlocks"></Input-number>
             </Form-item>
+            <Form-item label="未打卡天数" prop="unlocks">
+                <!--<i-input v-model="cnnUserLearn.unlocks" placeholder="已打卡阅读天数"/>-->
+                <Input-number :max="21" :min="0" v-model="cnnUserLearn.miss"></Input-number>
+            </Form-item>
             <!--<Form-item label="提醒时间" prop="setupTime">
                 <i-input v-model="cnnUserLearn.setupTime" placeholder="提醒打卡时间"/>
             </Form-item>-->

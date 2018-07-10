@@ -23,6 +23,8 @@ public class CnnUserLearnEntity implements Serializable {
     private Integer userid;
     //已打卡阅读天数
     private Integer unlocks;
+    //错过打卡天数
+    private Integer miss;
     //是否开始学习
     private Integer startStatus;
     //提醒打卡时间
@@ -93,6 +95,20 @@ public class CnnUserLearnEntity implements Serializable {
      */
     public Integer getUnlocks() {
         return unlocks;
+    }
+
+    /**
+     * 设置：已打卡阅读天数
+     */
+    public void setMiss(Integer miss) {
+        this.miss = miss;
+    }
+
+    /**
+     * 获取：已打卡阅读天数
+     */
+    public Integer getMiss() {
+        return miss;
     }
     /**
      * 设置：是否开始学习

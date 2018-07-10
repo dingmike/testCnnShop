@@ -8,6 +8,7 @@
         <result property="learnTypeId" column="learn_type_id"/>
         <result property="userid" column="userid"/>
         <result property="unlocks" column="unlocks"/>
+        <result property="miss" column="miss"/>
         <result property="startStatus" column="start_status"/>
         <result property="setupTime" column="setup_time"/>
         <result property="addTime" column="add_time"/>

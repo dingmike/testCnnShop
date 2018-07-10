@@ -123,7 +123,7 @@ public class ApiUserController extends ApiBaseAction {
         UserVo entity = new UserVo();
         String openid =  loginUser.getWeixin_openid();
         if (null != jsonParams&& openid.equals(jsonParams.getString("uid"))) {
-            entity.setUsername(jsonParams.getString("userName"));
+//            entity.setUsername(jsonParams.getString("username"));
             entity.setAvatar(jsonParams.getString("avatar"));
             entity.setWeixin_openid(jsonParams.getString("uid"));
             entity.setNickname(jsonParams.getString("nickname"));
