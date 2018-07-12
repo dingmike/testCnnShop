@@ -24,6 +24,9 @@ public class ApiUserLearnService {
     public UserLearnVo queryObject(Integer id) {
         return userLearnMapper.queryObject(id);
     }
+    public UserLearnVo queryObjectByUserId(Integer userId) {
+        return userLearnMapper.queryObjectByUserId(userId);
+    }
 
     public List<UserLearnVo> queryList(Map<String, Object> map) {
         return userLearnMapper.queryList(map);

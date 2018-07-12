@@ -1,6 +1,7 @@
 package com.platform.dao;
 
 import com.platform.entity.UserLearnVo;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * Dao
@@ -10,5 +11,5 @@ import com.platform.entity.UserLearnVo;
  * @date 2018-07-04 21:13:26
  */
 public interface ApiUserLearnMapper extends BaseDao<UserLearnVo> {
-
+    UserLearnVo queryObjectByUserId(@Param("userId") Integer userId);
 }

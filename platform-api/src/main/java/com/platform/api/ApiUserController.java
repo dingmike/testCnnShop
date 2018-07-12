@@ -5,7 +5,9 @@ import com.platform.annotation.IgnoreAuth;
 import com.platform.annotation.LoginUser;
 import com.platform.entity.SmsConfig;
 import com.platform.entity.SmsLogVo;
+import com.platform.entity.UserLearnVo;
 import com.platform.entity.UserVo;
+import com.platform.service.ApiUserLearnService;
 import com.platform.service.ApiUserService;
 import com.platform.service.SysConfigService;
 import com.platform.util.ApiBaseAction;
@@ -30,6 +32,8 @@ public class ApiUserController extends ApiBaseAction {
     private ApiUserService userService;
     @Autowired
     private SysConfigService sysConfigService;
+    @Autowired
+    private ApiUserLearnService userLearnService;
 
     /**
      * 发送短信
@@ -131,5 +135,29 @@ public class ApiUserController extends ApiBaseAction {
         }
 
         return toResponsSuccess("更新成功");
+    }
+
+    /**
+     * 微信授权后获取用户学习信息
+     */
+    @RequestMapping("getLearnInfo")
+    public Object getLearnInfo(@LoginUser UserVo loginUser) {
+        JSONObject jsonParams = getJsonRequest();
+//        UserVo entity = new UserVo();
+//        UserLearnVo userLearnEntity = new UserLearnVo();
+        String openid =  loginUser.getWeixin_openid();
+
+        System.out.println("openID:---------------:  " + openid);
+        System.out.println("openID2:---------------:  " + jsonParams.getString("uid"));
+
+        if (null != jsonParams&& openid.equals(jsonParams.getString("uid"))) {
+
+            Long userId =  loginUser.getUserId();
+            Integer userNewId = userId.intValue();
+            Object userLearn = userLearnService.queryObjectByUserId(userNewId);
+            return toResponsSuccess(userLearn);
+        }
+
+        return toResponsFail("执行失败");
     }
 }
