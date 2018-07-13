@@ -7,14 +7,14 @@ import java.util.ResourceBundle;
  * 名称：ResourceUtil <br>
  * 描述：参数工具类<br>
  *
- * @author admin
+ * @author 李鹏军
  * @version 1.0
  * @since 1.0.0
  */
 public class ResourceUtil {
     private static ResourceUtil RESOURCE_UTIL = null;
 
-    private static ResourceBundle BUNDLE = java.util.ResourceBundle.getBundle("platform");
+    private static ResourceBundle BUNDLE = ResourceBundle.getBundle("platform");
 
     private ResourceUtil() {
 
@@ -31,7 +31,7 @@ public class ResourceUtil {
             RESOURCE_UTIL = new ResourceUtil();
         }
         if (properties != null) {
-            BUNDLE = java.util.ResourceBundle.getBundle(properties);
+            BUNDLE = ResourceBundle.getBundle(properties);
         }
         return RESOURCE_UTIL;
     }

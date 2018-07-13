@@ -1,7 +1,5 @@
 package com.platform;
 
-import com.platform.redis.OrderKey;
-import com.platform.redis.RedisService;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;

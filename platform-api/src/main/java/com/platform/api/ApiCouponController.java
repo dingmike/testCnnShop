@@ -2,10 +2,9 @@ package com.platform.api;
 
 import com.alibaba.fastjson.JSONObject;
 import com.platform.annotation.LoginUser;
-import com.platform.dto.BuyGoodsDTO;
+import com.platform.cache.J2CacheUtils;
+import com.platform.entity.BuyGoodsVo;
 import com.platform.entity.*;
-import com.platform.redis.ApiBuyKey;
-import com.platform.redis.RedisService;
 import com.platform.service.*;
 import com.platform.util.ApiBaseAction;
 import com.platform.utils.CharUtil;
@@ -34,10 +33,6 @@ public class ApiCouponController extends ApiBaseAction {
     private ApiCouponService apiCouponService;
     @Autowired
     private ApiUserCouponService apiUserCouponService;
-    @Autowired
-    private ApiGoodsService apiGoodsService;
-    @Autowired
-    private RedisService redisService;
     @Autowired
     private ApiProductService apiProductService;
     @Autowired
@@ -73,10 +68,10 @@ public class ApiCouponController extends ApiBaseAction {
                 }
             }
         } else { // 是直接购买的
-            BuyGoodsDTO goodsDTO = redisService.get(ApiBuyKey.goods(), loginUser.getUserId()+"", BuyGoodsDTO.class);
-            ProductVo productInfo = apiProductService.queryObject(goodsDTO.getProductId());
+            BuyGoodsVo goodsVo = (BuyGoodsVo) J2CacheUtils.get("goods" + loginUser.getUserId() + "");
+            ProductVo productInfo = apiProductService.queryObject(goodsVo.getProductId());
             //商品总价
-            goodsTotalPrice = productInfo.getRetail_price().multiply(new BigDecimal(goodsDTO.getNumber()));
+            goodsTotalPrice = productInfo.getRetail_price().multiply(new BigDecimal(goodsVo.getNumber()));
         }
 
         // 获取可用优惠券
@@ -87,7 +82,7 @@ public class ApiCouponController extends ApiBaseAction {
         List<CouponVo> useCoupons = new ArrayList<>();
         List<CouponVo> notUseCoupons = new ArrayList<>();
         for (CouponVo couponVo : couponVos) {
-            if (goodsTotalPrice.compareTo(couponVo.getMin_goods_amount())>=0) { // 可用优惠券
+            if (goodsTotalPrice.compareTo(couponVo.getMin_goods_amount()) >= 0) { // 可用优惠券
                 couponVo.setEnabled(1);
                 useCoupons.add(couponVo);
             } else {
