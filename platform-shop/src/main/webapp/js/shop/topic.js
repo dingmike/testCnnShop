@@ -7,13 +7,13 @@ $(function () {
             {label: '活动内容', name: 'content', index: 'content', width: 80, hidden: true},
             {
                 label: '图像', name: 'avatar', index: 'avatar', width: 80, formatter: function (value) {
-                    return transImg(value);
-                }
+                return transImg(value);
+            }
             },
             {
                 label: '活动条例图片', name: 'itemPicUrl', index: 'item_pic_url', width: 80, formatter: function (value) {
-                    return transImg(value);
-                }
+                return transImg(value);
+            }
             },
             {label: '子标题', name: 'subtitle', index: 'subtitle', width: 80},
             {label: '活动类别', name: 'topicCategoryId', index: 'topic_category_id', width: 80},
@@ -21,8 +21,8 @@ $(function () {
             {label: 'readCount', name: 'readCount', index: 'read_count', width: 80},
             {
                 label: '场景图片', name: 'scenePicUrl', index: 'scene_pic_url', width: 80, formatter: function (value) {
-                    return transImg(value);
-                }
+                return transImg(value);
+            }
             },
             {label: '活动模板Id', name: 'topicTemplateId', index: 'topic_template_id', width: 80},
             {label: '活动标签Id', name: 'topicTagId', index: 'topic_tag_id', width: 80}]
@@ -85,21 +85,18 @@ var vm = new Vue({
 
             //编辑器内容
             vm.topic.content = $('#content').editable('getHTML');
-            $.ajax({
+            Ajax.request({
                 type: "POST",
                 url: url,
                 contentType: "application/json",
-                data: JSON.stringify(vm.topic),
-                success: function (r) {
-                    if (r.code === 0) {
-                        alert('操作成功', function (index) {
-                            vm.reload();
-                        });
-                    } else {
-                        alert(r.msg);
-                    }
+                params: JSON.stringify(vm.topic),
+                successCallback: function (r) {
+                    alert('操作成功', function (index) {
+                        vm.reload();
+                    });
                 }
             });
+
         },
         del: function (event) {
             var ids = getSelectedRows("#jqGrid");
@@ -108,21 +105,19 @@ var vm = new Vue({
             }
 
             confirm('确定要删除选中的记录？', function () {
-                $.ajax({
+                Ajax.request({
                     type: "POST",
                     url: "../topic/delete",
                     contentType: "application/json",
-                    data: JSON.stringify(ids),
-                    success: function (r) {
-                        if (r.code == 0) {
-                            alert('操作成功', function (index) {
-                                $("#jqGrid").trigger("reloadGrid");
-                            });
-                        } else {
-                            alert(r.msg);
-                        }
+                    params: JSON.stringify(ids),
+                    successCallback: function (r) {
+                        alert('操作成功', function (index) {
+                            $("#jqGrid").trigger("reloadGrid");
+                        });
                     }
                 });
+
+
             });
         },
         getInfo: function (id) {

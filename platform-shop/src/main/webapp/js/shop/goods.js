@@ -14,8 +14,8 @@ $(function () {
             },
             {
                 label: '录入日期', name: 'addTime', index: 'add_time', width: 80, formatter: function (value) {
-                    return transDate(value, 'yyyy-MM-dd');
-                }
+                return transDate(value, 'yyyy-MM-dd');
+            }
             },
             {label: '属性类别', name: 'attributeCategoryName', index: 'attribute_category', width: 80},
             {label: '零售价格', name: 'retailPrice', index: 'retail_price', width: 80},
@@ -24,8 +24,8 @@ $(function () {
             {label: '市场价', name: 'marketPrice', index: 'market_price', width: 80},
             {
                 label: '热销', name: 'isHot', index: 'is_hot', width: 80, formatter: function (value) {
-                    return transIsNot(value);
-                }
+                return transIsNot(value);
+            }
             }]
     });
     $('#goodsDesc').editable({
@@ -165,21 +165,19 @@ var vm = new Vue({
             var url = vm.goods.id == null ? "../goods/save" : "../goods/update";
             vm.goods.goodsDesc = $('#goodsDesc').editable('getHTML');
             vm.goods.goodsImgList = vm.uploadList;
-            $.ajax({
+
+            Ajax.request({
                 type: "POST",
                 url: url,
-                contentType: "application/json;charset=utf-8",
-                data: JSON.stringify(vm.goods),
-                success: function (r) {
-                    if (r.code === 0) {
-                        alert('操作成功', function (index) {
-                            vm.reload();
-                        });
-                    } else {
-                        alert('操作失败');
-                    }
+                contentType: "application/json",
+                params: JSON.stringify(vm.goods),
+                successCallback: function (r) {
+                    alert('操作成功', function (index) {
+                        $("#jqGrid").trigger("reloadGrid");
+                    });
                 }
             });
+
         },
         enSale: function () {
             var id = getSelectedRow("#jqGrid");
@@ -228,22 +226,20 @@ var vm = new Vue({
             if (id == null) {
                 return;
             }
-            confirm('确定要上架选中的商品？', function () {
-                $.ajax({
+            confirm('确定要下架选中的商品？', function () {
+
+                Ajax.request({
                     type: "POST",
                     url: "../goods/unSale",
                     contentType: "application/json",
-                    data: JSON.stringify(id),
-                    success: function (r) {
-                        if (r.code == 0) {
-                            alert('操作成功', function (index) {
-                                $("#jqGrid").trigger("reloadGrid");
-                            });
-                        } else {
-                            alert(r.msg);
-                        }
+                    params: JSON.stringify(id),
+                    successCallback: function (r) {
+                        alert('操作成功', function (index) {
+                            $("#jqGrid").trigger("reloadGrid");
+                        });
                     }
                 });
+
             });
         },
         del: function (event) {
@@ -253,21 +249,18 @@ var vm = new Vue({
             }
 
             confirm('确定要删除选中的记录？', function () {
-                $.ajax({
+                Ajax.request({
                     type: "POST",
                     url: "../goods/delete",
                     contentType: "application/json",
-                    data: JSON.stringify(ids),
-                    success: function (r) {
-                        if (r.code == 0) {
-                            alert('操作成功', function (index) {
-                                $("#jqGrid").trigger("reloadGrid");
-                            });
-                        } else {
-                            alert(r.msg);
-                        }
+                    params: JSON.stringify(ids),
+                    successCallback: function (r) {
+                        alert('操作成功', function (index) {
+                            $("#jqGrid").trigger("reloadGrid");
+                        });
                     }
                 });
+
             });
         },
         getInfo: function (id) {

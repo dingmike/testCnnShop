@@ -18,8 +18,8 @@ $(function () {
             },
             {
                 label: '添加时间', name: 'addTime', index: 'add_time', width: 80, formatter: function (value) {
-                    return transDate(value);
-                }
+                return transDate(value);
+            }
             },
             {label: '删除状态', name: 'isDelete', index: 'is_delete', width: 80, hidden: true},
             {label: '属性类别', name: 'attributeCategoryName', index: 'attribute_category', width: 80},
@@ -36,13 +36,13 @@ $(function () {
             {label: '推广标签', name: 'promotionTag', index: 'promotion_tag', width: 80, hidden: true},
             {
                 label: '限购', name: 'isLimited', index: 'is_limited', width: 80, formatter: function (value) {
-                    return transIsNot(value);
-                }
+                return transIsNot(value);
+            }
             },
             {
                 label: '热销', name: 'isHot', index: 'is_hot', width: 80, formatter: function (value) {
-                    return transIsNot(value);
-                }
+                return transIsNot(value);
+            }
             }]
     });
 });
@@ -67,21 +67,19 @@ var vm = new Vue({
             }
 
             confirm('确定要恢复选中的记录？', function () {
-                $.ajax({
+
+                Ajax.request({
                     type: "POST",
                     url: "../goods/back",
                     contentType: "application/json",
-                    data: JSON.stringify(ids),
-                    success: function (r) {
-                        if (r.code == 0) {
-                            alert('操作成功', function (index) {
-                                $("#jqGrid").trigger("reloadGrid");
-                            });
-                        } else {
-                            alert(r.msg);
-                        }
+                    params: JSON.stringify(ids),
+                    successCallback: function (r) {
+                        alert('操作成功', function (index) {
+                            $("#jqGrid").trigger("reloadGrid");
+                        });
                     }
                 });
+
             });
         },
         getInfo: function (id) {

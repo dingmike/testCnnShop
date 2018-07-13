@@ -14,16 +14,16 @@ $(function () {
             {label: '评价', name: 'content', index: 'content', width: 80},
             {
                 label: '评论时间', name: 'addTime', index: 'add_time', width: 80, formatter: function (value) {
-                    return transDate(value);
-                }
+                return transDate(value);
+            }
             },
             {
                 label: '状态', name: 'status', index: 'status', width: 80, formatter: function (value) {
-                    if (value === 0) {
-                        return '<span class="label label-success">显示</span>';
-                    }
-                    return '<span class="label label-danger">隐藏</span>';
+                if (value === 0) {
+                    return '<span class="label label-success">显示</span>';
                 }
+                return '<span class="label label-danger">隐藏</span>';
+            }
             },
             {label: '会员', name: 'userName', index: 'user_id', width: 80}]
     });
@@ -53,21 +53,18 @@ var vm = new Vue({
             vm.comment.id = id;
 
             confirm('确定要切换状态？', function () {
-                $.ajax({
+                Ajax.request({
                     type: "POST",
                     url: "../comment/toggleStatus",
                     contentType: "application/json",
-                    data: JSON.stringify(vm.comment),
-                    success: function (r) {
-                        if (r.code === 0) {
-                            alert('操作成功', function (index) {
-                                $("#jqGrid").trigger("reloadGrid");
-                            });
-                        } else {
-                            alert(r.msg);
-                        }
+                    params: JSON.stringify(vm.comment),
+                    successCallback: function (r) {
+                        alert('操作成功', function (index) {
+                            $("#jqGrid").trigger("reloadGrid");
+                        });
                     }
                 });
+
             });
 
         },
@@ -77,21 +74,18 @@ var vm = new Vue({
                 return;
             }
             confirm('确定要删除选中的记录？', function () {
-                $.ajax({
+                Ajax.request({
                     type: "POST",
                     url: "../comment/delete",
                     contentType: "application/json",
-                    data: JSON.stringify(ids),
-                    success: function (r) {
-                        if (r.code == 0) {
-                            alert('操作成功', function (index) {
-                                $("#jqGrid").trigger("reloadGrid");
-                            });
-                        } else {
-                            alert(r.msg);
-                        }
+                    params: JSON.stringify(ids),
+                    successCallback: function (r) {
+                        alert('操作成功', function (index) {
+                            $("#jqGrid").trigger("reloadGrid");
+                        });
                     }
                 });
+
             });
         },
         seePic: function () {

@@ -6,10 +6,10 @@ $(function () {
             {label: '名称', name: 'name', index: 'name', width: 80},
             {
                 label: '是否可用', name: 'enabled', index: 'enabled', width: 80, formatter: function (value, options, row) {
-                    return value === 0 ?
-                        '<span class="label label-danger">禁用</span>' :
-                        '<span class="label label-success">启用</span>';
-                }
+                return value === 0 ?
+                    '<span class="label label-danger">禁用</span>' :
+                    '<span class="label label-success">启用</span>';
+            }
             }]
     });
 });
@@ -58,21 +58,18 @@ var vm = new Vue({
             } else {
                 vm.attributeCategory.enabled = '0';
             }
-            $.ajax({
+            Ajax.request({
                 type: "POST",
                 url: url,
                 contentType: "application/json",
-                data: JSON.stringify(vm.attributeCategory),
-                success: function (r) {
-                    if (r.code === 0) {
-                        alert('操作成功', function (index) {
-                            vm.reload();
-                        });
-                    } else {
-                        alert(r.msg);
-                    }
+                params: JSON.stringify(vm.attributeCategory),
+                successCallback: function () {
+                    alert('操作成功', function (index) {
+                        $("#jqGrid").trigger("reloadGrid");
+                    });
                 }
             });
+
         },
         del: function (event) {
             var ids = getSelectedRows("#jqGrid");
@@ -81,21 +78,18 @@ var vm = new Vue({
             }
 
             confirm('确定要删除选中的记录？', function () {
-                $.ajax({
+                Ajax.request({
                     type: "POST",
                     url: "../attributecategory/delete",
                     contentType: "application/json",
-                    data: JSON.stringify(ids),
-                    success: function (r) {
-                        if (r.code == 0) {
-                            alert('操作成功', function (index) {
-                                $("#jqGrid").trigger("reloadGrid");
-                            });
-                        } else {
-                            alert(r.msg);
-                        }
+                    params: JSON.stringify(ids),
+                    successCallback: function () {
+                        alert('操作成功', function (index) {
+                            $("#jqGrid").trigger("reloadGrid");
+                        });
                     }
                 });
+
             });
         },
         getInfo: function (id) {

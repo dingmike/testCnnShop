@@ -7,23 +7,23 @@ $(function () {
             {label: '金额', name: 'typeMoney', index: 'type_money', width: 80},
             {
                 label: '发放方式', name: 'sendType', index: 'send_type', width: 80, formatter: function (value) {
-                    if (value == 0) {
-                        return '按订单发放';
-                    } else if (value == 1) {
-                        return '按用户发放';
-                    } else if (value == 2) {
-                        return '商品转发送券';
-                    } else if (value == 3) {
-                        return '按商品发放';
-                    } else if (value == 4) {
-                        return '新用户注册';
-                    } else if (value == 5) {
-                        return '线下发放';
-                    } else if (value == 7) {
-                        return '包邮优惠';
-                    }
-                    return '-';
+                if (value == 0) {
+                    return '按订单发放';
+                } else if (value == 1) {
+                    return '按用户发放';
+                } else if (value == 2) {
+                    return '商品转发送券';
+                } else if (value == 3) {
+                    return '按商品发放';
+                } else if (value == 4) {
+                    return '新用户注册';
+                } else if (value == 5) {
+                    return '线下发放';
+                } else if (value == 7) {
+                    return '包邮优惠';
                 }
+                return '-';
+            }
             },
             {label: '最小金额', name: 'minAmount', index: 'min_amount', width: 80},
             {label: '最大金额', name: 'maxAmount', index: 'max_amount', width: 80},
@@ -38,8 +38,8 @@ $(function () {
             },
             {
                 label: '发放结束时间', name: 'sendEndDate', index: 'send_end_date', width: 120, formatter: function (value) {
-                    return transDate(value);
-                }
+                return transDate(value);
+            }
             },
             {
                 label: '使用开始时间',
@@ -52,17 +52,17 @@ $(function () {
             },
             {
                 label: '使用结束时间', name: 'useEndDate', index: 'use_end_date', width: 120, formatter: function (value) {
-                    return transDate(value);
-                }
+                return transDate(value);
+            }
             },
             {label: '最小商品金额', name: 'minGoodsAmount', index: 'min_goods_amount', width: 80},
             {
                 label: '操作', width: 70, sortable: false, formatter: function (value, col, row) {
-                    if (row.sendType == 1 || row.sendType == 3) {
-                        return '<button class="ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-small" onclick="vm.publish(' + row.id + ',' + row.sendType + ')"><i class="ivu-icon ivu-icon-android-send"></i>发放</button>';
-                    }
-                    return '';
+                if (row.sendType == 1 || row.sendType == 3) {
+                    return '<button class="ivu-btn ivu-btn-primary ivu-btn-circle ivu-btn-small" onclick="vm.publish(' + row.id + ',' + row.sendType + ')"><i class="ivu-icon ivu-icon-android-send"></i>发放</button>';
                 }
+                return '';
+            }
             }]
     });
 });
@@ -115,21 +115,19 @@ var vm = new Vue({
         },
         saveOrUpdate: function (event) {
             var url = vm.coupon.id == null ? "../coupon/save" : "../coupon/update";
-            $.ajax({
+
+            Ajax.request({
                 type: "POST",
                 url: url,
                 contentType: "application/json",
-                data: JSON.stringify(vm.coupon),
-                success: function (r) {
-                    if (r.code === 0) {
-                        alert('操作成功', function (index) {
-                            vm.reload();
-                        });
-                    } else {
-                        alert(r.msg);
-                    }
+                params: JSON.stringify(vm.coupon),
+                successCallback: function (r) {
+                    alert('操作成功', function (index) {
+                        $("#jqGrid").trigger("reloadGrid");
+                    });
                 }
             });
+
         },
         del: function (event) {
             var ids = getSelectedRows("#jqGrid");
@@ -138,21 +136,18 @@ var vm = new Vue({
             }
 
             confirm('确定要删除选中的记录？', function () {
-                $.ajax({
+                Ajax.request({
                     type: "POST",
                     url: "../coupon/delete",
                     contentType: "application/json",
-                    data: JSON.stringify(ids),
-                    success: function (r) {
-                        if (r.code == 0) {
-                            alert('操作成功', function (index) {
-                                $("#jqGrid").trigger("reloadGrid");
-                            });
-                        } else {
-                            alert(r.msg);
-                        }
+                    params: JSON.stringify(ids),
+                    successCallback: function (r) {
+                        alert('操作成功', function (index) {
+                            $("#jqGrid").trigger("reloadGrid");
+                        });
                     }
                 });
+
             });
         },
         getInfo: function (id) {
@@ -210,30 +205,30 @@ var vm = new Vue({
                 return;
             }
             confirm('确定下发优惠券？', function () {
-                $.ajax({
+                Ajax.request({
                     type: "POST",
                     dataType: 'json',
                     url: "../coupon/publish",
                     contentType: "application/json",
-                    data: JSON.stringify({
+                    params: JSON.stringify({
                         sendType: vm.selectData.sendType,
                         couponId: vm.selectData.id,
                         goodsIds: vm.goods.toString(),
                         userIds: vm.user.toString(),
                         sendSms: vm.sendSms
-                    }),
-                    success: function (r) {
-                        if (r.code == 0) {
+                    })
+                    ,
+                    successCallback: function (r) {
+                        alert('操作成功', function (index) {
                             alert('操作成功', function (index) {
                                 $("#jqGrid").trigger("reloadGrid");
                                 vm.showGoods = false;
                                 vm.showList = true;
                             });
-                        } else {
-                            alert(r.msg);
-                        }
+                        });
                     }
                 });
+
             });
         },
         getGoodss: function () {

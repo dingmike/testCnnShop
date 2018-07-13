@@ -45,6 +45,7 @@ let vm = new Vue({
         colors: [],
         guiges: [],
         weights: [],
+        specifications: [],
         type: ''
     },
     methods: {
@@ -56,6 +57,7 @@ let vm = new Vue({
             vm.title = "新增";
             vm.product = {};
             vm.getGoodss();
+            vm.getAllSpecification();
             vm.type = 'add';
         },
         update: function (event) {
@@ -92,21 +94,20 @@ let vm = new Vue({
         saveOrUpdate: function (event) {
             let url = vm.product.id == null ? "../product/save" : "../product/update";
             vm.product.goodsSpecificationIds = vm.color + '_' + vm.guige + '_' + vm.weight;
-            $.ajax({
+
+            Ajax.request({
                 type: "POST",
                 url: url,
                 contentType: "application/json",
-                data: JSON.stringify(vm.product),
-                success: function (r) {
-                    if (r.code === 0) {
-                        alert('操作成功', function (index) {
-                            vm.reload();
-                        });
-                    } else {
-                        alert(r.msg);
-                    }
+                params: JSON.stringify(vm.product),
+                successCallback: function (r) {
+                    alert('操作成功', function (index) {
+                        vm.reload();
+                    });
                 }
             });
+
+
         },
         del: function (event) {
             let ids = getSelectedRows("#jqGrid");
@@ -115,21 +116,19 @@ let vm = new Vue({
             }
 
             confirm('确定要删除选中的记录？', function () {
-                $.ajax({
+                Ajax.request({
                     type: "POST",
                     url: "../product/delete",
                     contentType: "application/json",
-                    data: JSON.stringify(ids),
-                    success: function (r) {
-                        if (r.code == 0) {
-                            alert('操作成功', function (index) {
-                                $("#jqGrid").trigger("reloadGrid");
-                            });
-                        } else {
-                            alert(r.msg);
-                        }
+                    params: JSON.stringify(ids),
+                    successCallback: function (r) {
+                        alert('操作成功', function (index) {
+                            $("#jqGrid").trigger("reloadGrid");
+                        });
                     }
                 });
+
+
             });
         },
         getInfo: function (id) {
@@ -158,6 +157,12 @@ let vm = new Vue({
         getGoodss: function () {
             $.get("../goods/queryAll/", function (r) {
                 vm.goodss = r.list;
+            });
+        },
+        getAllSpecification: function () {
+            $.get("../specification/queryAll/", function (r) {
+                debugger
+                vm.specifications = r.list;
             });
         }
     }

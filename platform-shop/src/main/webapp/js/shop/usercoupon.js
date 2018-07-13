@@ -13,13 +13,13 @@ $(function () {
             {label: '优惠券序号', name: 'couponNumber', index: 'coupon_number', width: 80},
             {
                 label: '下发时间', name: 'addTime', index: 'add_time', width: 80, formatter: function (value) {
-                    return transDate(value);
-                }
+                return transDate(value);
+            }
             },
             {
                 label: '使用时间', name: 'usedTime', index: 'used_time', width: 80, formatter: function (value) {
-                    return transDate(value);
-                }
+                return transDate(value);
+            }
             },
             {label: '订单Id', name: 'orderId', index: 'order_id', width: 80}]
     });
@@ -57,21 +57,19 @@ var vm = new Vue({
         },
         saveOrUpdate: function (event) {
             var url = vm.userCoupon.id == null ? "../usercoupon/save" : "../usercoupon/update";
-            $.ajax({
+
+            Ajax.request({
                 type: "POST",
                 url: url,
                 contentType: "application/json",
-                data: JSON.stringify(vm.userCoupon),
-                success: function (r) {
-                    if (r.code === 0) {
-                        alert('操作成功', function (index) {
-                            vm.reload();
-                        });
-                    } else {
-                        alert(r.msg);
-                    }
+                params: JSON.stringify(vm.userCoupon),
+                successCallback: function (r) {
+                    alert('操作成功', function (index) {
+                        vm.reload();
+                    });
                 }
             });
+
         },
         del: function (event) {
             var ids = getSelectedRows("#jqGrid");
@@ -80,21 +78,19 @@ var vm = new Vue({
             }
 
             confirm('确定要删除选中的记录？', function () {
-                $.ajax({
+
+                Ajax.request({
                     type: "POST",
                     url: "../usercoupon/delete",
                     contentType: "application/json",
-                    data: JSON.stringify(ids),
-                    success: function (r) {
-                        if (r.code == 0) {
-                            alert('操作成功', function (index) {
-                                $("#jqGrid").trigger("reloadGrid");
-                            });
-                        } else {
-                            alert(r.msg);
-                        }
+                    params: JSON.stringify(ids),
+                    successCallback: function (r) {
+                        alert('操作成功', function (index) {
+                            $("#jqGrid").trigger("reloadGrid");
+                        });
                     }
                 });
+
             });
         },
         getInfo: function (id) {

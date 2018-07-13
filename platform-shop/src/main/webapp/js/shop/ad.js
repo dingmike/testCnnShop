@@ -9,21 +9,21 @@ $(function () {
             {label: '链接', name: 'link', index: 'link', width: 80},
             {
                 label: '图片', name: 'imageUrl', index: 'image_url', width: 80, formatter: function (value) {
-                    return transImg(value);
-                }
+                return transImg(value);
+            }
             },
             {label: '内容', name: 'content', index: 'content', width: 80},
             {
                 label: '结束时间', name: 'endTime', index: 'end_time', width: 80, formatter: function (value) {
-                    return transDate(value);
-                }
+                return transDate(value);
+            }
             },
             {
                 label: '状态', name: 'enabled', index: 'enabled', width: 80, formatter: function (value) {
-                    return value === 0 ?
-                        '<span class="label label-danger">禁用</span>' :
-                        '<span class="label label-success">正常</span>';
-                }
+                return value === 0 ?
+                    '<span class="label label-danger">禁用</span>' :
+                    '<span class="label label-success">正常</span>';
+            }
             }]
     });
 });
@@ -71,21 +71,19 @@ var vm = new Vue({
         },
         saveOrUpdate: function (event) {
             var url = vm.ad.id == null ? "../ad/save" : "../ad/update";
-            $.ajax({
+
+            Ajax.request({
                 type: "POST",
                 url: url,
                 contentType: "application/json",
-                data: JSON.stringify(vm.ad),
-                success: function (r) {
-                    if (r.code === 0) {
-                        alert('操作成功', function (index) {
-                            vm.reload();
-                        });
-                    } else {
-                        alert(r.msg);
-                    }
+                params: JSON.stringify(vm.ad),
+                successCallback: function () {
+                    alert('操作成功', function (index) {
+                        vm.reload();
+                    });
                 }
             });
+
         },
         del: function (event) {
             var ids = getSelectedRows("#jqGrid");
@@ -94,21 +92,19 @@ var vm = new Vue({
             }
 
             confirm('确定要删除选中的记录？', function () {
-                $.ajax({
+
+                Ajax.request({
                     type: "POST",
                     url: "../ad/delete",
                     contentType: "application/json",
-                    data: JSON.stringify(ids),
-                    success: function (r) {
-                        if (r.code == 0) {
-                            alert('操作成功', function (index) {
-                                $("#jqGrid").trigger("reloadGrid");
-                            });
-                        } else {
-                            alert(r.msg);
-                        }
+                    params: JSON.stringify(ids),
+                    successCallback: function () {
+                        alert('操作成功', function (index) {
+                            $("#jqGrid").trigger("reloadGrid");
+                        });
                     }
                 });
+
             });
         },
         getInfo: function (id) {
