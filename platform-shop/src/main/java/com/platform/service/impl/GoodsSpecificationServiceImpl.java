@@ -28,6 +28,11 @@ public class GoodsSpecificationServiceImpl implements GoodsSpecificationService 
     }
 
     @Override
+    public List<GoodsSpecificationEntity> queryGoodsSpec(Integer goods_id) {
+        return goodsSpecificationDao.queryGoodsSpec(goods_id);
+    }
+
+    @Override
     public List<GoodsSpecificationEntity> queryList(Map<String, Object> map) {
         return goodsSpecificationDao.queryList(map);
     }

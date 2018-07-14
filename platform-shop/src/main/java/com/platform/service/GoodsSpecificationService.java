@@ -22,6 +22,16 @@ public interface GoodsSpecificationService {
      */
     GoodsSpecificationEntity queryObject(Integer id);
 
+
+    /**
+     * 根据goods_id查询实体
+     *
+     * @param goods_id
+     * @return 实体
+     */
+    List<GoodsSpecificationEntity> queryGoodsSpec(Integer goods_id);
+
+
     /**
      * 分页查询
      *

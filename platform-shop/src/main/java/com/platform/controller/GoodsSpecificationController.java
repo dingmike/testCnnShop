@@ -101,4 +101,15 @@ public class GoodsSpecificationController {
 
         return R.ok().put("list", list);
     }
+
+    /**
+     * 查看产品拥有的规格名称
+     */
+    @RequestMapping("/queryGoodsSpec/{goods_id}")
+    public R queryGoodsSpec(@PathVariable("goods_id") Integer goods_id) {
+
+        List<GoodsSpecificationEntity> list = goodsSpecificationService.queryGoodsSpec(goods_id);
+
+        return R.ok().put("list", list);
+    }
 }

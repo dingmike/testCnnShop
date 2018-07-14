@@ -63,6 +63,32 @@ window.openWindow = function (options) {
     }
 };
 
+
+function transTimeString(value, fmt) {
+    debugger;
+    return transDate(new Date(value) ,fmt) ;
+
+}
+
+function formatDateTime(date, fmt) {
+    date = new Date(date);
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    m = m < 10 ? ('0' + m) : m;
+    var d = date.getDate();
+    d = d < 10 ? ('0' + d) : d;
+    var h = date.getHours();
+    var minute = date.getMinutes();
+    minute = minute < 10 ? ('0' + minute) : minute;
+    if(fmt='hh:mm'){
+        return h +':'+minute;
+    }else if(fmt = 'yyyy-MM-dd hh:mm:ss'){
+        return y + '-' + m + '-' + d+' '+h+':'+minute;
+    }
+
+
+};
+
 //获取选中的数据
 function getSelectedRowData(gridId) {
     var id = getSelectedRow(gridId);
