@@ -25,18 +25,10 @@ $(function () {
     });
 });
 
-const aComponent = Vue.extend({
-    props: ['text'],
-    template: '<li>A Component: {{ text }}</li>'
-});
 let vm = new Vue({
     el: '#rrapp',
-    components: {
-        aComponent
-    },
     data: {
-        testItems:[],
-        showList: {show:true},
+        showList: true,
         title: null,
         product: {},
         ruleValidate: {
@@ -54,68 +46,16 @@ let vm = new Vue({
         guiges: [],
         weights: [],
         specifications: [],
-        goodsSpec: [],
-        specsList: [{specId: 1,specName: '颜色',id: 5,value:"白", options:[{
-            "id": 5,
-            "goodsId": 1181000,
-            "specificationId": 1,
-            "value": "烟白灰",
-            "picUrl": "http://yanxuan.nosdn.127.net/36f64a7161b67e7fb8ea45be32ecfa25.png?quality=90&amp;thumbnail=200x200&amp;imageView",
-            "goodsName": "母亲节礼物-舒适安睡组合",
-            "specificationName": "颜色"
-        },{
-            "id": 4,
-            "goodsId": 1181000,
-            "specificationId": 1,
-            "value": "玛瑙红",
-            "picUrl": "http://yanxuan.nosdn.127.net/29442127f431a1a1801c195905319427.png?quality=90&thumbnail=200x200&imageView",
-            "goodsName": "母亲节礼物-舒适安睡组合",
-            "specificationName": "颜色"
-        }]},{specId: 2, specName: '规格', id: 5,value:"白",options:[
-            {
-                "id": 8,
-                "goodsId": 1181000,
-                "specificationId": 2,
-                "value": "1.9米",
-                "picUrl": null,
-                "goodsName": "母亲节礼物-舒适安睡组合",
-                "specificationName": "规格"
-            },
-            {
-                "id": 2,
-                "goodsId": 1181000,
-                "specificationId": 2,
-                "value": "1.8m床垫*1+枕头*2",
-                "picUrl": "",
-                "goodsName": "母亲节礼物-舒适安睡组合",
-                "specificationName": "规格"
-            },
-            {
-                "id": 1,
-                "goodsId": 1181000,
-                "specificationId": 2,
-                "value": "1.5m床垫*1+枕头*2",
-                "picUrl": "",
-                "goodsName": "母亲节礼物-舒适安睡组合",
-                "specificationName": "规格"
-            }
-        ]}],
+        goodsSpecs: [],
+        productId: '',
         type: ''
     },
     methods: {
-        testAdd (name, text) {
-            debugger
-            vm.showList.show = false;
-            vm.testItems.push({
-                component: name,
-                text: text
-            })
-        },
         query: function () {
             vm.reload();
         },
         add: function () {
-            vm.showList.show = false;
+            vm.showList = false;
             vm.title = "新增";
             vm.product = {};
             vm.getGoodss();
@@ -127,7 +67,7 @@ let vm = new Vue({
             if (id == null) {
                 return;
             }
-            vm.showList.show = false;
+            vm.showList = false;
             vm.title = "修改";
             vm.type = 'update';
 
@@ -135,19 +75,16 @@ let vm = new Vue({
         },
         changeGoods: function (opt) {
             let goodsId = opt.value;
-
-            debugger
-            vm.getSpecification(goodsId);
-
+            this.productId = goodsId;
+            vm.queryGoodsSpec(goodsId);
             $.get("../goods/info/" + goodsId, function (r) {
                 if (vm.type == 'add') {
                     vm.product.goodsSn = r.goods.goodsSn;
                     vm.product.goodsNumber = r.goods.goodsNumber;
                     vm.product.retailPrice = r.goods.retailPrice;
                     vm.product.marketPrice = r.goods.marketPrice;
-                    vm.product.goodsId = r.goods.goodsId;
                 }
-                $.get("../goodsspecification/queryAll?goodsId=" + goodsId + "&specificationId=1", function (r) {
+                /*$.get("../goodsspecification/queryAll?goodsId=" + goodsId + "&specificationId=1", function (r) {
                     vm.colors = r.list;
                 });
                 $.get("../goodsspecification/queryAll?goodsId=" + goodsId + "&specificationId=2", function (r) {
@@ -155,18 +92,7 @@ let vm = new Vue({
                 });
                 $.get("../goodsspecification/queryAll?goodsId=" + goodsId + "&specificationId=4", function (r) {
                     vm.weights = r.list;
-                });
-            });
-        },
-        changeRenderSpecOptions (chooseSpecId) {
-          /*  this.items.push({
-                'component': component,
-                'text': text,
-            })*/
-
-
-            $.get("../goodsspecification/queryAll?goodsId=" + vm.product.goodsId + "&specificationId=" + chooseSpecId, function (r) {
-                vm.colors = r.list;
+                });*/
             });
         },
         saveOrUpdate: function (event) {
@@ -184,7 +110,6 @@ let vm = new Vue({
                     });
                 }
             });
-
 
         },
         del: function (event) {
@@ -216,7 +141,7 @@ let vm = new Vue({
             });
         },
         reload: function (event) {
-            vm.showList.show = true;
+            vm.showList = true;
             let page = $("#jqGrid").jqGrid('getGridParam', 'page');
             $("#jqGrid").jqGrid('setGridParam', {
                 postData: {'goodsName': vm.q.goodsName},
@@ -243,11 +168,21 @@ let vm = new Vue({
                 vm.specifications = r.list;
             });
         },
-        getSpecification: function (goods_id) {
+        queryGoodsSpec: function (goods_id) {
             $.get("../goodsspecification/queryGoodsSpec/" + goods_id, function (r) {
                 debugger
-                vm.goodsSpec = r.list;
+                vm.goodsSpecs = r.list;
             });
         },
+        renderChooseSec(){
+            debugger
+            for(let i=0; i<this.attribute.length; i++){
+                $.get("../goodsspecification/queryAll?goodsId=" + this.productId + "&specificationId=" +this.attribute[i] , (r)=>{
+                    vm['colors'+ this.attribute[i]] = r.list;
+                });
+            }
+            console.log(vm)
+
+        }
     }
 });

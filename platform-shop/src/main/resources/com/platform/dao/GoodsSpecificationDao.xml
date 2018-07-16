@@ -24,10 +24,12 @@
 
     <select id="queryGoodsSpec" resultType="com.platform.entity.GoodsSpecificationEntity">
         select
-        `specification_id`,
-        `goods_id`
+        nideshop_goods_specification.specification_id,
+        nideshop_goods_specification.goods_id,
+        nideshop_specification.name specificationName
         from nideshop_goods_specification
-        where goods_id = #{goods_id}
+        LEFT JOIN nideshop_specification ON nideshop_specification.id = nideshop_goods_specification.specification_id
+        where nideshop_goods_specification.goods_id = #{goods_id}
         group by specification_id
     </select>
 

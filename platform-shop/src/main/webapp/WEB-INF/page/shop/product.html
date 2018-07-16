@@ -6,10 +6,8 @@
 </head>
 <body>
 <div id="rrapp" v-cloak>
-    <div v-show="showList.show">
+    <div v-show="showList">
         <Row :gutter="16">
-            <button @click="testAdd('a-component', '我是A')">添加A组件</button>
-            <component :is="item.component" :text="item.text" v-for="item in testItems"></component>
             <div class="search-group">
                 <i-col span="4">
                     <i-input v-model="q.goodsName" @on-enter="query" placeholder="商品名称"/>
@@ -32,7 +30,7 @@
         <div id="jqGridPager"></div>
     </div>
 
-    <Card v-show="!showList.show">
+    <Card v-show="!showList">
         <p slot="title">{{title}}</p>
         <i-form ref="formValidate" :model="product" :rules="ruleValidate" :label-width="80">
             <Form-item label="商品" prop="goodsId">
@@ -40,26 +38,21 @@
                     <i-option v-for="goods in goodss" :value="goods.id" :key="goods.id">{{goods.name}}</i-option>
                 </i-select>
             </Form-item>
-
-
-
-         <!--   <Form-item v-if="type == 'add'" label="商品规格" prop="goodsSpecificationIds">
-                <Checkbox-group v-model="attribute">
-                    <Checkbox v-for="spec in specifications" :label="spec.id" @click="changeRenderSpecOptions(spec.id)">{{spec.name}}</Checkbox>
+            <Form-item v-if="type == 'add'" label="商品规格" prop="goodsSpecificationIds">
+                <Checkbox-group v-model="attribute" @on-change="renderChooseSec">
+                    <Checkbox v-for="spec in goodsSpecs" :label="spec.specificationId">{{spec.specificationName}}</Checkbox>
                 </Checkbox-group>
-            </Form-item>-->
-            <!--<button @click="testAdd('a-component', '我是A')">添加A组件</button>-->
-            <!--<component :is="item.component" :text="item.text" v-for="item in testItems"></component>-->
-
-
-            <Form-item v-for="(item,index) in specsList" v-if="type == 'add'" :label="item.specName" v-if="attribute.indexOf(1)>-1" prop="color">
-                <i-select v-model="specsList[index].id" filterable>
-                    <i-option v-for="color in item.options" :value="color.id" :key="color.id">{{color.value}}</i-option>
+                {{attribute}}
+                <!--<span v-for="spec in goodsSpecs" @click="renderChooseSec(sepc.goodsId,spec.specificationId,spec.specificationName)" >{{spec.specificationName}}</span>-->
+            </Form-item>
+            <Form-item v-if="type == 'add'" :label="attribute" v-if="attribute.indexOf(1)>-1" prop="color">
+                <i-select v-model="color" filterable multiple>
+                    <i-option v-for="color in colors" :value="color.id" :key="color.id">{{color.value}}</i-option>
                 </i-select>
-                {{specsList[index].id}}
             </Form-item>
 
-            <!--<Form-item v-if="type == 'add'" label="颜色" v-if="attribute.indexOf(1)>-1" prop="color">
+
+            <Form-item v-if="type == 'add'" label="颜色" v-if="attribute.indexOf(1)>-1" prop="color">
                 <i-select v-model="color" filterable multiple>
                     <i-option v-for="color in colors" :value="color.id" :key="color.id">{{color.value}}</i-option>
                 </i-select>
@@ -73,7 +66,9 @@
                 <i-select v-model="weight" filterable multiple>
                     <i-option v-for="weight in weights" :value="weight.id" :key="weight.id">{{weight.value}}</i-option>
                 </i-select>
-            </Form-item>-->
+            </Form-item>
+
+
             <Form-item label="商品序列号" prop="goodsSn">
                 <i-input v-model="product.goodsSn" placeholder="商品序列号"/>
             </Form-item>
