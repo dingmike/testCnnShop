@@ -24,7 +24,6 @@ $(function () {
             {label: '市场价格(元)', name: 'marketPrice', index: 'market_price', width: 80}]
     });
 });
-
 let vm = new Vue({
     el: '#rrapp',
     data() {
@@ -38,7 +37,31 @@ let vm = new Vue({
                 {
                     title: '规格值',
                     key: 'goodsSpecificationList',
-                    render: (h, params) => {
+                    render:(h, params)=>{
+                        return h('Select',{
+                            props:{
+                                value: this.goodsSpecs[params.index].goodsName,
+                                // multiple:  true,
+                                filterable: true,
+                                placeholder: '请选择'
+                            },
+                            on: {
+                                'on-change':(event) => {
+                                    debugger
+                                    this.goodsSpecs[params.index].goodsName = event;
+                                    console.log(vm)
+                                }
+                            },
+
+                        },
+                         this.goodsSpecs[params.index].goodsSpecificationList.map(function(obj){
+                                return h('Option', {
+                                    props: {value: obj.id,key: obj.id}
+                                }, obj.value);
+                            })
+                        )
+                    },
+                  /*  render: (h, params) => {
                         debugger
                         return h('Select', {
                                 props:{
@@ -58,7 +81,7 @@ let vm = new Vue({
                             })
                         );
 
-                    }
+                    }*/
                 }
             ],
 
@@ -136,8 +159,13 @@ let vm = new Vue({
         },
         saveOrUpdate: function (event) {
             let url = vm.product.id == null ? "../product/save" : "../product/update";
-            vm.product.goodsSpecificationIds = vm.color + '_' + vm.guige + '_' + vm.weight;
 
+            let specArr =[];
+            for(let i=0; i<vm.goodsSpecs.length;i++){
+                specArr.push(vm.goodsSpecs[i].goodsName);
+            }
+            // vm.product.goodsSpecificationIds = vm.color + '_' + vm.guige + '_' + vm.weight;
+            vm.product.goodsSpecificationIds = specArr.join('_');
             Ajax.request({
                 type: "POST",
                 url: url,

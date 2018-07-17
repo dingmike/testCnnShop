@@ -1,5 +1,6 @@
 package com.platform.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -107,8 +108,17 @@ public class GoodsSpecificationController {
      */
     @RequestMapping("/queryGoodsSpec/{goods_id}")
     public R queryGoodsSpec(@PathVariable("goods_id") Integer goods_id) {
-
+//        Map<String, Object> resultObj = new HashMap();
         List<GoodsSpecificationEntity> list = goodsSpecificationService.queryGoodsSpec(goods_id);
+        // 查询对应规格值
+        for (int i = 0; i < list.size(); i++) {
+            GoodsSpecificationEntity oneSpec = list.get(i);
+            Map param = new HashMap();
+            param.put("goodsId", goods_id);
+            param.put("specificationId", oneSpec.getSpecificationId());
+            List<GoodsSpecificationEntity> goodslist = goodsSpecificationService.queryList(param);
+            oneSpec.setGoodsSpecificationList(goodslist);
+        }
 
         return R.ok().put("list", list);
     }

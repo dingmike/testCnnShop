@@ -1,7 +1,9 @@
 package com.platform.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -34,6 +36,9 @@ public class GoodsSpecificationEntity implements Serializable {
     //规范
     private String specificationName;
 
+    // 对应规格值列表
+    List<GoodsSpecificationEntity> goodsSpecificationList = new ArrayList<>();
+
     public String getGoodsName() {
         return goodsName;
     }
@@ -48,6 +53,14 @@ public class GoodsSpecificationEntity implements Serializable {
 
     public void setSpecificationName(String specificationName) {
         this.specificationName = specificationName;
+    }
+
+    public List<GoodsSpecificationEntity> getGoodsSpecificationList() {
+        return goodsSpecificationList;
+    }
+
+    public void setGoodsSpecificationList(List<GoodsSpecificationEntity> goodsSpecificationList) {
+        this.goodsSpecificationList = goodsSpecificationList;
     }
 
     /**

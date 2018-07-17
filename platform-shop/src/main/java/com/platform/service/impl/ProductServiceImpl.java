@@ -73,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
         int result = 0;
         String goodsSpecificationIds = product.getGoodsSpecificationIds();
         if (!StringUtils.isNullOrEmpty(goodsSpecificationIds)) {
-            String[] goodsSpecificationIdArr = goodsSpecificationIds.split("_");
+            /*String[] goodsSpecificationIdArr = goodsSpecificationIds.split("_");
             for (int i = 0; i < goodsSpecificationIdArr.length - 1; i++) {
                 String[] oneId = goodsSpecificationIdArr[i].split(",");
                 String[] twoId = goodsSpecificationIdArr[i + 1].split(",");
@@ -90,7 +90,12 @@ public class ProductServiceImpl implements ProductService {
                         result += productDao.save(entity);
                     }
                 }
-            }
+            }*/
+            // 不进行规格再组合，直接使用前端组装的a_b_c,a_b
+            product.setGoodsSpecificationIds(goodsSpecificationIds);
+            ProductEntity entity = new ProductEntity();
+            BeanUtils.copyProperties(product, entity);
+            result = productDao.save(entity);
         }
         return result;
     }
