@@ -27,30 +27,69 @@ $(function () {
 
 let vm = new Vue({
     el: '#rrapp',
-    data: {
-        showList: true,
-        title: null,
-        product: {},
-        ruleValidate: {
-            name: [
-                {required: true, message: '名称不能为空', trigger: 'blur'}
-            ]
-        },
-        q: {
-            goodsName: ''
-        },
-        goodss: [],
-        attribute: [],
-        color: [], guige: [], weight: [],
-        colors: [],
-        guiges: [],
-        weights: [],
-        specifications: [],
-        goodsSpecs: [],
-        productId: '',
-        type: ''
+    data() {
+        return {
+            loading: false,
+            columns7 : [
+                {
+                    title: '规格名称',
+                    key: 'specificationName'
+                },
+                {
+                    title: '规格值',
+                    key: 'goodsSpecificationList',
+                    render: (h, params) => {
+                        debugger
+                        return h('Select', {
+                                props:{
+                                    value: this.goodsSpecs[params.index].goodsName,
+                                },
+                                on: {
+                                    'on-change':(event) => {
+                                        this.goodsSpecs[params.index].goodsName = event;
+                                        console.log(vm)
+                                    }
+                                },
+                            },
+                            this.goodsSpecs[params.index].goodsSpecificationList.map(function(obj){
+                                return h('Option', {
+                                    props: {value: obj.id}
+                                }, obj.value);
+                            })
+                        );
+
+                    }
+                }
+            ],
+
+            showList: true,
+            title: null,
+            product: {},
+            ruleValidate: {
+                name: [
+                    {required: true, message: '名称不能为空', trigger: 'blur'}
+                ]
+            },
+            q: {
+                goodsName: ''
+            },
+            goodss: [],
+            attribute: [],
+            color: [], guige: [], weight: [],
+            colors: [],
+            guiges: [],
+            weights: [],
+            specifications: [],
+            goodsSpecs: [],
+            productId: '',
+            type: ''
+        }
+
     },
     methods: {
+        show: function () {
+            this.visible = true;
+        },
         query: function () {
             vm.reload();
         },
@@ -172,13 +211,15 @@ let vm = new Vue({
             $.get("../goodsspecification/queryGoodsSpec/" + goods_id, function (r) {
                 debugger
                 vm.goodsSpecs = r.list;
+                // vm.loading = false;
             });
         },
         renderChooseSec(){
             debugger
             for(let i=0; i<this.attribute.length; i++){
                 $.get("../goodsspecification/queryAll?goodsId=" + this.productId + "&specificationId=" +this.attribute[i] , (r)=>{
-                    vm['colors'+ this.attribute[i]] = r.list;
+                    // vm['colors'+ this.attribute[i]] = r.list;
+                    vm['colors'+ i] = r.list;
                 });
             }
             console.log(vm)

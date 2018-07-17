@@ -38,21 +38,35 @@
                     <i-option v-for="goods in goodss" :value="goods.id" :key="goods.id">{{goods.name}}</i-option>
                 </i-select>
             </Form-item>
-            <Form-item v-if="type == 'add'" label="商品规格" prop="goodsSpecificationIds">
+           <!-- <Form-item v-if="type == 'add'" label="商品规格" prop="goodsSpecificationIds">
                 <Checkbox-group v-model="attribute" @on-change="renderChooseSec">
                     <Checkbox v-for="spec in goodsSpecs" :label="spec.specificationId">{{spec.specificationName}}</Checkbox>
                 </Checkbox-group>
-                {{attribute}}
-                <!--<span v-for="spec in goodsSpecs" @click="renderChooseSec(sepc.goodsId,spec.specificationId,spec.specificationName)" >{{spec.specificationName}}</span>-->
+            </Form-item>-->
+
+           <!-- <Form-item v-if="type == 'add'" :label="attribute" v-if="attribute.indexOf(1)>-1" prop="color">
+                <i-select v-model="color" filterable multiple>
+                    <i-option v-for="color in colors" :value="color.id" :key="color.id">{{color.value}}</i-option>
+                </i-select>
             </Form-item>
             <Form-item v-if="type == 'add'" :label="attribute" v-if="attribute.indexOf(1)>-1" prop="color">
                 <i-select v-model="color" filterable multiple>
                     <i-option v-for="color in colors" :value="color.id" :key="color.id">{{color.value}}</i-option>
                 </i-select>
             </Form-item>
+            <Form-item v-if="type == 'add'" :label="attribute" v-if="attribute.indexOf(1)>-1" prop="color">
+                <i-select v-model="color" filterable multiple>
+                    <i-option v-for="color in colors" :value="color.id" :key="color.id">{{color.value}}</i-option>
+                </i-select>
+            </Form-item>-->
 
 
-            <Form-item v-if="type == 'add'" label="颜色" v-if="attribute.indexOf(1)>-1" prop="color">
+            <i-table :loading="loading" :columns="columns7" :data="goodsSpecs" ref="table" :stripe="true"
+                   :border="true" no-data-text="还没有数据哦！" no-filtered-data-text="没有筛选出数据！">
+            </i-table>
+            <!--<Table size="large" :columns="columns7" :data="goodsSpecs"></Table>-->
+            <!--<Table :columns="columns1" :data="data1"></Table>-->
+            <!--<Form-item v-if="type == 'add'" label="颜色" v-if="attribute.indexOf(1)>-1" prop="color">
                 <i-select v-model="color" filterable multiple>
                     <i-option v-for="color in colors" :value="color.id" :key="color.id">{{color.value}}</i-option>
                 </i-select>
@@ -67,7 +81,7 @@
                     <i-option v-for="weight in weights" :value="weight.id" :key="weight.id">{{weight.value}}</i-option>
                 </i-select>
             </Form-item>
-
+-->
 
             <Form-item label="商品序列号" prop="goodsSn">
                 <i-input v-model="product.goodsSn" placeholder="商品序列号"/>
