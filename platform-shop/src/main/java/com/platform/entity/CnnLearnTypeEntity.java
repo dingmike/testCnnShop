@@ -20,6 +20,9 @@ public class CnnLearnTypeEntity implements Serializable {
     //学习类型名称
     private String learnType;
 
+    //学习天数
+    private Integer genusdays;
+
     //学习类型开启状态
     private String status;
     //添加时间
@@ -53,6 +56,23 @@ public class CnnLearnTypeEntity implements Serializable {
     public String getLearnType() {
         return learnType;
     }
+
+
+
+    /**
+     * 设置：学习天数
+     */
+    public void setGenusdays(Integer genusdays) {
+        this.genusdays = genusdays;
+    }
+
+    /**
+     * 获取：学习天数
+     */
+    public Integer getGenusdays() {
+        return genusdays;
+    }
+
 
     /**
      * 设置：学习类型状态

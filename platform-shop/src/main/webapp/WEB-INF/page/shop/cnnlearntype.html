@@ -37,6 +37,10 @@
             <Form-item label="类型名称" prop="learnType">
                 <i-input v-model="cnnLearnType.learnType" placeholder="类型名称"/>
             </Form-item>
+            <Form-item label="学习天数" prop="genusdays">
+                <Input-number :min="0" :step="1" v-model="cnnLearnType.genusdays" placeholder="学习天数"
+                              style="width: 188px;"/>
+            </Form-item>
             <Form-item label="状态" prop="status">
                 <Radio-group v-model="cnnLearnType.status">
                     <Radio label="0">

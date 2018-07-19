@@ -44,6 +44,9 @@ public class UserLearnVo implements Serializable {
     //用户学习类型
     private String learnType;
 
+    //用户学习类型天数
+    private Integer genusdays;
+
     /**
      * 设置：用户学习状态ID
      */
@@ -188,11 +191,21 @@ public class UserLearnVo implements Serializable {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
+
     public String getLearnType() {
         return learnType;
     }
 
     public void setLearnType(String learnType) {
         this.learnType = learnType;
+    }
+
+    public Integer getGenusdays() {
+        return genusdays;
+    }
+
+    public void setGenusdays(Integer genusdays) {
+        this.genusdays = genusdays;
     }
 }

@@ -17,6 +17,7 @@
 		<result property="avatar" column="avatar"/>
 		<result property="nickname" column="nickname"/>
 		<result property="learnType" column="learntype"/>
+		<result property="genusdays" column="genusdays"/>
     </resultMap>
 
 	<select id="queryObject" resultType="com.platform.entity.UserLearnVo">
@@ -39,7 +40,7 @@
 	</select>
 
 	<select id="queryObjectByUserId" resultType="com.platform.entity.UserLearnVo">
-		select o.*,u.username as username,u.nickname as nickname,u.avatar as avatar,l.learn_type as learntype from cnn_user_learn o
+		select o.*,u.username as username,u.nickname as nickname,u.avatar as avatar,l.learn_type as learntype,l.genusdays as genusdays from cnn_user_learn o
 		left join nideshop_user u on o.userid = u.id
 		left join cnn_learn_type l on o.learn_type_id = l.id
 
