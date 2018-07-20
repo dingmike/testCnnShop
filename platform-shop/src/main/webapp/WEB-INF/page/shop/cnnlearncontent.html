@@ -41,10 +41,11 @@
                 <i-input v-model="cnnLearnContent.title" placeholder="标题"/>
             </Form-item>
             <Form-item label="学习天数" prop="genusDays">
-                <i-input v-model="cnnLearnContent.genusDays" placeholder="学习天数"/>
+                <Input-number :min="0" :step="1" v-model="cnnLearnContent.genusDays" placeholder="学习天数"
+                              style="width: 188px;"/>
             </Form-item>
             <Form-item label="内容关键词" prop="keyNums">
-                <i-input v-model="cnnLearnContent.keyNums" placeholder="内容关键词"/>
+                <i-input v-model="cnnLearnContent.keyNums" type="textarea" placeholder="内容关键词"/>
             </Form-item>
             <Form-item label="学习内容详情" prop="oraleContent">
                 <i-input v-model="cnnLearnContent.oraleContent" placeholder="学习内容详情"/>
@@ -69,7 +70,7 @@
                         </Upload>
                     </Form-item>
                 </i-col>
-                <i-col span="3">
+                <i-col span="3" style=" margin-top: -10px;">
                     <Form-item :label-width="1">
                         <!--<i-button icon="eye" @click="eyeImagePicUrl">预览语音</i-button>-->
                         <audio :src="cnnLearnContent.oraleSound" controls="controls">
@@ -107,7 +108,7 @@
                         </Upload>
                     </Form-item>
                 </i-col>
-                <i-col span="3">
+                <i-col span="3" style=" margin-top: -10px;">
                     <Form-item :label-width="1">
                         <!--<i-button icon="eye" @click="eyeImagePicUrl">预览语音</i-button>-->
                         <audio :src="cnnLearnContent.extendSound" controls="controls">
