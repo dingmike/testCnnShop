@@ -22,8 +22,8 @@ $(function () {
                 alert("云存储配置未配置");
                 return false;
             }
-            if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))) {
-                alert('只支持jpg、png、gif格式的图片！');
+            if (!(extension && /^(jpg|jpeg|png|gif|mp3)$/.test(extension.toLowerCase()))) {
+                alert('只支持jpg、png、gif、mp3格式的文件！');
                 return false;
             }
         },
