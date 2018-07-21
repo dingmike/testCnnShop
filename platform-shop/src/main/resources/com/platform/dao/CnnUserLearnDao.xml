@@ -95,7 +95,6 @@
 			<if test="unlocks != null">`unlocks` = #{unlocks}, </if>
 			<if test="startStatus != null">`start_status` = #{startStatus}, </if>
 			<if test="setupTime != null">`setup_time` = #{setupTime}, </if>
-			<if test="addTime != null">`add_time` = now(), </if>
 			<if test="updateTime != null">`update_time` = now()</if>
 		</set>
 		where id = #{id}

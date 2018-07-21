@@ -6,6 +6,7 @@
     <resultMap type="com.platform.entity.CnnLearnContentEntity" id="cnnLearnContentMap">
         <result property="id" column="id"/>
         <result property="learnTypeId" column="learn_type_id"/>
+        <result property="learnType" column="learnType"/>
         <result property="title" column="title"/>
         <result property="genusDays" column="genus_days"/>
         <result property="keyNums" column="key_nums"/>
@@ -42,21 +43,23 @@
 
 	<select id="queryList" resultType="com.platform.entity.CnnLearnContentEntity">
 		select
-    		`id`,
-    		`learn_type_id`,
-    		`title`,
-    		`genus_days`,
-    		`key_nums`,
-    		`orale_content`,
-    		`orale_sound`,
-    		`scence_img`,
-    		`is_use`,
-    		`extend_sen`,
-    		`extend_sound`,
-    		`extend_word`,
-    		`add_time`,
-    		`update_time`
-		from cnn_learn_content
+		lc.id,
+		lc.learn_type_id,
+		lc.title,
+		lc.genus_days,
+		lc.key_nums,
+		lc.orale_content,
+		lc.orale_sound,
+		lc.scence_img,
+		lc.is_use,
+		lc.extend_sen,
+		lc.extend_sound,
+		lc.extend_word,
+		lc.add_time,
+		lc.update_time,
+		lt.learn_type as learnType
+		from cnn_learn_content  lc
+		left join cnn_learn_type lt on lc.learn_type_id = lt.id
 		WHERE 1=1
 		<if test="name != null and name.trim() != ''">
 			AND name LIKE concat('%',#{name},'%')
@@ -109,8 +112,8 @@
 			#{extendSen},
 			#{extendSound},
 			#{extendWord},
-			#{addTime},
-			#{updateTime})
+			now(),
+			now())
 	</insert>
 	 
 	<update id="update" parameterType="com.platform.entity.CnnLearnContentEntity">
@@ -127,8 +130,7 @@
 			<if test="extendSen != null">`extend_sen` = #{extendSen}, </if>
 			<if test="extendSound != null">`extend_sound` = #{extendSound}, </if>
 			<if test="extendWord != null">`extend_word` = #{extendWord}, </if>
-			<if test="addTime != null">`add_time` = #{addTime}, </if>
-			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+			<if test="updateTime != null">`update_time` = now()</if>
 		</set>
 		where id = #{id}
 	</update>

@@ -67,6 +67,8 @@
 			`update_time`)
 		values(
 			#{learnType},
+			#{genusdays},
+			#{status},
 			now(),
 			now())
 	</insert>
@@ -77,7 +79,6 @@
 			<if test="learnType != null">`learn_type` = #{learnType}, </if>
 			<if test="genusdays != null">`genusdays` = #{genusdays}, </if>
 			<if test="status != null">`status` = #{status}, </if>
-			<if test="addTime != null">`add_time` = now(), </if>
 			<if test="updateTime != null">`update_time` = now()</if>
 		</set>
 		where id = #{id}

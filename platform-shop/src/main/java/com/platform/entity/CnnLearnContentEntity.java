@@ -19,6 +19,8 @@ public class CnnLearnContentEntity implements Serializable {
     private Integer id;
     //学习类型ID
     private Integer learnTypeId;
+    //学习类型名称
+    private String learnType;
     //标题
     private String title;
     //学习天数
@@ -69,6 +71,19 @@ public class CnnLearnContentEntity implements Serializable {
      */
     public Integer getLearnTypeId() {
         return learnTypeId;
+    }
+    /**
+     * 设置：学习类型名称
+     */
+    public void setLearnType(String learnType) {
+        this.learnType = learnType;
+    }
+
+    /**
+     * 获取：学习类型名称
+     */
+    public String getLearnType() {
+        return learnType;
     }
     /**
      * 设置：标题

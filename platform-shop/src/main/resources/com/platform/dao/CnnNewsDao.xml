@@ -90,7 +90,6 @@
 			<if test="newsDetail != null">`news_detail` = #{newsDetail}, </if>
 			<if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
 			<if test="updateUserId != null">`update_user_id` = #{updateUserId}, </if>
-			<if test="addTime != null">`add_time` = now(), </if>
 			<if test="updateTime != null">`update_time` = now(), </if>
 			<if test="isUse != null">`is_use` = #{isUse}</if>
 		</set>

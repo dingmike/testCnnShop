@@ -97,7 +97,6 @@
 			<if test="imageUrl != null">`image_url` = #{imageUrl}, </if>
 			<if test="content != null">`content` = #{content}, </if>
 			<if test="enabled != null">`enabled` = #{enabled}, </if>
-			<if test="addTime != null">`add_time` = now(), </if>
 			<if test="updateTime != null">`update_time` = now()</if>
 		</set>
 		where id = #{id}

@@ -3,19 +3,26 @@ $(function () {
         url: '../cnnlearncontent/list',
         colModel: [
 			// {label: 'id', name: 'id', index: 'id', key: true, hidden: true},
-			{label: '学习类型ID', name: 'learnTypeId', index: 'learn_type_id', width: 80},
+			{label: '学习类型', name: 'learnType', index: 'learn_type', width: 80},
 			{label: '主内容标题', name: 'title', index: 'title', width: 80},
 			{label: '学习天数', name: 'genusDays', index: 'genus_days', width: 80},
 			{label: '内容关键词', name: 'keyNums', index: 'key_nums', width: 80},
 			{label: '主内容详情', name: 'oraleContent', index: 'orale_content', width: 80},
 			{label: '主内容语音', name: 'oraleSound', index: 'orale_sound', width: 80},
 			{label: '合成图片路径', name: 'scenceImg', index: 'scence_img', width: 80},
-			{label: '状态', name: 'isUse', index: 'is_use', width: 80},
+			{label: '状态', name: 'isUse', index: 'is_use', width: 80,
+                formatter: function (value) {
+                    return transStatus(value);
+                }},
 			{label: '扩展内容标题', name: 'extendSen', index: 'extend_sen', width: 80},
 			{label: '扩展语音', name: 'extendSound', index: 'extend_sound', width: 80},
 			{label: '扩展内容', name: 'extendWord', index: 'extend_word', width: 80},
-			{label: '添加时间', name: 'addTime', index: 'add_time', width: 80},
-			{label: '修改时间', name: 'updateTime', index: 'update_time', width: 80}]
+			{label: '添加时间', name: 'addTime', index: 'add_time', width: 80, formatter: function (value) {
+                return transDate(value, 'yyyy-MM-dd hh:mm:ss');
+            }},
+			{label: '修改时间', name: 'updateTime', index: 'update_time', width: 80, formatter: function (value) {
+                return transDate(value, 'yyyy-MM-dd hh:mm:ss');
+            }}]
     });
 });
 
@@ -25,16 +32,6 @@ let vm = new Vue({
         showList: true,
         title: null,
 		cnnLearnContent: {
-            title: '',
-            genusDays: '',
-            keyNums: '',
-            oraleContent: '',
-            oraleSound: '',
-            isUse: 0,
-            extendSen: '',
-            extendSound: '',
-            extendWord: '',
-            scenceImg: ''
 		},
 		ruleValidate: {
 			name: [
@@ -43,9 +40,18 @@ let vm = new Vue({
 		},
 		q: {
 		    name: ''
-		}
+		},
+        learnTypes: []
 	},
 	methods: {
+        /**
+         * 获取学习类型
+         */
+        getLearnTypes: function () {
+            $.get("../cnnlearntype/queryAll", function (r) {
+                vm.learnTypes = r.list;
+            });
+        },
 		query: function () {
 			vm.reload();
 		},
@@ -53,17 +59,9 @@ let vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.cnnLearnContent = {
-                title: '',
-                genusDays: '',
-                keyNums: '',
-                oraleContent: '',
-                oraleSound: '',
-                isUse: 0,
-                extendSen: '',
-                extendSound: '',
-                extendWord: '',
-                scenceImg: ''
 			};
+            vm.learnTypes = [];
+            vm.getLearnTypes();
 		},
 		update: function (event) {
             let id = getSelectedRow("#jqGrid");
@@ -72,7 +70,7 @@ let vm = new Vue({
 			}
 			vm.showList = false;
             vm.title = "修改";
-
+            vm.getLearnTypes();
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
