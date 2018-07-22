@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.dao.ApiCnnLearnQuestionMapper">
+
+    <resultMap type="com.platform.entity.CnnLearnQuestionVo" id="cnnLearnQuestionMap">
+        <result property="id" column="id"/>
+        <result property="learnTypeId" column="learn_type_id"/>
+		<result property="learnType" column="learnType"/>
+        <result property="genusDays" column="genus_days"/>
+        <result property="oraleitem" column="oraleitem"/>
+        <result property="oralech" column="oralech"/>
+        <result property="oralejp" column="oralejp"/>
+        <result property="oraleitem" column="oraleitem"/>
+        <result property="keyword" column="keyword"/>
+        <result property="analysis" column="analysis"/>
+        <result property="opt1" column="opt1"/>
+        <result property="opt2" column="opt2"/>
+        <result property="opt3" column="opt3"/>
+        <result property="opt4" column="opt4"/>
+        <result property="oralesound" column="oralesound"/>
+        <result property="copt" column="copt"/>
+        <result property="typeof" column="typeof"/>
+        <result property="addTime" column="add_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+	<select id="queryObject" resultType="com.platform.entity.CnnLearnQuestionVo">
+		select
+		`id`,
+		`learn_type_id`,
+		`genus_days`,
+		`oraleitem`,
+		`oralech`,
+		`oralejp`,
+		`keyword`,
+		`analysis`,
+		`opt1`,
+		`opt2`,
+		`opt3`,
+		`opt4`,
+		`oralesound`,
+		`copt`,
+		`typeof`,
+		`add_time`,
+		`update_time`
+		from cnn_learn_question
+		where id = #{id}
+	</select>
+	<select id="queryQuestionByDaysAndType" resultType="com.platform.entity.CnnLearnQuestionVo">
+		select
+	    lq.*,
+		lt.learn_type as learnType
+		from cnn_learn_question lq
+		left join cnn_learn_type lt on lq.learn_type_id = lt.id
+		where genus_days = #{genusdays} and lq.learn_type_id = #{learnTypeId}
+	</select>
+
+	<select id="queryList" resultType="com.platform.entity.CnnLearnQuestionVo">
+		select
+    	lq.*,
+		lt.learn_type as learnType
+		from cnn_learn_question lq
+		left join cnn_learn_type lt on lq.learn_type_id = lt.id
+		WHERE 1=1
+		<if test="name != null and name.trim() != ''">
+			AND name LIKE concat('%',#{name},'%')
+		</if>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from cnn_learn_question
+		WHERE 1=1
+        <if test="name != null and name.trim() != ''">
+            AND name LIKE concat('%',#{name},'%')
+        </if>
+	</select>
+	 
+	<insert id="save" parameterType="com.platform.entity.CnnLearnQuestionVo" useGeneratedKeys="true" keyProperty="id">
+		insert into cnn_learn_question(
+			`learn_type_id`,
+			`genus_days`,
+			`oraleitem`,
+			`oralech`,
+			`oralejp`,
+			`keyword`,
+			`analysis`,
+			`opt1`,
+			`opt2`,
+			`opt3`,
+			`opt4`,
+			`oralesound`,
+			`copt`,
+			`typeof`,
+			`add_time`,
+			`update_time`)
+		values(
+			#{learnTypeId},
+			#{genusDays},
+			#{oraleitem},
+			#{oralech},
+			#{oralejp},
+			#{keyword},
+			#{analysis},
+			#{opt1},
+			#{opt2},
+			#{opt3},
+			#{opt4},
+			#{oralesound},
+			#{copt},
+			#{typeof},
+			now(),
+			now())
+	</insert>
+	 
+	<update id="update" parameterType="com.platform.entity.CnnLearnQuestionVo">
+		update cnn_learn_question 
+		<set>
+			<if test="learnTypeId != null">`learn_type_id` = #{learnTypeId}, </if>
+			<if test="genusDays != null">`genus_days` = #{genusDays}, </if>
+			<if test="oraleitem != null">`oraleitem` = #{oraleitem}, </if>
+			<if test="oraleitem != null">`oralech` = #{oralech}, </if>
+			<if test="oraleitem != null">`oralejp` = #{oralejp}, </if>
+			<if test="keyword != null">`keyword` = #{keyword}, </if>
+			<if test="analysis != null">`analysis` = #{analysis}, </if>
+			<if test="opt1 != null">`opt1` = #{opt1}, </if>
+			<if test="opt2 != null">`opt2` = #{opt2}, </if>
+			<if test="opt3 != null">`opt3` = #{opt3}, </if>
+			<if test="opt4 != null">`opt4` = #{opt4}, </if>
+			<if test="oralesound != null">`oralesound` = #{oralesound}, </if>
+			<if test="copt != null">`copt` = #{copt}, </if>
+			<if test="typeof != null">`typeof` = #{typeof}, </if>
+			<if test="updateTime != null">`update_time` = now()</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from cnn_learn_question where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from cnn_learn_question where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
