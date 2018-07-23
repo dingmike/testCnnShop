@@ -5,7 +5,7 @@ $(function () {
 			//{label: 'id', name: 'id', index: 'id', key: true, hidden: true},
 			//{label: '学习类型ID', name: 'learnTypeId', index: 'learn_type_id', width: 80},
 			{label: '学习类型', name: 'learnType', index: 'learn_type', width: 80},
-			{label: '学习天数', name: 'genusDays', index: 'genus_days', width: 80},
+			{label: '学习天数', name: 'genusDays', index: 'genus_days', width: 60},
 			{label: '重点内容', name: 'oraleitem', index: 'oraleitem', width: 80},
 			{label: '关键词', name: 'keyword', index: 'keyword', width: 80},
 			{label: '中文问题', name: 'oralech', index: 'oralech', width: 80},
@@ -16,8 +16,8 @@ $(function () {
 			{label: '选项3', name: 'opt3', index: 'opt3', width: 80},
 			{label: '选项4', name: 'opt4', index: 'opt4', width: 80},
 			{label: '内容语音链接', name: 'oralesound', index: 'oralesound', width: 80},
-			{label: '答案选项', name: 'copt', index: 'copt', width: 80},
-			{label: '问答题吗？', name: 'typeof', index: 'typeof', width: 80,
+			{label: '答案选项', name: 'copt', index: 'copt', width: 60},
+			{label: '问答题吗？', name: 'typeof', index: 'typeof', width: 60,
 				formatter: function (value) {
 					return transIsNot(value);
 				}},

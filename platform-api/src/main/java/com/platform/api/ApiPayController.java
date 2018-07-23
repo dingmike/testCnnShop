@@ -27,7 +27,7 @@ import java.util.*;
 
 /**
  * 作者: @author Harmon <br>
- * 时间: 2017-08-11 08:32<br>
+ * 时间: 2018-06-11 08:32<br>
  * 描述: ApiIndexController <br>
  */
 @RestController
@@ -262,6 +262,7 @@ public class ApiPayController extends ApiBaseAction {
                 orderInfo.setShipping_status(0);
                 orderInfo.setPay_time(new Date());
                 orderService.update(orderInfo);
+//                XMLUtil.setXml
                 response.getWriter().write(setXml("SUCCESS", "OK"));
             }
         } catch (Exception e) {
