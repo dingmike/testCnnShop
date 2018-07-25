@@ -20,21 +20,19 @@
         <result property="updateTime" column="update_time"/>
     </resultMap>
 
-	<select id="queryObject" resultType="com.platform.entity.CnnUserCardVo">
+	<select id="queryObjectByOther" resultType="com.platform.entity.CnnUserCardVo">
 		select
-			`id`,
-			`learn_type_id`,
-			`userid`,
-			`card_day`,
-			`day`,
-			`month`,
-			`year`,
-			`reasonable`,
-			`card_time`,
-			`add_time`,
-			`update_time`
-		from cnn_user_card
-		where id = #{id}
+		ud.*,
+		lt.learn_type as learnType,
+		u.username as username,
+		u.nickname as nickname
+		from cnn_user_card ud
+		left join nideshop_user u on ud.userid = u.id
+		left join cnn_learn_type lt on ud.learn_type_id = lt.id
+		where
+		<if test="month != null and day != null and learnTypeId != null and userId != null and year != null">
+			ud.month = #{month} and ud.learn_type_id = #{learnTypeId} and ud.day = #{day} and ud.userid = #{userId} and ud.year =#{year}
+		</if>
 	</select>
 	<select id="queryUserCardByUseridAndType" resultType="com.platform.entity.CnnUserCardVo">
 		select
@@ -152,7 +150,7 @@
 			#{month},
 			#{year},
 			#{reasonable},
-			#{cardTime},
+			now(),
 			now(),
 			now())
 	</insert>

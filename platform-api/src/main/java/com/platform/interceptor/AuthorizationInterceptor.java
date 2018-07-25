@@ -16,9 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 权限(Token)验证
  *
- * @author lipengjun
- * @email 939961241@qq.com
- * @date 2017-03-23 15:38
+ * @author admin
+ * @email 2252277509@qq.com
+ * @date 2018-03-23 15:38
  */
 @Component
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter {

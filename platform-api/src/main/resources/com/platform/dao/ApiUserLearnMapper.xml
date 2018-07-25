@@ -102,7 +102,8 @@
 			now(),
 			now())
 	</insert>
-	 
+
+
 	<update id="update" parameterType="com.platform.entity.UserLearnVo">
 		update cnn_user_learn 
 		<set>
@@ -112,10 +113,9 @@
 			<if test="miss != null">`miss` = #{miss}, </if>
 			<if test="startStatus != null">`start_status` = #{startStatus}, </if>
 			<if test="setupTime != null">`setup_time` = #{setupTime}, </if>
-			<if test="addTime != null">`add_time` = now(), </if>
 			<if test="updateTime != null">`update_time` = now()</if>
 		</set>
-		where id = #{id}
+		where userid = #{userid}
 	</update>
 	
 	<delete id="delete">

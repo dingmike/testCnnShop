@@ -2,6 +2,7 @@ package com.platform.service;
 
 import com.platform.dao.ApiCnnUserCardMapper;
 import com.platform.entity.CnnUserCardVo;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +28,8 @@ public class ApiCnnUserCardService {
     public List<CnnUserCardVo> queryUserCardList(Long userid, Integer type){
         return cnnUserCardDao.queryUserCardList(userid, type);
     }
-    public CnnUserCardVo queryObject(Integer id) {
-        return cnnUserCardDao.queryObject(id);
+    public CnnUserCardVo queryObjectByOther(Long userId, Integer day, Integer month, Integer year, Integer learnTypeId) {
+        return cnnUserCardDao.queryObjectByOther(userId, day, month, year, learnTypeId);
     }
 
     public List<CnnUserCardVo> queryList(Map<String, Object> map) {

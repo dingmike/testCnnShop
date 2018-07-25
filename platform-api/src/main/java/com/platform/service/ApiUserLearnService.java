@@ -2,6 +2,7 @@ package com.platform.service;
 
 import com.platform.dao.ApiUserLearnMapper;
 import com.platform.entity.UserLearnVo;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,8 @@ public class ApiUserLearnService {
     public UserLearnVo queryObject(Integer id) {
         return userLearnMapper.queryObject(id);
     }
+
+
     public UserLearnVo queryObjectByUserId(Integer userId) {
         return userLearnMapper.queryObjectByUserId(userId);
     }

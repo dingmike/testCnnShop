@@ -15,4 +15,5 @@ import java.util.List;
 public interface ApiCnnUserCardMapper extends BaseDao<CnnUserCardVo> {
       List<CnnUserCardVo> queryUserCardByUseridAndType(@Param("userid") Long userid, @Param("learnTypeId") Integer type);
       List<CnnUserCardVo> queryUserCardList(@Param("userid") Long userid, @Param("learnTypeId") Integer type);
+      CnnUserCardVo queryObjectByOther(@Param("userId") Long userId, @Param("day") Integer day, @Param("month") Integer month,  @Param("year") Integer year, @Param("learnTypeId") Integer type);
 }
