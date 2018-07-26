@@ -167,9 +167,6 @@ public class ApiGongduController extends ApiBaseAction {
         // 微信授权用户才能获取信息
         if (null != jsonParams&& openid.equals(jsonParams.getString("uid"))) {
 
-
-
-
 //            SimpleDateFormat simdf = new SimpleDateFormat("MM月dd日");
             Calendar cal = Calendar.getInstance();
             //分别获取年、月、日
@@ -214,25 +211,34 @@ public class ApiGongduController extends ApiBaseAction {
                 }
 
                 Integer saveSuccess = cnnUserCardService.save(userCard);
-                // 更新user_learn unlocks
-                // 通过userId查出解锁天数然后才可更新
-                UserLearnVo userlearnObj = userLearnService.queryObjectByUserId(userId.intValue());
-
-                Integer unlocksNow = userlearnObj.getUnlocks()+1;
-                System.out.println("--------------------------unlocksNow");
-                System.out.println(unlocksNow);
-                UserLearnVo newUserLearnVo = new UserLearnVo();
-                newUserLearnVo.setUserid(userId.intValue());
-                newUserLearnVo.setLearnTypeId(learnTypeId);
-                newUserLearnVo.setUnlocks(unlocksNow);
-                userLearnService.update(newUserLearnVo);
-
-
                 return toResponsSuccess(saveSuccess);
 
             }
 
         }
+        return toResponsFail("执行失败");
+    }
+
+    /**
+     *
+     * 设置打卡时间
+     *
+     * */
+
+    @RequestMapping("setRemindTime")
+    @ApiOperation(value = "设置提醒时间接口", response = Map.class)
+    public Object setRemindTime(@LoginUser UserVo loginUser) {
+        JSONObject jsonParams = getJsonRequest();
+        Integer learnTypeId = jsonParams.getInteger("type");
+        String openid =  loginUser.getWeixin_openid();
+        Long userId=  loginUser.getUserId();
+        // 微信授权用户才能获取信息
+        if (null != jsonParams&& openid.equals(jsonParams.getString("uid"))) {
+
+//
+
+            }
+
         return toResponsFail("执行失败");
     }
 }

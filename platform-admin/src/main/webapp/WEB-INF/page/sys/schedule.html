@@ -76,8 +76,12 @@
                 <div class="panel-body">
                     <div class="col-sm-4 control-label">0 15 10 * * ? *</div>
                     <div class="col-sm-8 control-label">每天10点15分触发</div>
-                    <div class="col-sm-4 control-label">0 15 10 * * ? 2017</div>
-                    <div class="col-sm-8 control-label">2017年每天10点15分触发</div>
+                    <div class="col-sm-4 control-label">0 0 1 * * ?</div>
+                    <div class="col-sm-8 control-label">每天凌晨1点执行一次</div>
+                    <div class="col-sm-4 control-label">0 */1 * * * ?</div>
+                    <div class="col-sm-8 control-label">每隔1分钟执行一次</div>
+                    <div class="col-sm-4 control-label">0 15 10 * * ? 2018</div>
+                    <div class="col-sm-8 control-label">2018年每天10点15分触发</div>
                     <div class="col-sm-4 control-label">0 * 14 * * ?</div>
                     <div class="col-sm-8 control-label">每天下午的 2点到2点59分每分触发</div>
                     <div class="col-sm-4 control-label">0 0/5 14 * * ?</div>
@@ -90,6 +94,9 @@
                     <div class="col-sm-8 control-label">每月最后一周的星期五的10点15分触发</div>
                     <div class="col-sm-4 control-label">0 15 10 ? * 6#3</div>
                     <div class="col-sm-8 control-label">每月的第三周的星期五开始触发</div>
+                    <div class="col-sm-4 control-label">0 0 0,13,18,21 * * ?</div>
+                    <div class="col-sm-8 control-label">每天的0点、13点、18点、21点都执行一次</div>
+
                 </div>
             </Card>
         </i-col>
