@@ -25,6 +25,7 @@ public class ApiUserLearnService {
     public UserLearnVo queryObject(Integer id) {
         return userLearnMapper.queryObject(id);
     }
+    public void updateUnlocks() {}
 
 
     public UserLearnVo queryObjectByUserId(Integer userId) {
