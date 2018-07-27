@@ -209,6 +209,7 @@ public class ApiGongduController extends ApiBaseAction {
                 }else{
                     userCard.setReasonable(0);
                 }
+
                 Integer saveSuccess = cnnUserCardService.save(userCard);
                 return toResponsSuccess(saveSuccess);
 
