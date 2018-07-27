@@ -34,9 +34,9 @@
     <Card v-show="!showList">
         <p slot="title">{{title}}</p>
 		<i-form ref="formValidate" :model="cnnUserLearn" :rules="ruleValidate" :label-width="80">
-            <Form-item label="学习类型ID" prop="learnTypeId">
+         <!--   <Form-item label="学习类型ID" prop="learnTypeId">
                 <i-input v-model="cnnUserLearn.learnTypeId" placeholder="类型ID"/>
-            </Form-item>
+            </Form-item>-->
             <Form-item label="学习类型" prop="learnTypeId" style="width: 268px;">
                 <i-select v-model="cnnUserLearn.learnTypeId" filterable>
                     <i-option v-for="learnType in learnTypes" :value="learnType.id" :key="learnType.id">{{learnType.learnType}}
@@ -58,8 +58,8 @@
                 <i-input v-model="cnnUserLearn.setupTime" placeholder="提醒打卡时间"/>
             </Form-item>-->
             <Form-item  label="提醒时间" prop="setupTime">
-                <Time-picker v-model="cnnUserLearn.setupTime" format="HH:mm" placeholder="Select time"></Time-picker>
-                <!--{{cnnUserLearn.setupTime}}-->
+                <!--<Time-picker v-model="cnnUserLearn.setupTime" format="HH:mm" placeholder="Select time"></Time-picker>-->
+                <i-input v-model="cnnUserLearn.setupTime" placeholder="时间格式HH:mm"/>
             </Form-item>
             <Form-item label="开始状态" prop="startStatus">
                 <Radio-group v-model="cnnUserLearn.startStatus">

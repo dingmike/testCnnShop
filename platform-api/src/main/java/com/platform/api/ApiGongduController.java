@@ -209,7 +209,6 @@ public class ApiGongduController extends ApiBaseAction {
                 }else{
                     userCard.setReasonable(0);
                 }
-
                 Integer saveSuccess = cnnUserCardService.save(userCard);
                 return toResponsSuccess(saveSuccess);
 
@@ -230,15 +229,18 @@ public class ApiGongduController extends ApiBaseAction {
     public Object setRemindTime(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         Integer learnTypeId = jsonParams.getInteger("type");
+        String setupTime = jsonParams.getString("setupTime");
         String openid =  loginUser.getWeixin_openid();
         Long userId=  loginUser.getUserId();
-        // 微信授权用户才能获取信息
+        // 微信授权用户才能操作
         if (null != jsonParams&& openid.equals(jsonParams.getString("uid"))) {
-
-//
-
+            UserLearnVo userLearnVo = new UserLearnVo();
+            userLearnVo.setUserid(loginUser.getUserId().intValue());
+            userLearnVo.setSetupTime(setupTime);
+            userLearnVo.setLearnTypeId(learnTypeId);
+            Integer result = userLearnService.update(userLearnVo);
+            return toResponsSuccess(result);
             }
-
         return toResponsFail("执行失败");
     }
 }

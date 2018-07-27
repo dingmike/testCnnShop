@@ -12,9 +12,10 @@ $(function () {
 			{label: '已打卡阅读天数', name: 'unlocks', index: 'unlocks', width: 80},
 
 			{label: '未打卡天数', name: 'miss', index: 'miss', width: 80},
-			{label: '提醒打卡时间', name: 'setupTime', index: 'setup_time', width: 80, formatter:function (value) {
+			/*{label: '提醒打卡时间', name: 'setupTime', index: 'setup_time', width: 80, formatter:function (value) {
 				return formatDateTime(value, 'hh:mm');
-            }},
+            }},*/
+            {label: '提醒打卡时间', name: 'setupTime', index: 'setup_time', width: 80},
             {label: '是否开始', name: 'startStatus', index: 'start_status', width: 80,  formatter: function (value) {
                 return transIsNot(value);
             }},
@@ -113,7 +114,7 @@ let vm = new Vue({
                 url: "../cnnuserlearn/info/"+id,
                 async: true,
                 successCallback: function (r) {
-                    r.cnnUserLearn.setupTime = new Date(r.cnnUserLearn.setupTime); // 时间转换为UTC时间
+                    // r.cnnUserLearn.setupTime = new Date(r.cnnUserLearn.setupTime); // 时间转换为UTC时间
                     // r.cnnUserLearn.setupTime = formatDateTime(r.cnnUserLearn.setupTime, 'hh:mm');
                     vm.cnnUserLearn = r.cnnUserLearn;
                 }
