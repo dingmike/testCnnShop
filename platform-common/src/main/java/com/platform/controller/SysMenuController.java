@@ -17,9 +17,9 @@ import java.util.Map;
 /**
  * 系统菜单
  *
- * @author lipengjun
- * @email 939961241@qq.com
- * @date 2016年10月27日 下午9:58:15
+ * @author admin
+ * @email 2252277509@qq.com
+ * @date 2017年11月16日 下午10:43:36
  */
 @RestController
 @RequestMapping("/sys/menu")

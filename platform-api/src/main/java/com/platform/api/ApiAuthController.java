@@ -33,9 +33,9 @@ import io.swagger.annotations.ApiOperation;
 /**
  * API登录授权
  *
- * @author lipengjun
- * @email 939961241@qq.com
- * @date 2017-03-23 15:31
+ * @author admin
+ * @email 2252277509@qq.com
+ * @date 2017年11月16日 下午10:43:36
  */
 @Api(tags = "API登录授权接口")
 @RestController

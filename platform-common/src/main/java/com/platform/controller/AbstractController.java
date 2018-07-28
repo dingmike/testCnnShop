@@ -8,9 +8,9 @@ import org.slf4j.LoggerFactory;
 /**
  * Controller公共组件
  *
- * @author lipengjun
- * @email 939961241@qq.com
- * @date 2016年11月9日 下午9:42:26
+ * @author admin
+ * @email 2252277509@qq.com
+ * @date 2017年11月16日 下午10:43:36
  */
 public abstract class AbstractController {
     protected Logger logger = LoggerFactory.getLogger(getClass());

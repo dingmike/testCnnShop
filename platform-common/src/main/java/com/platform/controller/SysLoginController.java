@@ -24,9 +24,9 @@ import java.io.IOException;
 /**
  * 登录相关
  *
- * @author lipengjun
- * @email 939961241@qq.com
- * @date 2016年11月10日 下午1:15:31
+ * @author admin
+ * @email 2252277509@qq.com
+ * @date 2017年11月16日 下午10:43:36
  */
 @Controller
 public class SysLoginController {

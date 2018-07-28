@@ -8,9 +8,9 @@ import java.util.Date;
  * 通用字典表实体
  * 表名 sys_macro
  *
- * @author lipengjun
- * @email 939961241@qq.com
- * @date 2017-08-22 11:48:16
+ * @author admin
+ * @email 2342334@qq.com
+ * @date 2017年11月16日 下午10:43:36
  */
 public class SysMacroEntity implements Serializable {
     private static final long serialVersionUID = 1L;

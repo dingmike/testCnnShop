@@ -18,7 +18,7 @@ import java.util.Date;
  * 名称：LogInterceptor <br>
  * 描述：日志拦截器<br>
  *
- * @author 李鹏军
+ * @author admin
  * @version 1.0
  * @since 1.0.0
  */

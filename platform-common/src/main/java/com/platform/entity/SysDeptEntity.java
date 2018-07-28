@@ -7,9 +7,9 @@ import java.util.List;
 /**
  * 部门管理
  *
- * @author liepngjun
- * @email 939961241@qq.com
- * @date 2017-09-17 23:58:47
+ * @author admin
+ * @email 2342334@qq.com
+ * @date 2017年11月16日 下午10:43:36
  */
 public class SysDeptEntity implements Serializable {
 	private static final long serialVersionUID = 1L;

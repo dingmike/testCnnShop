@@ -6,7 +6,7 @@ import net.oschina.j2cache.J2Cache;
 import java.util.Collection;
 
 /**
- * 作者: @author 李鹏军 <br>
+ * 作者: @author admin <br>
  * 时间: 2017-07-09 17:12<br>
  * 描述: J2CacheUtils <br>
  */

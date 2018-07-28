@@ -11,7 +11,7 @@ import com.platform.utils.SpringContextUtils;
 import com.platform.utils.StringUtils;
 
 /**
- * 作者: @author Harmon <br>
+ * 作者: @author admin <br>
  * 时间: 2017-08-16 10:14<br>
  * 描述: CacheUtil <br>
  */

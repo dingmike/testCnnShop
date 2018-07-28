@@ -7,9 +7,9 @@ import java.util.Date;
 /**
  * 系统日志
  *
- * @author lipengjun
- * @email 939961241@qq.com
- * @date 2017-03-08 10:40:56
+ * @author admin
+ * @email 2342334@qq.com
+ * @date 2017年11月16日 下午10:43:36
  */
 public class SysLogEntity implements Serializable {
     private static final long serialVersionUID = 1L;
