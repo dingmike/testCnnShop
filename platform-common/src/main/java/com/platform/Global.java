@@ -4,7 +4,7 @@ package com.platform;
  * 名称：Global <br>
  * 描述：全局属性<br>
  *
- * @author 李鹏军
+ * @author admin
  * @version 1.0
  * @since 1.0.0
  */

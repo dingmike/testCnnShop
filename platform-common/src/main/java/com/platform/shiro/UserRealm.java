@@ -23,7 +23,7 @@ import java.util.*;
 /**
  * 认证
  *
- * @author lipengjun
+ * @author admin
  * @date 2017年11月19日 上午9:49:19
  */
 public class UserRealm extends AuthorizingRealm {

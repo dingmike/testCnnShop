@@ -7,7 +7,7 @@ import java.sql.*;
  * 描述：批量更新密码<br>
  * 注意事项：执行此类会把所有的用户(SYS_USER)密码初始化为a111111
  *
- * @author 李鹏军
+ * @author admin
  * @version 1.0
  * @since 1.0.0
  */
