@@ -46,6 +46,9 @@
             <Form-item label="用户ID" prop="userid">
                 <i-input v-model="cnnUserLearn.userid" placeholder="用户ID"/>
             </Form-item>
+            <Form-item label="微信表单ID" prop="formId">
+                <i-input v-model="cnnUserLearn.formId" placeholder="微信表单ID"/>
+            </Form-item>
             <Form-item label="已打卡天数" prop="unlocks">
                 <!--<i-input v-model="cnnUserLearn.unlocks" placeholder="已打卡阅读天数"/>-->
                 <Input-number :max="21" :min="0" v-model="cnnUserLearn.unlocks"></Input-number>

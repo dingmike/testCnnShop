@@ -9,13 +9,11 @@ import com.platform.entity.CnnUserCardVo;
 import com.platform.entity.UserVo;
 import com.platform.entity.UserLearnVo;
 
-import com.platform.service.ApiUserLearnService;
-import com.platform.service.ApiCnnLearnQuestionService;
-import com.platform.service.ApiCnnUserCardService;
-import com.platform.service.ApiGongduService;
+import com.platform.service.*;
 //import com.platform.service.ApiUserService;
 //import com.platform.service.SysConfigService;
 import com.platform.util.ApiBaseAction;
+import com.platform.util.UserRemindTask;
 import com.platform.utils.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -48,6 +46,10 @@ public class ApiGongduController extends ApiBaseAction {
     private ApiCnnLearnQuestionService cnnLearnQuestionService ;
     @Autowired
     private ApiCnnUserCardService cnnUserCardService ;
+
+    @Autowired
+    private ScheduleJobService scheduleJobService;
+
 
     /**
      * 获取共读内容/api/gongdu/getContent
@@ -161,6 +163,7 @@ public class ApiGongduController extends ApiBaseAction {
 
         JSONObject jsonParams = getJsonRequest();
         Integer learnTypeId = jsonParams.getInteger("type");
+        String formId = jsonParams.getString("formId");
         String openid =  loginUser.getWeixin_openid();
 
         Long userId=  loginUser.getUserId();
@@ -186,14 +189,15 @@ public class ApiGongduController extends ApiBaseAction {
 
 
             CnnUserCardVo userCardVo = cnnUserCardService.queryObjectByOther(userId, day, month, year, learnTypeId);
-            // 如果已经打过卡了，就返回打卡数据
+
             System.out.println("------------------------------");
             System.out.println(userCardVo);
-            if(null != userCardVo){
 
-                return toResponsSuccess(userCardVo);
+            // 如果已经打过卡了，就返回0
+            if(null != userCardVo){
+                return toResponsSuccess(0);
             }else{
-                // 继续打卡操作
+                // 还没打卡继续打卡操作
                 CnnUserCardVo userCard = new CnnUserCardVo();
                 // 打卡操作
                 userCard.setDay(day);
@@ -211,7 +215,19 @@ public class ApiGongduController extends ApiBaseAction {
                 }
 
                 Integer saveSuccess = cnnUserCardService.save(userCard);
-                return toResponsSuccess(saveSuccess);
+                // 打卡完后更新微信表单formID
+                UserLearnVo userLearnVo = new UserLearnVo();
+                userLearnVo.setLearnTypeId(learnTypeId);
+                userLearnVo.setFormId(formId);
+                userLearnVo.setUserid(userId.intValue());
+                Integer successResult = userLearnService.update(userLearnVo);
+                System.out.println("更新formId成功-----------");
+                System.out.println(successResult);
+                if(successResult !=0){
+                    return toResponsSuccess(saveSuccess);
+                }else{
+                    return toResponsFail("内部错误没有formID，联系管理员！");
+                }
 
             }
 
@@ -232,7 +248,7 @@ public class ApiGongduController extends ApiBaseAction {
         Integer learnTypeId = jsonParams.getInteger("type");
         String setupTime = jsonParams.getString("setupTime");
         String openid =  loginUser.getWeixin_openid();
-        Long userId=  loginUser.getUserId();
+//        Long userId=  loginUser.getUserId();
         // 微信授权用户才能操作
         if (null != jsonParams&& openid.equals(jsonParams.getString("uid"))) {
             UserLearnVo userLearnVo = new UserLearnVo();
@@ -240,6 +256,10 @@ public class ApiGongduController extends ApiBaseAction {
             userLearnVo.setSetupTime(setupTime);
             userLearnVo.setLearnTypeId(learnTypeId);
             Integer result = userLearnService.update(userLearnVo);
+            // 启动定时器执行定时任务
+            UserRemindTask.test(setupTime);
+
+
             return toResponsSuccess(result);
             }
         return toResponsFail("执行失败");

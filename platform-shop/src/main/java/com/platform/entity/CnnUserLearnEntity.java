@@ -23,6 +23,8 @@ public class CnnUserLearnEntity implements Serializable {
     private Integer userid;
     //已打卡阅读天数
     private Integer unlocks;
+    //微信表单ID
+    private String formId;
     //错过打卡天数
     private Integer miss;
     //是否开始学习
@@ -95,6 +97,20 @@ public class CnnUserLearnEntity implements Serializable {
      */
     public Integer getUnlocks() {
         return unlocks;
+    }
+
+    /**
+     * 设置：微信表单ID
+     */
+    public void setFormId(String formId) {
+        this.formId = formId;
+    }
+
+    /**
+     * 获取：微信表单ID
+     */
+    public String getFormId() {
+        return formId;
     }
 
     /**

@@ -10,11 +10,11 @@ $(function () {
 			{label: '学习类型', name: 'learnType', index: 'learn_type', width: 80},
 			// {label: '用户ID', name: 'userid', index: 'userid', width: 80},
 			{label: '已打卡阅读天数', name: 'unlocks', index: 'unlocks', width: 80},
-
-			{label: '未打卡天数', name: 'miss', index: 'miss', width: 80},
+			{label: '微信表单ID', name: 'formId', index: 'formId', width: 80},
 			/*{label: '提醒打卡时间', name: 'setupTime', index: 'setup_time', width: 80, formatter:function (value) {
 				return formatDateTime(value, 'hh:mm');
             }},*/
+
             {label: '提醒打卡时间', name: 'setupTime', index: 'setup_time', width: 80},
             {label: '是否开始', name: 'startStatus', index: 'start_status', width: 80,  formatter: function (value) {
                 return transIsNot(value);

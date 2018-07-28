@@ -58,6 +58,12 @@
             <artifactId>weixin-java-pay</artifactId>
             <version>${weixin-java-tools.version}</version>
         </dependency>
+        <!--new add module-->
+        <dependency>
+            <groupId>com.platform</groupId>
+            <artifactId>platform-schedule</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 
     </dependencies>
 
