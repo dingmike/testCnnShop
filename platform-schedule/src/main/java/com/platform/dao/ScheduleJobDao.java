@@ -1,6 +1,7 @@
 package com.platform.dao;
 
 import com.platform.entity.ScheduleJobEntity;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
 
@@ -17,4 +18,7 @@ public interface ScheduleJobDao extends BaseDao<ScheduleJobEntity> {
      * 批量更新状态
      */
     int updateBatch(Map<String, Object> map);
+
+
+    ScheduleJobEntity queryObjectByMethodName(@Param("beanName") String beanName, @Param("methodName") String methodName);
 }

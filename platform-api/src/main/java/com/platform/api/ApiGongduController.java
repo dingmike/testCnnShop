@@ -38,6 +38,10 @@ public class ApiGongduController extends ApiBaseAction {
 //    private ApiUserService userService;
 //    @Autowired
 //    private SysConfigService sysConfigService;
+
+    @Autowired
+    private UserRemindTask userRemindTask;
+
     @Autowired
     private ApiUserLearnService userLearnService;
     @Autowired
@@ -248,6 +252,7 @@ public class ApiGongduController extends ApiBaseAction {
         Integer learnTypeId = jsonParams.getInteger("type");
         String setupTime = jsonParams.getString("setupTime");
         String openid =  loginUser.getWeixin_openid();
+        Long userId =  loginUser.getUserId();
 //        Long userId=  loginUser.getUserId();
         // 微信授权用户才能操作
         if (null != jsonParams&& openid.equals(jsonParams.getString("uid"))) {
@@ -257,7 +262,8 @@ public class ApiGongduController extends ApiBaseAction {
             userLearnVo.setLearnTypeId(learnTypeId);
             Integer result = userLearnService.update(userLearnVo);
             // 启动定时器执行定时任务
-            UserRemindTask.test(setupTime);
+//            UserRemindTask userRemindTask = new UserRemindTask();
+            userRemindTask.test("remindTask"+userId.toString());
 
 
             return toResponsSuccess(result);

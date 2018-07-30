@@ -20,6 +20,12 @@ public interface ScheduleJobService {
     ScheduleJobEntity queryObject(Long jobId);
 
     /**
+     * 根据beanName和 methodName，查询定时任务
+     */
+
+    ScheduleJobEntity queryObjectByMethodName(String beanName, String methodName);
+
+    /**
      * 查询定时任务列表
      */
     List<ScheduleJobEntity> queryList(Map<String, Object> map);

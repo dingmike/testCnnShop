@@ -23,6 +23,8 @@ public class ScheduleRunnable implements Runnable {
 
         if (StringUtils.isNotBlank(params)) {
             this.method = target.getClass().getDeclaredMethod(methodName, String.class);
+            System.out.println("method===========================");
+            System.out.println(this.method);
         } else {
             this.method = target.getClass().getDeclaredMethod(methodName);
         }
