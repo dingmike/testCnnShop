@@ -80,6 +80,7 @@ public class UserRemindTask {
 //        scheduleJob.setJobId(l2);
         scheduleJob.setMethodName("remindTaskMethod");
         scheduleJob.setRemark("定时提醒");
+        scheduleJob.setUserid(userId.intValue());
 //        scheduleJob.setStatus(1);
         scheduleJob.setParams("rererer");
 //        scheduleJob.setCreateTime(new Date());
@@ -89,8 +90,8 @@ public class UserRemindTask {
         ValidatorUtils.validateEntity(scheduleJob);
 
 
-        ScheduleJobEntity newScheduleJob =scheduleJobService.queryObjectByMethodName("remindTask");// 通过方法名去查询job
-//        ScheduleJobEntity newScheduleJob =scheduleJobService.queryObject();// 通过jobId去查询job
+//        ScheduleJobEntity newScheduleJob =scheduleJobService.queryObjectByMethodName("remindTask");// 通过方法名去查询job
+        ScheduleJobEntity newScheduleJob =scheduleJobService.queryObjectByUserId(userId.intValue());// 通过userId去查询job
 
         if(newScheduleJob!=null){
             Long[] jobsId= new Long[]{newScheduleJob.getJobId()};
@@ -100,7 +101,8 @@ public class UserRemindTask {
             scheduleJobService.resume(jobsId);// 恢复任务
         }else{
             scheduleJobService.save(scheduleJob);
-            ScheduleJobEntity newScheduleJobTwo =scheduleJobService.queryObjectByMethodName("remindTask");
+//            ScheduleJobEntity newScheduleJobTwo =scheduleJobService.queryObjectByMethodName("remindTask");
+            ScheduleJobEntity newScheduleJobTwo =scheduleJobService.queryObjectByUserId(userId.intValue());
             ScheduleUtils.run(scheduler, newScheduleJobTwo);// 立即执行定时任务
         }
 
