@@ -263,7 +263,8 @@ public class ApiGongduController extends ApiBaseAction {
             Integer result = userLearnService.update(userLearnVo);
             // 启动定时器执行定时任务
 //            UserRemindTask userRemindTask = new UserRemindTask();
-            userRemindTask.test("remindTask"+userId.toString());
+//            userRemindTask.test("remindTask"+userId.toString());
+            userRemindTask.test(userId, setupTime);
 
 
             return toResponsSuccess(result);

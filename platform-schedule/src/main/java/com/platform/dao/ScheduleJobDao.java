@@ -18,7 +18,6 @@ public interface ScheduleJobDao extends BaseDao<ScheduleJobEntity> {
      * 批量更新状态
      */
     int updateBatch(Map<String, Object> map);
-
-
-    ScheduleJobEntity queryObjectByMethodName(@Param("beanName") String beanName, @Param("methodName") String methodName);
+    ScheduleJobEntity queryObjectByMethodName(@Param("beanName") String beanName);
+    ScheduleJobEntity queryObjectByUserId(@Param("userid") Integer userid);
 }

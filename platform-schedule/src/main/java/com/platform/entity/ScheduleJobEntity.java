@@ -26,6 +26,11 @@ public class ScheduleJobEntity implements Serializable {
     private Long jobId;
 
     /**
+     * 用户id
+     */
+    private Integer userid;
+
+    /**
      * spring bean名称
      */
     @NotBlank(message = "bean名称不能为空")
@@ -79,6 +84,24 @@ public class ScheduleJobEntity implements Serializable {
      */
     public Long getJobId() {
         return jobId;
+    }
+
+    /**
+     * 设置：用户Id
+     *
+     * @param userid
+     */
+    public void setUserid(Integer userid) {
+        this.userid = userid;
+    }
+
+    /**
+     * 获取：用户Id
+     *
+     * @return Inter
+     */
+    public Integer getUserid() {
+        return userid;
     }
 
     public String getBeanName() {

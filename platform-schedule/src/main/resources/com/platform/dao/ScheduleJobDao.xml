@@ -9,9 +9,11 @@
 
 
 	<select id="queryObjectByMethodName" resultType="com.platform.entity.ScheduleJobEntity" >
-		select * from schedule_job where bean_name = #{beanName} and method_name = #{methodName}
+		select * from schedule_job where bean_name = #{beanName}
 	</select>
-
+	<select id="queryObjectByUserId" resultType="com.platform.entity.ScheduleJobEntity" >
+		select * from schedule_job where userid = #{userid}
+	</select>
 	<select id="queryList" resultType="com.platform.entity.ScheduleJobEntity" >
 		select * from schedule_job
 		<where>

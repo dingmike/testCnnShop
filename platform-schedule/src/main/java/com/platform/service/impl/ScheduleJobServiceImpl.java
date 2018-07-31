@@ -47,8 +47,13 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
 	}
 
 	@Override
-	public ScheduleJobEntity queryObjectByMethodName(String beanName, String methodName) {
-		return schedulerJobDao.queryObjectByMethodName(beanName, methodName);
+	public ScheduleJobEntity queryObjectByMethodName(String beanName) {
+		return schedulerJobDao.queryObjectByMethodName(beanName);
+	}
+
+	@Override
+	public ScheduleJobEntity queryObjectByUserId(Integer userid) {
+		return schedulerJobDao.queryObjectByUserId(userid);
 	}
 
 	@Override
