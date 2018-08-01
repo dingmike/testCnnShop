@@ -2,6 +2,13 @@ package com.platform.util.wechat;
 
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
+
+import com.alibaba.fastjson.JSONObject;
+import com.platform.util.ApiUserUtils;
+import com.platform.util.CommonUtil;
+
+import com.platform.entity.TemplateData;
+import com.platform.entity.WxTemplate;
 import com.platform.utils.CharUtil;
 import com.platform.utils.MapUtils;
 import com.platform.utils.ResourceUtil;
@@ -22,6 +29,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
+
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -297,4 +305,79 @@ public class WechatUtil {
         return reusltObj;
 
     }
+
+
+    /**
+     * 创建模板消息
+     * @param openId
+     * @param template_id
+     * @param url
+     * @param topcolor
+     * @param carrierName
+     * @param waybillCode
+     * @param waybillDesc
+     * @return
+     */
+    public static String makeRouteMessage(String openId,String template_id, String page, String form_id, String url,String topcolor,String carrierName, String waybillCode, String waybillDesc){
+        WxTemplate template = new WxTemplate();
+        template.setTouser(openId);
+        template.setTemplate_id(template_id);
+        template.setPage(page);
+        template.setForm_id(form_id);
+        template.setUrl(url);
+        template.setTopcolor(topcolor);
+        Map<String, TemplateData> data = new HashMap<String, TemplateData>();
+
+        TemplateData templateData1 = new TemplateData();
+        templateData1.setColor(carrierName);
+        templateData1.setValue("#ff6600");
+        TemplateData templateData2 = new TemplateData();
+        templateData2.setColor(waybillCode);
+        templateData2.setValue("#ff6600");
+
+        TemplateData templateData3 = new TemplateData();
+        templateData3.setColor(waybillDesc);
+        templateData3.setValue("#ff6600");
+
+        data.put("first", templateData1);
+        data.put("waybillNo", templateData2);
+        data.put("remark", templateData3);
+        template.setData(data);
+//        JSONObject jsonObject = JSONObject.fromObject(template);
+        System.out.println(template);
+        return template+"";
+    }
+    /**
+     * 发送消息
+     * @param
+     * @param jsonMsg
+     * @return
+     */
+    public static boolean sendTemplateMessage( String jsonMsg){
+        logger.info("消息内容：{"+jsonMsg+"}");
+
+//        String requestUrl = ApiUserUtils.getWebAccess(code);//通过自定义工具类组合出小程序需要的登录凭证 code
+        boolean result = false;
+        //请求地址
+//        String requestUrl = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
+        String requestUrl = ResourceUtil.getConfigByName("wx.sendTplMessage");
+//        requestUrl = requestUrl.replace("ACCESS_TOKEN", accessToken);
+        //发送模板消息
+        JSONObject jsonObject = CommonUtil.httpsRequest(requestUrl, "POST", jsonMsg);
+        if(null != jsonObject){
+            int errorCode = jsonObject.getInteger("errcode");
+            String errorMsg = jsonObject.getString("errmsg");
+            if(0 == errorCode){
+                result = true;
+                logger.info("模板消息发送成功errorCode:{"+errorCode+"},errmsg:{"+errorMsg+"}");
+                System.out.println("模板消息发送成功errorCode:{"+errorCode+"},errmsg:{"+errorMsg+"}");
+            }else{
+                logger.info("模板消息发送失败errorCode:{"+errorCode+"},errmsg:{"+errorMsg+"}");
+                System.out.println("模板消息发送失败errorCode:{"+errorCode+"},errmsg:{"+errorMsg+"}");
+            }
+        }
+        return result;
+    }
+
+
 }

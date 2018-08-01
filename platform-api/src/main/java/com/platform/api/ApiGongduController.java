@@ -14,6 +14,7 @@ import com.platform.service.*;
 //import com.platform.service.SysConfigService;
 import com.platform.util.ApiBaseAction;
 import com.platform.util.UserRemindTask;
+import com.platform.util.wechat.WechatUtil;
 import com.platform.utils.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -263,6 +264,23 @@ public class ApiGongduController extends ApiBaseAction {
             Integer result = userLearnService.update(userLearnVo);
             // 启动定时器执行定时任务
             userRemindTask.test(userId, setupTime);
+
+            // 测试发送模板消息
+            String templateId = "aR2vBrOkQipCeAB1tcQ2-jXHJket3CjhpGjYiYdGaOY";
+            UserLearnVo newUserLearnObj = userLearnService.queryObjectByUserId(userId.intValue());
+            String formId = newUserLearnObj.getFormId(); // 表单formId // 可存为数组
+            String templateUrl = "pages/gongDu/gongDu";
+            String page = "pages/gongDu/gongDu";
+            String topcolor = "ff6600";
+            String carrierName = "ff6600";
+            String waybillCode = "ff6600";
+            String waybillDesc = "ff6600";
+            String jsonObj = WechatUtil.makeRouteMessage(openid,templateId,page,formId,templateUrl,topcolor,carrierName,waybillCode,waybillDesc);
+
+            // 发送
+            Boolean sendSuccess = WechatUtil.sendTemplateMessage(jsonObj);
+
+
             return toResponsSuccess(result);
             }
         return toResponsFail("执行失败");
