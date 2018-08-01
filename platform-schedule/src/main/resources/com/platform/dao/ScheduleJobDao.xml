@@ -39,7 +39,8 @@
 		insert into schedule_job
 		(
 			`bean_name`, 
-			`method_name`, 
+			`userid`,
+			`method_name`,
 			`params`, 
 			`cron_expression`, 
 			`status`, 
@@ -49,7 +50,8 @@
 		values
 		(
 			#{beanName}, 
-			#{methodName}, 
+			#{userid},
+			#{methodName},
 			#{params}, 
 			#{cronExpression}, 
 			#{status}, 
@@ -62,6 +64,7 @@
 		update schedule_job 
 		<set> 
 			<if test="beanName != null">`bean_name` = #{beanName}, </if>
+			<if test="userid != null">`userid` = #{userid}, </if>
 			<if test="methodName != null">`method_name` = #{methodName}, </if>
 			<if test="params != null">`params` = #{params}, </if>
 			<if test="cronExpression != null">`cron_expression` = #{cronExpression}, </if>

@@ -53,9 +53,14 @@ public class UserRemindTask {
 
     // 定时任务的方法
     public void remindTaskMethod(String params){
-        logger.info("定时任务执行方法带参数：" + params);
+        Integer userid = Integer.parseInt(params);  // 字符串数字转换为Integer
+        logger.info("定时任务执行方法带参数userid：" + userid);
 
-        System.out.println("提醒用户时间到了该吃饭了！！！！！");
+        // 根据不同用户发送给不同用户提醒信息
+        System.out.println("提醒用户:"+userid+"时间到了该吃饭了！！！！！");
+
+
+
     }
 
 
@@ -68,7 +73,7 @@ public class UserRemindTask {
 
         String newCorn = "0 " +cronArr[1]+" "+cronArr[0]+" ? "+"* * *";
 
-        System.out.println("corn express++++++++++++++++++++++++");
+        System.out.println("corn expression++++++++++++++++++++++++");
         System.out.println(newCorn);
         ScheduleJobEntity scheduleJob = new ScheduleJobEntity();
 
@@ -82,7 +87,8 @@ public class UserRemindTask {
         scheduleJob.setRemark("定时提醒");
         scheduleJob.setUserid(userId.intValue());
 //        scheduleJob.setStatus(1);
-        scheduleJob.setParams("rererer");
+        String userIdStr = Integer.toString(userId.intValue()); // Integer转换为String
+        scheduleJob.setParams(userIdStr); // 传递userid作为参数
 //        scheduleJob.setCreateTime(new Date());
 //        String cornStr = "*/5 * * * * ?";
         String cornStr = newCorn;
