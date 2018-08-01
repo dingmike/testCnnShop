@@ -253,20 +253,16 @@ public class ApiGongduController extends ApiBaseAction {
         String setupTime = jsonParams.getString("setupTime");
         String openid =  loginUser.getWeixin_openid();
         Long userId =  loginUser.getUserId();
-//        Long userId=  loginUser.getUserId();
         // 微信授权用户才能操作
         if (null != jsonParams&& openid.equals(jsonParams.getString("uid"))) {
             UserLearnVo userLearnVo = new UserLearnVo();
             userLearnVo.setUserid(loginUser.getUserId().intValue());
             userLearnVo.setSetupTime(setupTime);
             userLearnVo.setLearnTypeId(learnTypeId);
+            // 参加成功的用户才可以设置定时提醒时间
             Integer result = userLearnService.update(userLearnVo);
             // 启动定时器执行定时任务
-//            UserRemindTask userRemindTask = new UserRemindTask();
-//            userRemindTask.test("remindTask"+userId.toString());
             userRemindTask.test(userId, setupTime);
-
-
             return toResponsSuccess(result);
             }
         return toResponsFail("执行失败");

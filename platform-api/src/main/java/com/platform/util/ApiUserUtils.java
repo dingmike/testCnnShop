@@ -3,7 +3,7 @@ package com.platform.util;
 import com.platform.utils.ResourceUtil;
 
 /**
- * 作者: @author Harmon <br>
+ * 作者: @author admin <br>
  * 时间: 2017-08-11 08:58<br>
  * 描述: ApiUserUtils <br>
  */
