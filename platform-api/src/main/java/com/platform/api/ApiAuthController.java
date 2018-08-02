@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.platform.util.AccessTokenTask;
 import org.apache.commons.collections.MapUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,9 @@ public class ApiAuthController extends ApiBaseAction {
     private TokenService tokenService;
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private AccessTokenTask accessTokenTask;
 
     /**
      * 登录
@@ -136,6 +140,10 @@ public class ApiAuthController extends ApiBaseAction {
         resultObj.put("token", token);
         resultObj.put("userInfo", userService.queryByOpenId(sessionData.getString("openid")));
         resultObj.put("userId", userVo.getUserId());
+
+        // 调用获取为您access_token定时器
+        accessTokenTask.askAccessToken();
+
         return toResponsSuccess(resultObj);
     }
 }

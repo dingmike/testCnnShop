@@ -2,12 +2,9 @@ package com.platform.api;
 
 import com.alibaba.fastjson.JSONObject;
 import com.platform.annotation.LoginUser;
-import com.platform.entity.CnnLearnQuestionVo;
+import com.platform.entity.*;
 //import com.platform.entity.SmsConfig;
 //import com.platform.entity.SmsLogVo;
-import com.platform.entity.CnnUserCardVo;
-import com.platform.entity.UserVo;
-import com.platform.entity.UserLearnVo;
 
 import com.platform.service.*;
 //import com.platform.service.ApiUserService;
@@ -54,7 +51,8 @@ public class ApiGongduController extends ApiBaseAction {
 
     @Autowired
     private ScheduleJobService scheduleJobService;
-
+    @Autowired
+    private AccessTokenService accessTokenService;
 
     /**
      * 获取共读内容/api/gongdu/getContent
@@ -278,7 +276,8 @@ public class ApiGongduController extends ApiBaseAction {
             String jsonObj = WechatUtil.makeRouteMessage(openid,templateId,page,formId,templateUrl,topcolor,carrierName,waybillCode,waybillDesc);
 
             // 发送
-            Boolean sendSuccess = WechatUtil.sendTemplateMessage(jsonObj);
+            AccessTokenEntity accessTokenEntity = accessTokenService.queryByFirst();
+            Boolean sendSuccess = WechatUtil.sendTemplateMessage(accessTokenEntity.getAccessToken(),jsonObj);
 
 
             return toResponsSuccess(result);

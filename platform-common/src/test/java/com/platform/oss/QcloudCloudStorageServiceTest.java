@@ -22,11 +22,11 @@ import org.springframework.web.multipart.MultipartFile;
  * 描述：上传到腾讯云单元测试<br>
  * 注意事项：需要根据腾讯云的配置说明进行配置
  *
- * @author 李鹏军
+ * @author admin
  * @version 1.0
  * @since 1.0.0
  * 
- * 张鹏起修改
+ *
  */
 public class QcloudCloudStorageServiceTest extends baseOss {
 	static Logger logger = Logger.getLogger(QcloudCloudStorageServiceTest.class.getName());

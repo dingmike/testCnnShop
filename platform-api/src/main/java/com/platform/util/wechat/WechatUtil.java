@@ -349,19 +349,20 @@ public class WechatUtil {
     }
     /**
      * 发送消息
-     * @param
+     * @param accessToken
      * @param jsonMsg
      * @return
      */
-    public static boolean sendTemplateMessage( String jsonMsg){
+    public static boolean sendTemplateMessage(String accessToken, String jsonMsg){
         logger.info("消息内容：{"+jsonMsg+"}");
+        logger.info("微信的 AccessToken：{"+accessToken+"}");
 
 //        String requestUrl = ApiUserUtils.getWebAccess(code);//通过自定义工具类组合出小程序需要的登录凭证 code
         boolean result = false;
         //请求地址
 //        String requestUrl = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
         String requestUrl = ResourceUtil.getConfigByName("wx.sendTplMessage");
-//        requestUrl = requestUrl.replace("ACCESS_TOKEN", accessToken);
+        requestUrl = requestUrl.replace("ACCESS_TOKEN", accessToken);
         //发送模板消息
         JSONObject jsonObject = CommonUtil.httpsRequest(requestUrl, "POST", jsonMsg);
         if(null != jsonObject){

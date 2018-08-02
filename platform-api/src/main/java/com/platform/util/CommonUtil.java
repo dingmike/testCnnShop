@@ -16,8 +16,10 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
 import com.alibaba.fastjson.JSONObject;
+import com.platform.entity.AccessTokenEntity;
 import com.platform.utils.CharUtil;
 import com.platform.utils.DateUtils;
+import com.platform.utils.ResourceUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
@@ -123,5 +125,41 @@ public class CommonUtil {
             // TODO: handle exception
             return null;
         }
+    }
+
+    /**
+     * 获取接口访问凭证
+     *
+     * @param appid 凭证
+     * @param appsecret 密钥
+     * @return
+     */
+    public static AccessTokenEntity getWxAccessToken(String appid, String appsecret) {
+
+
+        AccessTokenEntity accessTokenEntity = null;
+        String token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=appID&secret=APPSECRET";
+        //获取openid
+//        String requestUrl = ApiUserUtils.getWebAccess(code);//通过自定义工具类组合出小程序需要的登录凭证 code
+
+
+        String requestUrl = token_url.replace("appID", appid).replace("APPSECRET", appsecret);
+        // 发起GET请求获取凭证
+        JSONObject jsonObject = httpsRequest(requestUrl, "GET", null);
+
+        if (null != jsonObject) {
+            try {
+                accessTokenEntity = new AccessTokenEntity();
+                accessTokenEntity.setAccessToken(jsonObject.getString("access_token"));
+                accessTokenEntity.setExpiresIn(jsonObject.getInteger("expires_in"));
+            } catch (Exception e) {
+                accessTokenEntity = null;
+                // 获取token失败
+                log.error("获取token失败 errcode:{} errmsg:{}", jsonObject.getInteger("errcode"), jsonObject.getString("errmsg"));
+            }
+        }
+        System.out.println("accessTokenObj-------------------------------------------------");
+        System.out.println(accessTokenEntity);
+        return accessTokenEntity;
     }
 }
