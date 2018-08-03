@@ -12,6 +12,7 @@
     <properties>
     <!-- lib versions -->
        <weixin-java-tools.version>3.1.0</weixin-java-tools.version>
+        <google.zxing.version>3.3.2</google.zxing.version>
     </properties>
 
 
@@ -70,6 +71,11 @@
             <version>RELEASE</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>${google.zxing.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

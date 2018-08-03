@@ -133,5 +133,10 @@
             <artifactId>j2cache-core</artifactId>
             <version>${j2cache.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.4.5</version>
+        </dependency>
     </dependencies>
 </project>

@@ -341,10 +341,8 @@ public class WechatUtil {
         data.put("keyword2", templateData2);
         data.put("keyword3", templateData3);
         template.setData(data);
-//        JSONObject jsonObject = JSONObject.toJSONString(template);
         System.out.println(template);
         String sendData = JsonUtil.toJsonString(template);
-//        String data = JsonUtil.stringToJson(template);
         return sendData;
     }
     /**

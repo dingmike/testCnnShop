@@ -64,7 +64,7 @@ public class UserRemindTask {
         System.out.println("提醒用户:"+userid+"时间到了该打卡了！！！！！");
 
 
-        // ----------------测试发送模板消息
+        // ----------------发送模板消息
         String templateId = "aR2vBrOkQipCeAB1tcQ2-jXHJket3CjhpGjYiYdGaOY"; // 日程提醒模板
         UserLearnVo newUserLearnObj = userLearnService.queryObjectByUserId(userid);
         String formId = newUserLearnObj.getFormId(); // 不同用户的表单formId // 可收集存为数组
@@ -79,9 +79,6 @@ public class UserRemindTask {
         // 发送消息
         AccessTokenEntity accessTokenEntity = accessTokenService.queryByFirst();
         Boolean sendSuccess = WechatUtil.sendTemplateMessage(accessTokenEntity.getAccessToken(),jsonObj);
-
-
-
 
     }
 
