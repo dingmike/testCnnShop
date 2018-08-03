@@ -141,8 +141,6 @@ public class CommonUtil {
         String token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=appID&secret=APPSECRET";
         //获取openid
 //        String requestUrl = ApiUserUtils.getWebAccess(code);//通过自定义工具类组合出小程序需要的登录凭证 code
-
-
         String requestUrl = token_url.replace("appID", appid).replace("APPSECRET", appsecret);
         // 发起GET请求获取凭证
         JSONObject jsonObject = httpsRequest(requestUrl, "GET", null);
@@ -159,7 +157,6 @@ public class CommonUtil {
             }
         }
         System.out.println("accessTokenObj-------------------------------------------------");
-        System.out.println(accessTokenEntity);
         return accessTokenEntity;
     }
 }

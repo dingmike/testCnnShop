@@ -41,10 +41,10 @@ public class AccessTokenTask {
         logger.info("正在执行获取微信access Token的方法accessTokenTaskMethod，参数名为accessToken：" + params);
         accessToken = CommonUtil.getWxAccessToken(appid, appsecret);// 首先获取access_token
         if (null != accessToken) {
-            //调用存储到数据库
+
             System.out.println("my accessToken  :=========================" );
             System.out.println(accessToken);
-            // 调用service的方法
+            // 调用service的方法存储到数据库
             accessTokenService.save(accessToken);
             logger.info("获取access_token成功，有效时长{}秒 token:{}", accessToken.getExpiresIn(), accessToken.getAccessToken());
 

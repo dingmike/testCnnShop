@@ -6,13 +6,10 @@ import com.alibaba.druid.support.logging.LogFactory;
 import com.alibaba.fastjson.JSONObject;
 import com.platform.util.ApiUserUtils;
 import com.platform.util.CommonUtil;
-
+import com.platform.util.JsonUtil;
 import com.platform.entity.TemplateData;
 import com.platform.entity.WxTemplate;
-import com.platform.utils.CharUtil;
-import com.platform.utils.MapUtils;
-import com.platform.utils.ResourceUtil;
-import com.platform.utils.XmlUtil;
+import com.platform.utils.*;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -329,23 +326,26 @@ public class WechatUtil {
         Map<String, TemplateData> data = new HashMap<String, TemplateData>();
 
         TemplateData templateData1 = new TemplateData();
-        templateData1.setColor(carrierName);
-        templateData1.setValue("#ff6600");
+        templateData1.setValue(carrierName);
+        templateData1.setColor("#ff6600");
         TemplateData templateData2 = new TemplateData();
-        templateData2.setColor(waybillCode);
-        templateData2.setValue("#ff6600");
+        templateData2.setValue(waybillCode);
+        templateData2.setColor("#ff6600");
 
         TemplateData templateData3 = new TemplateData();
-        templateData3.setColor(waybillDesc);
-        templateData3.setValue("#ff6600");
+        templateData3.setValue(waybillDesc);
+        templateData3.setColor("#ff6600");
 
-        data.put("first", templateData1);
-        data.put("waybillNo", templateData2);
-        data.put("remark", templateData3);
+        // 消息模板对应字段
+        data.put("keyword1", templateData1);
+        data.put("keyword2", templateData2);
+        data.put("keyword3", templateData3);
         template.setData(data);
-//        JSONObject jsonObject = JSONObject.fromObject(template);
+//        JSONObject jsonObject = JSONObject.toJSONString(template);
         System.out.println(template);
-        return template+"";
+        String sendData = JsonUtil.toJsonString(template);
+//        String data = JsonUtil.stringToJson(template);
+        return sendData;
     }
     /**
      * 发送消息
@@ -356,11 +356,8 @@ public class WechatUtil {
     public static boolean sendTemplateMessage(String accessToken, String jsonMsg){
         logger.info("消息内容：{"+jsonMsg+"}");
         logger.info("微信的 AccessToken：{"+accessToken+"}");
-
-//        String requestUrl = ApiUserUtils.getWebAccess(code);//通过自定义工具类组合出小程序需要的登录凭证 code
         boolean result = false;
-        //请求地址
-//        String requestUrl = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
+        //请求地址 String requestUrl = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
         String requestUrl = ResourceUtil.getConfigByName("wx.sendTplMessage");
         requestUrl = requestUrl.replace("ACCESS_TOKEN", accessToken);
         //发送模板消息

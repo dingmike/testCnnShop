@@ -141,8 +141,8 @@ public class ApiAuthController extends ApiBaseAction {
         resultObj.put("userInfo", userService.queryByOpenId(sessionData.getString("openid")));
         resultObj.put("userId", userVo.getUserId());
 
-        // 调用获取为您access_token定时器
-        accessTokenTask.askAccessToken();
+        // 调用获取为您access_token定时器 需要启动项目完成后立即执行
+//        accessTokenTask.askAccessToken();
 
         return toResponsSuccess(resultObj);
     }

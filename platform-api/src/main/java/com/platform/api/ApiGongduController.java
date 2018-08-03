@@ -263,21 +263,21 @@ public class ApiGongduController extends ApiBaseAction {
             // 启动定时器执行定时任务
             userRemindTask.test(userId, setupTime);
 
-            // 测试发送模板消息
-            String templateId = "aR2vBrOkQipCeAB1tcQ2-jXHJket3CjhpGjYiYdGaOY";
+            // ----------------测试发送模板消息
+           /* String templateId = "aR2vBrOkQipCeAB1tcQ2-jXHJket3CjhpGjYiYdGaOY";
             UserLearnVo newUserLearnObj = userLearnService.queryObjectByUserId(userId.intValue());
             String formId = newUserLearnObj.getFormId(); // 表单formId // 可存为数组
             String templateUrl = "pages/gongDu/gongDu";
             String page = "pages/gongDu/gongDu";
             String topcolor = "ff6600";
-            String carrierName = "ff6600";
-            String waybillCode = "ff6600";
-            String waybillDesc = "ff6600";
+            String carrierName = "测试模板消息1";
+            String waybillCode = "测试模板消息2";
+            String waybillDesc = "测试模板消息3";
             String jsonObj = WechatUtil.makeRouteMessage(openid,templateId,page,formId,templateUrl,topcolor,carrierName,waybillCode,waybillDesc);
 
-            // 发送
+            // 发送消息
             AccessTokenEntity accessTokenEntity = accessTokenService.queryByFirst();
-            Boolean sendSuccess = WechatUtil.sendTemplateMessage(accessTokenEntity.getAccessToken(),jsonObj);
+            Boolean sendSuccess = WechatUtil.sendTemplateMessage(accessTokenEntity.getAccessToken(),jsonObj);*/
 
 
             return toResponsSuccess(result);

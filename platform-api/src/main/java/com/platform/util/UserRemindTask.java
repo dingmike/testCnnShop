@@ -1,12 +1,14 @@
 package com.platform.util;
 
+import com.platform.annotation.LoginUser;
 import com.platform.dao.ScheduleJobDao;
+import com.platform.entity.AccessTokenEntity;
+import com.platform.entity.UserLearnVo;
 import com.platform.entity.UserVo;
 import com.platform.entity.ScheduleJobEntity;
 
-import com.platform.service.ApiUserService;
-import com.platform.service.ScheduleJobService;
-import com.platform.service.SysUserService;
+import com.platform.service.*;
+import com.platform.util.wechat.WechatUtil;
 import com.platform.utils.ScheduleUtils;
 import com.platform.validator.ValidatorUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -19,10 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by admin on 2018/7/28.
@@ -42,14 +41,47 @@ public class UserRemindTask {
     @Autowired
     private ScheduleJobService scheduleJobService;
 
+    @Autowired
+    private ApiUserLearnService userLearnService;
+
+    @Autowired
+    private AccessTokenService accessTokenService;
+
+
 
     // 定时任务统一调用方法remindTaskMethod，所有用户的定时任务都调用此方法
     public void remindTaskMethod(String params){
         Integer userid = Integer.parseInt(params);  // 字符串数字转换为Integer
         logger.info("定时任务执行方法带参数userid：" + userid);
+        UserVo userVo =  userService.queryObject(userid.longValue());
+        String openid = userVo.getWeixin_openid();
+
+        Calendar cal = Calendar.getInstance();
+        //获取时间
+        String setTime = cal.get(cal.HOUR_OF_DAY) + ":"+ cal.get(cal.MINUTE);
 
         // 根据不同用户发送给不同用户提醒信息
-        System.out.println("提醒用户:"+userid+"时间到了该吃饭了！！！！！");
+        System.out.println("提醒用户:"+userid+"时间到了该打卡了！！！！！");
+
+
+        // ----------------测试发送模板消息
+        String templateId = "aR2vBrOkQipCeAB1tcQ2-jXHJket3CjhpGjYiYdGaOY"; // 日程提醒模板
+        UserLearnVo newUserLearnObj = userLearnService.queryObjectByUserId(userid);
+        String formId = newUserLearnObj.getFormId(); // 不同用户的表单formId // 可收集存为数组
+        String templateUrl = "pages/index/index";
+        String page = "pages/index/index";
+        String topcolor = "ff6600";
+        String carrierName = "Study Time!";
+        String waybillCode = setTime;
+        String waybillDesc = "Come on! fight!";
+        String jsonObj = WechatUtil.makeRouteMessage(openid,templateId,page,formId,templateUrl,topcolor,carrierName,waybillCode,waybillDesc);
+
+        // 发送消息
+        AccessTokenEntity accessTokenEntity = accessTokenService.queryByFirst();
+        Boolean sendSuccess = WechatUtil.sendTemplateMessage(accessTokenEntity.getAccessToken(),jsonObj);
+
+
+
 
     }
 
