@@ -15,7 +15,7 @@
 		select * from access_token order by createTime desc limit 0,1
 	</select>
 	 
-	<insert id="save" parameterType="com.platform.entity.AccessTokenEntity">
+	<insert id="save" parameterType="com.platform.entity.AccessTokenEntity" useGeneratedKeys="true" keyProperty="id"  >
 		insert into access_token(
 			`accessToken`,
 			`expires_in`,
