@@ -45,4 +45,12 @@
     http://localhost:8080
    
    
+   
+   
     ##生产环境打包 platform-wechat-mall>mvn package -P prod
+    
+    1. mvn clean 清理上次生成的
+    
+    ##跳过测试打包
+    2. mvn package -Dmaven.test.skip=true
+    
