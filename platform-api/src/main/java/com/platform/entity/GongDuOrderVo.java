@@ -11,8 +11,8 @@ import java.util.Map;
 
 
 /**
- * @author lipengjun
- * @email 939961241@qq.com
+ * @author admin
+ * @email 2252277509@qq.com
  * @date 2017-08-15 08:03:40
  */
 public class GongDuOrderVo implements Serializable {
@@ -21,12 +21,12 @@ public class GongDuOrderVo implements Serializable {
     //主键
     private Integer id;
     //订单序列号
-    private String order_sn;
+    private String orderSn;
     //会员Id
-    private Long user_id;
+    private Long userId;
 
     //学习类型ID
-    private Integer learnType_id;
+    private Integer learnTypeId;
     /*
     订单状态
     1xx 表示订单取消和删除等状态 0订单创建成功等待付款，　101订单已取消，　102订单已删除
@@ -34,23 +34,26 @@ public class GongDuOrderVo implements Serializable {
     3xx 表示订单物流相关状态　300订单已发货， 301用户确认收货
     4xx 表示订单退换货相关的状态　401 没有发货，退款　402 已收货，退款退货
     */
-    private Integer order_status;
+    private Integer orderStatus;
 
     //付款状态 支付状态;0未付款;1付款中;2已付款;4退款
-    private Integer pay_status;
+    private Integer payStatus;
 
     //实际需要支付的金额
-    private BigDecimal actual_price;
+    private BigDecimal actualPrice;
     //订单总价
-    private BigDecimal order_price;
+    private BigDecimal orderPrice;
     //产品总价
-    private BigDecimal goods_price;
+    private BigDecimal goodsPrice;
 
     //付款时间
-    private Date pay_time;
+    private Date payTime;  //付款时间
+
+    //添加时间
+    private Date addTime;
 
     //付款
-    private String pay_id;
+    private String payId;
 
 
 
@@ -63,86 +66,95 @@ public class GongDuOrderVo implements Serializable {
     }
 
 
-    public String getOrder_sn() {
-        return order_sn;
+    public String getOrderSn() {
+        return orderSn;
     }
 
-    public void setOrder_sn(Integer id) {
-        this.order_sn = order_sn;
+    public void setOrderSn(String orderSn) {
+        this.orderSn = orderSn;
     }
 
-    public Long getUser_id() {
-        return user_id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public Integer getOrder_status() {
-        return order_status;
+    public Integer getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setOrder_status(Integer order_status) {
-        this.order_status = order_status;
+    public void setOrderStatus(Integer orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
-    public Integer getLearnType_id() {
-        return learnType_id;
+    public Integer getLearnTypeId() {
+        return learnTypeId;
     }
 
-    public void setLearnType_id(Integer learnType_id) {
-        this.learnType_id = learnType_id;
+    public void setLearnTypeId(Integer learnTypeId) {
+        this.learnTypeId = learnTypeId;
     }
 
-    public Integer getPay_status() {
-        return pay_status;
+    public Integer getPayStatus() {
+        return payStatus;
     }
 
-    public void setPay_status(Integer pay_status) {
-        this.pay_status = pay_status;
+    public void setPayStatus(Integer payStatus) {
+        this.payStatus = payStatus;
     }
 
 
-    public BigDecimal getActual_price() {
-        return actual_price;
+    public BigDecimal getActualPrice() {
+        return actualPrice;
     }
 
-    public void setActual_price(BigDecimal actual_price) {
-        this.actual_price = actual_price;
+    public void setActualPrice(BigDecimal actualPrice) {
+        this.actualPrice = actualPrice;
     }
 
-    public BigDecimal getGoods_price() {
-        return goods_price;
+    public BigDecimal getGoodsPrice() {
+        return goodsPrice;
     }
 
-    public void setGoods_price(BigDecimal goods_price) {
-        this.goods_price = goods_price;
+    public void setGoodsPrice(BigDecimal goodsPrice) {
+        this.goodsPrice = goodsPrice;
     }
 
-    public BigDecimal getOrder_price() {
-        return order_price;
+    public BigDecimal getOrderPrice() {
+        return orderPrice;
     }
 
-    public void setOrder_price(BigDecimal order_price) {
-        this.order_price = order_price;
+    public void setOrderPrice(BigDecimal orderPrice) {
+        this.orderPrice = orderPrice;
     }
 
-    public String getPay_id() {
-        return pay_id;
+    public String getPayId() {
+        return payId;
     }
 
-    public void setPay_id(String pay_id) {
-        this.pay_id = pay_id;
+    public void setPayId(String payId) {
+        this.payId = payId;
     }
 
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    public Date getPay_time() {
-        return pay_time;
+    public Date getPayTime() {
+        return payTime;
     }
 
-    public void setPay_time(Date pay_time) {
-        this.pay_time = pay_time;
+    public void setPayTime(Date payTime) {
+        this.payTime = payTime;
+    }
+
+
+    public Date getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
     }
 }

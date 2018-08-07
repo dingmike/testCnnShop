@@ -4,6 +4,7 @@ $(function () {
         colModel: [
 			{label: 'id', name: 'id', index: 'id', key: true, hidden: true},
 			{label: '学习类型名称', name: 'learnType', index: 'learn_type', width: 80},
+			{label: '价格', name: 'productPrice', index: 'product_price', width: 80},
             {label: '学习天数', name: 'genusdays', index: 'genusdays', width: 80},
             {
                 label: '状态', name: 'status', index: 'status', width: 80, formatter: function (value) {

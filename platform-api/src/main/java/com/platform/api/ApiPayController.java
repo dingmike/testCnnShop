@@ -2,13 +2,14 @@ package com.platform.api;
 
 import com.platform.annotation.LoginUser;
 import com.platform.cache.J2CacheUtils;
+import com.platform.entity.UserLearnVo;
+import com.platform.entity.GongDuOrderVo;
 import com.platform.entity.OrderGoodsVo;
 import com.platform.entity.OrderVo;
 import com.platform.entity.wxPayReq.UnifiedOrderParams;
 import com.platform.entity.wxPayResp.UnifiedOrderResult;
 import com.platform.entity.UserVo;
-import com.platform.service.ApiOrderGoodsService;
-import com.platform.service.ApiOrderService;
+import com.platform.service.*;
 import com.platform.util.ApiBaseAction;
 import com.platform.util.wechat.WechatRefundApiResult;
 import com.platform.util.wechat.WechatUtil;
@@ -55,7 +56,12 @@ public class ApiPayController extends ApiBaseAction {
     private ApiOrderService orderService;
     @Autowired
     private ApiOrderGoodsService orderGoodsService;
-
+    @Autowired
+    private ApiCnnLearnTypeService cnnLearnTypeService;
+    @Autowired
+    private ApiGongduOrderService apiGongduOrderService;
+    @Autowired
+    private ApiUserLearnService apiUserLearnService;
     /**
      */
     @RequestMapping("index")
@@ -271,11 +277,12 @@ public class ApiPayController extends ApiBaseAction {
             } else if (result_code.equalsIgnoreCase("SUCCESS")) {
                 //订单编号
                 String out_trade_no = result.getOut_trade_no();
-                logger.error("订单" + out_trade_no + "支付成功");
+                logger.info("订单" + out_trade_no + "支付成功");
+                System.out.println("订单sss" + out_trade_no + "支付成功");
                 // 业务处理
                 OrderVo orderInfo = orderService.queryObject(Integer.valueOf(out_trade_no));
                 orderInfo.setPay_status(2);
-                orderInfo.setOrder_status(201);
+//                orderInfo.setOrder_status(201);
                 orderInfo.setShipping_status(0);
                 orderInfo.setPay_time(new Date());
                 orderService.update(orderInfo);
@@ -529,17 +536,15 @@ public class ApiPayController extends ApiBaseAction {
      * 共读支付获取支付的请求参数
      */
     @RequestMapping("gongDuPrepay")
-    public Object gongDuPrepay(@LoginUser UserVo loginUser, Integer orderId) {
-        //
-        OrderVo orderInfo = orderService.queryObject(orderId);
+    public Object gongDuPrepay(@LoginUser UserVo loginUser, String orderId) {
+        //查询学习类型价格
+//        CnnLearnTypeVo cnnLearnTypeVo = cnnLearnTypeService.queryObject(learnTypeId);
 
-        if (null == orderInfo) {
-            return toResponsObject(400, "订单已取消", "");
-        }
+        GongDuOrderVo gongDuOrderVo = apiGongduOrderService.queryObject(orderId);
+        //用来支付的价格格式
+        Integer productPrice  = gongDuOrderVo.getGoodsPrice().multiply(new BigDecimal(100)).intValue();
 
-        if (orderInfo.getPay_status() != 0) {
-            return toResponsObject(400, "订单已支付，请不要重复操作", "");
-        }
+      //  OrderVo orderInfo = orderService.queryObject(orderId);
 
         String nonceStr = CharUtil.getRandomString(32);
 
@@ -556,27 +561,14 @@ public class ApiPayController extends ApiBaseAction {
             parame.put("nonce_str", randomStr);
             // 商户订单编号
             parame.put("out_trade_no", orderId);
-            Map orderGoodsParam = new HashMap();
-            orderGoodsParam.put("order_id", orderId);
+
             // 商品描述
             parame.put("body", "商品-支付");
-            //订单的商品
-            List<OrderGoodsVo> orderGoods = orderGoodsService.queryList(orderGoodsParam);
-            if (null != orderGoods) {
-                String body = "商品-";
-                for (OrderGoodsVo goodsVo : orderGoods) {
-                    body = body + goodsVo.getGoods_name() + "、";
-                }
-                if (body.length() > 0) {
-                    body = body.substring(0, body.length() - 1);
-                }
-                // 商品描述
-                parame.put("body", body);
-            }
+
             //支付金额
-            parame.put("total_fee", orderInfo.getActual_price().multiply(new BigDecimal(100)).intValue());
+            parame.put("total_fee", productPrice);
             // 回调地址
-            parame.put("notify_url", ResourceUtil.getConfigByName("wx.notifyUrl"));
+            parame.put("notify_url", ResourceUtil.getConfigByName("wx.gongDuNotifyUrl"));
             // 交易类型APP
             parame.put("trade_type", ResourceUtil.getConfigByName("wx.tradeType"));
             parame.put("spbill_create_ip", getClientIp());
@@ -587,6 +579,7 @@ public class ApiPayController extends ApiBaseAction {
 
             String xml = MapUtils.convertMap2Xml(parame);
             logger.info("xml:" + xml);
+            //  发起支付请求 只请求一次
             Map<String, Object> resultUn = XmlUtil.xmlStrToMap(WechatUtil.requestOnce(ResourceUtil.getConfigByName("wx.uniformorder"), xml));
             // 响应报文
             String return_code = MapUtils.getString("return_code", resultUn);
@@ -611,10 +604,10 @@ public class ApiPayController extends ApiBaseAction {
                     String paySign = WechatUtil.arraySign(resultObj, ResourceUtil.getConfigByName("wx.paySignKey"));
                     resultObj.put("paySign", paySign);
                     // 业务处理
-                    orderInfo.setPay_id(prepay_id);
+                    gongDuOrderVo.setPayId(prepay_id);
                     // 付款中
-                    orderInfo.setPay_status(1);
-                    orderService.update(orderInfo);
+                    gongDuOrderVo.setPayStatus(1);
+                    apiGongduOrderService.update(gongDuOrderVo);
                     return toResponsObject(0, "微信统一订单下单成功", resultObj);
                 }
             }
@@ -625,5 +618,150 @@ public class ApiPayController extends ApiBaseAction {
         return toResponsFail("下单失败");
     }
 
+
+
+    /**
+     * 共读微信订单回调接口
+     *
+     * @return
+     */
+    @RequestMapping(value = "/gongDuNotify", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public void gongDuNotify(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html;charset=UTF-8");
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            InputStream in = request.getInputStream();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int len = 0;
+            while ((len = in.read(buffer)) != -1) {
+                out.write(buffer, 0, len);
+            }
+            out.close();
+            in.close();
+            //xml数据
+            String reponseXml = new String(out.toByteArray(), "utf-8");
+
+            WechatRefundApiResult result = (WechatRefundApiResult) XmlUtil.xmlStrToBean(reponseXml, WechatRefundApiResult.class);
+            String result_code = result.getResult_code();
+            if (result_code.equalsIgnoreCase("FAIL")) {
+                //订单编号
+                String out_trade_no = result.getOut_trade_no();
+                logger.error("订单" + out_trade_no + "支付失败");
+                response.getWriter().write(setXml("SUCCESS", "OK"));
+            } else if (result_code.equalsIgnoreCase("SUCCESS")) {
+                //订单编号
+                String out_trade_no = result.getOut_trade_no();
+                logger.info("订单" + out_trade_no + "支付成功");
+                System.out.println("订单sss22222222222222" + out_trade_no + "支付成功");
+                // 业务处理
+//                OrderVo orderInfo = orderService.queryObject(Integer.valueOf(out_trade_no));
+                GongDuOrderVo gongDuOrderVo = apiGongduOrderService.queryObject(String.valueOf(out_trade_no));
+                gongDuOrderVo.setPayStatus(2);
+                gongDuOrderVo.setOrderStatus(201);
+                gongDuOrderVo.setPayTime(new Date());
+                apiGongduOrderService.update(gongDuOrderVo);
+                // 支付成功可以进行共读
+//                UserLearnVo userLearnVo = apiUserLearnService.queryObject(gongDuOrderVo.getUserId().intValue());
+                UserLearnVo userLearnVo = new UserLearnVo();
+                userLearnVo.setLearnTypeId(gongDuOrderVo.getLearnTypeId());
+                userLearnVo.setUserid(gongDuOrderVo.getUserId().intValue());
+                userLearnVo.setStartStatus(1);// 开启共读
+                userLearnVo.setMiss(0);
+                userLearnVo.setUnlocks(0);
+                apiUserLearnService.save(userLearnVo);
+//                XMLUtil.setXml
+                response.getWriter().write(setXml("SUCCESS", "OK"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+    }
+
+
+
+    /**
+     * 共读微信查询订单状态
+     */
+    @RequestMapping("gongDuQuery")
+    public Object gongDuQuery(@LoginUser UserVo loginUser, Integer orderId) {
+        if (orderId == null) {
+            return toResponsFail("订单不存在");
+        }
+
+        Map<Object, Object> parame = new TreeMap<Object, Object>();
+        parame.put("appid", ResourceUtil.getConfigByName("wx.appId"));
+        // 商家账号。
+        parame.put("mch_id", ResourceUtil.getConfigByName("wx.mchId"));
+        String randomStr = CharUtil.getRandomNum(18).toUpperCase();
+        // 随机字符串
+        parame.put("nonce_str", randomStr);
+        // 商户订单编号
+        parame.put("out_trade_no", orderId);
+
+        String sign = WechatUtil.arraySign(parame, ResourceUtil.getConfigByName("wx.paySignKey"));
+        // 数字签证
+        parame.put("sign", sign);
+
+        String xml = MapUtils.convertMap2Xml(parame);
+        logger.info("xml:" + xml);
+        Map<String, Object> resultUn = null;
+        try {
+            resultUn = XmlUtil.xmlStrToMap(WechatUtil.requestOnce(ResourceUtil.getConfigByName("wx.orderquery"), xml));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return toResponsFail("查询失败,error=" + e.getMessage());
+        }
+        // 响应报文
+        String return_code = MapUtils.getString("return_code", resultUn);
+        String return_msg = MapUtils.getString("return_msg", resultUn);
+
+        if (return_code.equals("SUCCESS")) {
+            String trade_state = MapUtils.getString("trade_state", resultUn);
+            if (trade_state.equals("SUCCESS")) {
+                // 更改订单状态
+                // 业务处理
+//                OrderVo orderInfo = orderService.queryObject(Integer.valueOf(out_trade_no));
+                GongDuOrderVo gongDuOrderVo = apiGongduOrderService.queryObject(String.valueOf(orderId));
+                gongDuOrderVo.setPayStatus(2);
+                gongDuOrderVo.setOrderStatus(201);
+                gongDuOrderVo.setPayTime(new Date());
+                apiGongduOrderService.update(gongDuOrderVo);
+                // 支付成功可以进行共读
+//                UserLearnVo userLearnVo = apiUserLearnService.queryObject(gongDuOrderVo.getUserId().intValue());
+                UserLearnVo userLearnVo = new UserLearnVo();
+                userLearnVo.setLearnTypeId(gongDuOrderVo.getLearnTypeId());
+                userLearnVo.setUserid(gongDuOrderVo.getUserId().intValue());
+                userLearnVo.setStartStatus(1);// 开启共读
+                userLearnVo.setMiss(0);
+                userLearnVo.setUnlocks(0);
+                apiUserLearnService.save(userLearnVo);
+                return toResponsMsgSuccess("支付成功");
+            } else if (trade_state.equals("USERPAYING")) {
+                // 重新查询 正在支付中
+                Integer num = (Integer) J2CacheUtils.get("queryRepeatNum" + orderId + "");
+                if (num == null) {
+                    J2CacheUtils.put("queryRepeatNum" + orderId + "", 1);
+                    this.orderQuery(loginUser, orderId);
+                } else if (num <= 3) {
+                    J2CacheUtils.remove("queryRepeatNum" + orderId);
+                    this.orderQuery(loginUser, orderId);
+                } else {
+                    return toResponsFail("查询失败,error=" + trade_state);
+                }
+
+            } else {
+                // 失败
+                return toResponsFail("查询失败,error=" + trade_state);
+            }
+        } else {
+            return toResponsFail("查询失败,error=" + return_msg);
+        }
+        return toResponsFail("查询失败，未知错误");
+    }
 
 }

@@ -37,6 +37,11 @@
             <Form-item label="类型名称" prop="learnType">
                 <i-input v-model="cnnLearnType.learnType" placeholder="类型名称"/>
             </Form-item>
+            <Form-item label="产品价格" prop="productPrice">
+                <Input-number :min="0" :step="1" v-model="cnnLearnType.productPrice" placeholder="产品价格"
+                              style="width: 188px;"/>
+            </Form-item>
+
             <Form-item label="学习天数" prop="genusdays">
                 <Input-number :min="0" :step="1" v-model="cnnLearnType.genusdays" placeholder="学习天数"
                               style="width: 188px;"/>

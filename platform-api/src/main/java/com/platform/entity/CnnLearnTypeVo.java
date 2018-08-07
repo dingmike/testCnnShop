@@ -13,7 +13,7 @@ import java.util.Date;
  * @email 2252277509@qq.com
  * @date 2018-07-04 20:11:47
  */
-public class CnnLearnTypeEntity implements Serializable {
+public class CnnLearnTypeVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //学习类型ID
@@ -58,6 +58,7 @@ public class CnnLearnTypeEntity implements Serializable {
     public String getLearnType() {
         return learnType;
     }
+
     /**
      * 设置：学习类型价格
      */
@@ -71,7 +72,6 @@ public class CnnLearnTypeEntity implements Serializable {
     public BigDecimal getProductPrice() {
         return productPrice;
     }
-
 
     /**
      * 设置：学习天数
