@@ -8,7 +8,10 @@ import com.platform.service.ApiTopicService;
 import com.platform.util.ApiBaseAction;
 import com.platform.util.ApiPageUtils;
 import com.platform.utils.Query;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,10 +21,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 作者: @author Harmon <br>
+ * 作者: @author admin <br>
  * 时间: 2017-08-11 08:32<br>
  * 描述: ApiIndexController <br>
  */
+@Api(tags = "主题")
 @RestController
 @RequestMapping("/api/topic")
 public class ApiTopicController extends ApiBaseAction {
@@ -29,9 +33,12 @@ public class ApiTopicController extends ApiBaseAction {
     private ApiTopicService topicService;
 
     /**
+     * 主题列表
      */
+    @ApiOperation(value = "主题列表")
     @IgnoreAuth
-    @RequestMapping("list")
+//    @RequestMapping("list")
+    @GetMapping("list")
     public Object list(@LoginUser UserVo loginUser, @RequestParam(value = "page", defaultValue = "1") Integer page,
                        @RequestParam(value = "size", defaultValue = "10") Integer size) {
         Map param = new HashMap();
@@ -49,18 +56,24 @@ public class ApiTopicController extends ApiBaseAction {
     }
 
     /**
+     * 主题详情
      */
+    @ApiOperation(value = "主题详情")
     @IgnoreAuth
-    @RequestMapping("detail")
+//    @RequestMapping("detail")
+    @GetMapping("detail")
     public Object detail(@LoginUser UserVo loginUser, Integer id) {
         TopicVo topicEntity = topicService.queryObject(id);
         return toResponsSuccess(topicEntity);
     }
 
     /**
+     * 主题相关
      */
+    @ApiOperation(value = "主题相关")
     @IgnoreAuth
-    @RequestMapping("related")
+//    @RequestMapping("related")
+    @GetMapping("related")
     public Object related(@LoginUser UserVo loginUser, Integer id) {
         Map param = new HashMap();
         param.put("limit", 4);

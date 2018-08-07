@@ -7,11 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.github.pagehelper.PageHelper;
 import com.platform.annotation.LoginUser;
@@ -31,6 +29,7 @@ import io.swagger.annotations.ApiOperation;
  * 时间: 2017-08-11 08:32<br>
  * 描述: ApiIndexController <br>
  */
+@Api(tags = "足迹")
 @RestController
 @RequestMapping("/api/footprint")
 public class ApiFootprintController extends ApiBaseAction {
@@ -118,8 +117,11 @@ public class ApiFootprintController extends ApiBaseAction {
 
 
     /**
+     * 分享足迹
      */
-    @RequestMapping("sharelist")
+    @ApiOperation(value = "分享足迹")
+//    @RequestMapping("sharelist")
+    @PostMapping("sharelist")
     public Object sharelist(@LoginUser UserVo loginUser,
                             @RequestParam(value = "page", defaultValue = "1") Integer page,
                             @RequestParam(value = "size", defaultValue = "10") Integer size) {

@@ -74,6 +74,7 @@ public class ApiAuthController extends ApiBaseAction {
     /**
      * 登录
      */
+    @ApiOperation(value = "登录")
     @IgnoreAuth
     @RequestMapping("login_by_weixin")
     public Object loginByWeixin() {
@@ -121,7 +122,7 @@ public class ApiAuthController extends ApiBaseAction {
             userVo.setNickname(userInfo.getNickName());
             userService.save(userVo);
             //新用户第一次登陆时，虽然user表数据已经新增成功，但是此时userId还是null，从数据库再查一次就能取到了
-            userVo = userService.queryByOpenId(sessionData.getString("openid"));
+           // userVo = userService.queryByOpenId(sessionData.getString("openid"));
         } else {
             userVo.setLast_login_ip(this.getClientIp());
             userVo.setLast_login_time(nowTime);
@@ -141,7 +142,8 @@ public class ApiAuthController extends ApiBaseAction {
         }
 
         resultObj.put("token", token);
-        resultObj.put("userInfo", userService.queryByOpenId(sessionData.getString("openid")));
+//        resultObj.put("userInfo", userService.queryByOpenId(sessionData.getString("openid")));
+        resultObj.put("userInfo", userInfo);
         resultObj.put("userId", userVo.getUserId());
 
         // 调用获取为您access_token定时器 需要启动项目完成后立即执行

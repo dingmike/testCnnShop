@@ -116,7 +116,8 @@ public class ApiOrderService {
                 goodsTotalPrice = goodsTotalPrice.add(cartItem.getRetail_price().multiply(new BigDecimal(cartItem.getNumber())));
             }
         } else {
-            BuyGoodsVo goodsVo = (BuyGoodsVo) J2CacheUtils.get("goods" + loginUser.getUserId());
+//            BuyGoodsVo goodsVo = (BuyGoodsVo) J2CacheUtils.get("goods" + loginUser.getUserId());
+            BuyGoodsVo goodsVo = (BuyGoodsVo) J2CacheUtils.get(J2CacheUtils.SHOP_CACHE_NAME, "goods" + loginUser.getUserId());
             ProductVo productInfo = productService.queryObject(goodsVo.getProductId());
             //计算订单的费用
             //商品总价

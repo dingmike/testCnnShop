@@ -12,7 +12,10 @@ import com.platform.util.ApiPageUtils;
 import com.platform.utils.Base64;
 import com.platform.utils.CharUtil;
 import com.platform.utils.Query;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +27,7 @@ import java.util.*;
  * 时间: 2017-08-11 08:32<br>
  * 描述: ApiIndexController <br>
  */
+@Api(tags = "评论")
 @RestController
 @RequestMapping("/api/comment")
 public class ApiCommentController extends ApiBaseAction {
@@ -41,6 +45,7 @@ public class ApiCommentController extends ApiBaseAction {
     /**
      * 发表评论
      */
+    @ApiOperation(value = "发表评论")
     @RequestMapping("post")
     public Object post(@LoginUser UserVo loginUser) {
         Map resultObj = new HashMap();
@@ -109,9 +114,13 @@ public class ApiCommentController extends ApiBaseAction {
     }
 
     /**
+     * 评论数量
      */
-    @RequestMapping("count")
-    public Object count(@LoginUser UserVo loginUser, Integer typeId, Integer valueId) {
+    @ApiOperation(value = "评论数量")
+//    @RequestMapping("count")
+    @GetMapping("count")
+//    public Object count(@LoginUser UserVo loginUser, Integer typeId, Integer valueId) {
+    public Object count(Integer typeId, Integer valueId) {
         Map<String, Object> resultObj = new HashMap();
         //
         Map param = new HashMap();
@@ -133,8 +142,10 @@ public class ApiCommentController extends ApiBaseAction {
      * @param size
      * @return
      */
+    @ApiOperation(value = "选择评论类型")
     @IgnoreAuth
-    @RequestMapping("list")
+//    @RequestMapping("list")
+    @GetMapping("list")
     public Object list(Integer typeId, Integer valueId, Integer showType,
                        @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "size", defaultValue = "10") Integer size,
                        String sort, String order) {

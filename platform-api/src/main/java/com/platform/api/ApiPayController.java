@@ -14,6 +14,8 @@ import com.platform.util.ApiBaseAction;
 import com.platform.util.wechat.WechatRefundApiResult;
 import com.platform.util.wechat.WechatUtil;
 import com.platform.utils.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +50,7 @@ import com.platform.entity.wxPayReq.PayShortUrlParams;
  * 时间: 2018-06-11 08:32<br>
  * 描述: ApiIndexController <br>
  */
+@Api(tags = "商户支付")
 @RestController
 @RequestMapping("/api/pay")
 public class ApiPayController extends ApiBaseAction {
@@ -62,10 +65,14 @@ public class ApiPayController extends ApiBaseAction {
     private ApiGongduOrderService apiGongduOrderService;
     @Autowired
     private ApiUserLearnService apiUserLearnService;
+
+
     /**
+     * 跳转
      */
-    @RequestMapping("index")
-    public Object index(@LoginUser UserVo loginUser) {
+    @ApiOperation(value = "跳转")
+    @GetMapping("index")
+    public Object index() {
         //
         return toResponsSuccess("");
     }
@@ -73,7 +80,9 @@ public class ApiPayController extends ApiBaseAction {
     /**
      * 获取支付的请求参数
      */
-    @RequestMapping("prepay")
+    @ApiOperation(value = "获取支付的请求参数")
+    @GetMapping("prepay")
+//    @RequestMapping("prepay")
     public Object payPrepay(@LoginUser UserVo loginUser, Integer orderId) {
         //
         OrderVo orderInfo = orderService.queryObject(orderId);
@@ -173,7 +182,9 @@ public class ApiPayController extends ApiBaseAction {
     /**
      * 微信查询订单状态
      */
-    @RequestMapping("query")
+    @ApiOperation(value = "查询订单状态")
+    @GetMapping("query")
+//    @RequestMapping("query")
     public Object orderQuery(@LoginUser UserVo loginUser, Integer orderId) {
         if (orderId == null) {
             return toResponsFail("订单不存在");
@@ -221,12 +232,15 @@ public class ApiPayController extends ApiBaseAction {
                 return toResponsMsgSuccess("支付成功");
             } else if (trade_state.equals("USERPAYING")) {
                 // 重新查询 正在支付中
-                Integer num = (Integer) J2CacheUtils.get("queryRepeatNum" + orderId + "");
+//                Integer num = (Integer) J2CacheUtils.get("queryRepeatNum" + orderId + "");
+                Integer num = (Integer) J2CacheUtils.get(J2CacheUtils.SHOP_CACHE_NAME, "queryRepeatNum" + orderId + "");
                 if (num == null) {
-                    J2CacheUtils.put("queryRepeatNum" + orderId + "", 1);
+//                    J2CacheUtils.put("queryRepeatNum" + orderId + "", 1);
+                    J2CacheUtils.put(J2CacheUtils.SHOP_CACHE_NAME, "queryRepeatNum" + orderId + "", 1);
                     this.orderQuery(loginUser, orderId);
                 } else if (num <= 3) {
-                    J2CacheUtils.remove("queryRepeatNum" + orderId);
+//                    J2CacheUtils.remove("queryRepeatNum" + orderId);
+                    J2CacheUtils.remove(J2CacheUtils.SHOP_CACHE_NAME, "queryRepeatNum" + orderId);
                     this.orderQuery(loginUser, orderId);
                 } else {
                     return toResponsFail("查询失败,error=" + trade_state);
@@ -247,6 +261,7 @@ public class ApiPayController extends ApiBaseAction {
      *
      * @return
      */
+    @ApiOperation(value = "微信订单回调接口")
     @RequestMapping(value = "/notify", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     @ResponseBody
     public void notify(HttpServletRequest request, HttpServletResponse response) {
@@ -298,8 +313,10 @@ public class ApiPayController extends ApiBaseAction {
     /**
      * 订单退款请求
      */
-    @RequestMapping("refund")
-    public Object refund(@LoginUser UserVo loginUser, Integer orderId) {
+    @ApiOperation(value = "订单退款请求")
+    @PostMapping("refund")
+//    @RequestMapping("refund")
+    public Object refund(Integer orderId) {
         //
         OrderVo orderInfo = orderService.queryObject(orderId);
 

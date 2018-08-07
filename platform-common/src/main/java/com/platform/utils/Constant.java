@@ -3,9 +3,9 @@ package com.platform.utils;
 /**
  * 常量
  *
- * @author lipengjun
- * @email 939961241@qq.com
- * @date 2016年11月15日 下午1:23:52
+ * @author admin
+ * @email 2252277509@qq.com
+ * @date 2018年01月15日 下午1:23:52
  */
 public class Constant {
     /**
@@ -25,12 +25,36 @@ public class Constant {
      * 权限前缀
      */
     public static final String PERMS_LIST = "permsList";
+    /**
+     * 云存储配置KEY
+     */
+    public final static String CLOUD_STORAGE_CONFIG_KEY = "CLOUD_STORAGE_CONFIG_KEY";
+    /**
+     * 短信配置KEY
+     */
+    public final static String SMS_CONFIG_KEY = "SMS_CONFIG_KEY";
+    /**
+     * 权限前缀
+     */
+    public static final String SESSION_KEY = "SESSIONID_";
 
+    /**
+     * 排序方式名称 asc:正序 | desc:倒序
+     */
+    public static final String SORT_ORDER = "sortOrder";
+    /**
+     * 当前登录用户
+     */
+    public static final String CURRENT_USER = "curUser";
+    /**
+     * 默认密码
+     */
+    public static final String DEFAULT_PASS_WORD = "888888";
     /**
      * 菜单类型
      *
-     * @author lipengjun
-     * @email 939961241@qq.com
+     * @author admin
+     * @email 2252277509@qq.com
      * @date 2016年11月15日 下午1:24:29
      */
     public enum MenuType {
@@ -61,8 +85,8 @@ public class Constant {
     /**
      * 定时任务状态
      *
-     * @author lipengjun
-     * @email 939961241@qq.com
+     * @author admin
+     * @email 2252277509@qq.com
      * @date 2016年12月3日 上午12:07:22
      */
     public enum ScheduleStatus {

@@ -1,14 +1,14 @@
 package ${package}.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+        import org.springframework.beans.factory.annotation.Autowired;
+        import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
+        import java.util.List;
+        import java.util.Map;
 
-import ${package}.dao.${className}Dao;
-import ${package}.entity.${className}Entity;
-import ${package}.service.${className}Service;
+        import ${package}.dao.${className}Dao;
+        import ${package}.entity.${className}Entity;
+        import ${package}.service.${className}Service;
 
 /**
  * ${comments}Service实现类
@@ -53,7 +53,7 @@ public class ${className}ServiceImpl implements ${className}Service {
     }
 
     @Override
-    public int deleteBatch(${pk.attrType}[]${pk.attrname}s) {
+    public int deleteBatch(${pk.attrType}[] ${pk.attrname}s) {
         return ${classname}Dao.deleteBatch(${pk.attrname}s);
     }
 }

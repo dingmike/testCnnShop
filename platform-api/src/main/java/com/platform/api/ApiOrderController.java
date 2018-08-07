@@ -13,12 +13,12 @@ import com.platform.util.ApiPageUtils;
 import com.platform.util.wechat.WechatRefundApiResult;
 import com.platform.util.wechat.WechatUtil;
 import com.platform.utils.Query;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -26,10 +26,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 作者: @author Harmon <br>
+ * 作者: @author admin <br>
  * 时间: 2017-08-11 08:32<br>
  * 描述: ApiIndexController <br>
  */
+@Api(tags = "订单相关")
 @RestController
 @RequestMapping("/api/order")
 public class ApiOrderController extends ApiBaseAction {
@@ -42,8 +43,10 @@ public class ApiOrderController extends ApiBaseAction {
 
     /**
      */
+    @ApiOperation(value = "订单首页")
     @IgnoreAuth
-    @RequestMapping("index")
+//    @RequestMapping("index")
+    @GetMapping("index")
     public Object index(@LoginUser UserVo loginUser) {
         //
         return toResponsSuccess("");
@@ -52,7 +55,9 @@ public class ApiOrderController extends ApiBaseAction {
     /**
      * 获取订单列表
      */
-    @RequestMapping("list")
+    @ApiOperation(value = "获取订单列表")
+//    @RequestMapping("list")
+    @GetMapping("list")
     public Object list(@LoginUser UserVo loginUser,
                        @RequestParam(value = "page", defaultValue = "1") Integer page,
                        @RequestParam(value = "size", defaultValue = "10") Integer size) {
@@ -86,7 +91,9 @@ public class ApiOrderController extends ApiBaseAction {
     /**
      * 获取订单详情
      */
-    @RequestMapping("detail")
+    @ApiOperation(value = "获取订单详情")
+//    @RequestMapping("detail")
+    @GetMapping("detail")
     public Object detail(@LoginUser UserVo loginUser, Integer orderId) {
         Map resultObj = new HashMap();
         //
@@ -121,7 +128,9 @@ public class ApiOrderController extends ApiBaseAction {
         return toResponsSuccess(resultObj);
     }
 
-    @RequestMapping("updateSuccess")
+    @ApiOperation(value = "修改订单")
+//    @RequestMapping("updateSuccess")
+    @PostMapping("updateSuccess")
     public Object updateSuccess(@LoginUser UserVo loginUser, Integer orderId) {
         OrderVo orderInfo = orderService.queryObject(orderId);
         if (orderInfo==null) {
@@ -146,7 +155,9 @@ public class ApiOrderController extends ApiBaseAction {
     /**
      * 获取订单列表
      */
-    @RequestMapping("submit")
+    @ApiOperation(value = "订单提交")
+//    @RequestMapping("submit")
+    @PostMapping("submit")
     public Object submit(@LoginUser UserVo loginUser) {
         Map resultObj = null;
         try {
@@ -161,9 +172,11 @@ public class ApiOrderController extends ApiBaseAction {
     }
 
     /**
-     * 获取订单列表
+     * 取消订单
      */
-    @RequestMapping("cancelOrder")
+    @ApiOperation(value = "取消订单")
+    @PostMapping("cancelOrder")
+//    @RequestMapping("cancelOrder")
     public Object cancelOrder(@LoginUser UserVo loginUser, Integer orderId) {
         try {
             OrderVo orderVo = orderService.queryObject(orderId);
@@ -202,8 +215,10 @@ public class ApiOrderController extends ApiBaseAction {
     /**
      * 确认收货
      */
-    @RequestMapping("confirmOrder")
-    public Object confirmOrder(@LoginUser UserVo loginUser, Integer orderId) {
+    @ApiOperation(value = "确认收货")
+    @PostMapping("confirmOrder")
+//    @RequestMapping("confirmOrder")
+    public Object confirmOrder(Integer orderId) {
         try {
             OrderVo orderVo = orderService.queryObject(orderId);
             orderVo.setOrder_status(301);

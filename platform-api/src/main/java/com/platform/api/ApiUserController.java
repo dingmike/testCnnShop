@@ -12,7 +12,11 @@ import com.platform.service.ApiUserService;
 import com.platform.service.SysConfigService;
 import com.platform.util.ApiBaseAction;
 import com.platform.utils.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +29,7 @@ import java.util.Map;
  * 时间: 2017-08-11 08:32<br>
  * 描述: ApiIndexController <br>
  */
+@Api(tags = "会员验证")
 @RestController
 @RequestMapping("/api/user")
 public class ApiUserController extends ApiBaseAction {
@@ -38,7 +43,9 @@ public class ApiUserController extends ApiBaseAction {
     /**
      * 发送短信
      */
-    @RequestMapping("smscode")
+    @ApiOperation(value = "发送短信")
+    @PostMapping("smscode")
+//    @RequestMapping("smscode")
     public Object smscode(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         String phone = jsonParams.getString("phone");
@@ -97,7 +104,9 @@ public class ApiUserController extends ApiBaseAction {
      * @param loginUser
      * @return
      */
-    @RequestMapping("getUserLevel")
+    @ApiOperation(value = "获取当前会员等级")
+    @GetMapping("getUserLevel")
+//    @RequestMapping("getUserLevel")
     public Object getUserLevel(@LoginUser UserVo loginUser) {
         String userLevel = userService.getUserLevel(loginUser);
         return toResponsSuccess(userLevel);
@@ -106,7 +115,9 @@ public class ApiUserController extends ApiBaseAction {
     /**
      * 绑定手机
      */
-    @RequestMapping("bindMobile")
+    @ApiOperation(value = "绑定手机")
+    @PostMapping("bindMobile")
+//    @RequestMapping("bindMobile")
     public Object bindMobile(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         SmsLogVo smsLogVo = userService.querySmsCodeByUserId(loginUser.getUserId());
@@ -126,7 +137,9 @@ public class ApiUserController extends ApiBaseAction {
     /**
      * 微信授权后更新微信用户的信息
      */
-    @RequestMapping("updateUserInfo")
+    @ApiOperation(value = "微信授权后更新微信用户的信息")
+    @PostMapping("updateUserInfo")
+//    @RequestMapping("updateUserInfo")
     public Object updateUserInfo(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         UserVo entity = new UserVo();
@@ -145,7 +158,9 @@ public class ApiUserController extends ApiBaseAction {
     /**
      * 微信授权后获取用户学习信息
      */
-    @RequestMapping("getLearnInfo")
+    @ApiOperation(value = "微信授权后获取用户学习信息")
+//    @RequestMapping("getLearnInfo")
+    @PostMapping("getLearnInfo")
     public Object getLearnInfo(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
 //        UserVo entity = new UserVo();

@@ -1,9 +1,9 @@
 package ${package}.service;
 
-import ${package}.entity.${className}Entity;
+        import ${package}.entity.${className}Entity;
 
-import java.util.List;
-import java.util.Map;
+        import java.util.List;
+        import java.util.Map;
 
 /**
  * ${comments}Service接口
@@ -20,7 +20,7 @@ public interface ${className}Service {
      * @param id 主键
      * @return 实体
      */
-    ${className}Entity queryObject(${pk.attrType} ${pk.attrname});
+        ${className}Entity queryObject(${pk.attrType} ${pk.attrname});
 
     /**
      * 分页查询
@@ -68,5 +68,5 @@ public interface ${className}Service {
      * @param ${pk.attrname}s
      * @return 删除条数
      */
-    int deleteBatch(${pk.attrType}[]${pk.attrname}s);
+    int deleteBatch(${pk.attrType}[] ${pk.attrname}s);
 }
