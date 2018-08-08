@@ -175,7 +175,7 @@ public class ApiOrderController extends ApiBaseAction {
      * 取消订单
      */
     @ApiOperation(value = "取消订单")
-    @PostMapping("cancelOrder")
+    @GetMapping("cancelOrder")
 //    @RequestMapping("cancelOrder")
     public Object cancelOrder(@LoginUser UserVo loginUser, Integer orderId) {
         try {
@@ -216,7 +216,7 @@ public class ApiOrderController extends ApiBaseAction {
      * 确认收货
      */
     @ApiOperation(value = "确认收货")
-    @PostMapping("confirmOrder")
+    @GetMapping("confirmOrder")
 //    @RequestMapping("confirmOrder")
     public Object confirmOrder(Integer orderId) {
         try {

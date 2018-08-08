@@ -8,9 +8,9 @@ import java.util.List;
 /**
  * 分页工具类
  *
- * @author lipengjun
- * @email 939961241@qq.com
- * @date 2016年11月4日 下午12:59:00
+ * @author admin
+ * @email 2252277509@qq.com
+ * @date 2017年11月4日 下午12:59:00
  */
 public class ApiPageUtils implements Serializable {
     private static final long serialVersionUID = 1L;
