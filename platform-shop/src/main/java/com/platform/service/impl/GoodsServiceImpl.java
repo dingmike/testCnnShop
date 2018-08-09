@@ -23,10 +23,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Service实现类
+ * Service 实现类
  *
- * @author lipengjun
- * @email 939961241@qq.com
+ * @author admin
+ * @email 2252277509@qq.com
  * @date 2017-08-21 21:19:49
  */
 @Service("goodsService")

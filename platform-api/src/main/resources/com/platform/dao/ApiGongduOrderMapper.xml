@@ -22,6 +22,7 @@
 			`id`,
 			`order_sn`,
 			`user_id`,
+			`learn_type_id`,
 			`order_status`,
 			`pay_status`,
 			`actual_price`,
@@ -38,6 +39,7 @@
     		`id`,
     		`order_sn`,
     		`user_id`,
+    		`learn_type_id`,
     		`order_status`,
     		`pay_status`,
     		`actual_price`,
@@ -75,6 +77,7 @@
 		insert into cnngongdu_order(
 			`order_sn`,
 			`user_id`,
+			`learn_type_id`,
 			`order_status`,
 			`pay_status`,
 			`actual_price`,
@@ -85,6 +88,7 @@
 		values(
 			#{orderSn},
 			#{userId},
+			#{learnTypeId},
 			#{orderStatus},
 			#{payStatus},
 			#{actualPrice},
@@ -99,6 +103,7 @@
 		<set>
 			<if test="orderSn != null">`order_sn` = #{orderSn}, </if>
 			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="userId != null">`learn_type_id` = #{learnTypeId}, </if>
 			<if test="orderStatus != null">`order_status` = #{orderStatus}, </if>
 			<if test="payStatus != null">`pay_status` = #{payStatus}, </if>
 			<if test="actualPrice != null">`actual_price` = #{actualPrice}, </if>

@@ -21,8 +21,8 @@ import com.platform.utils.R;
 /**
  * 商品对应规格表值表Controller
  *
- * @author lipengjun
- * @email 939961241@qq.com
+ * @author admin
+ * @email 2252277509@qq.com
  * @date 2017-08-31 11:15:55
  */
 @RestController
@@ -110,7 +110,7 @@ public class GoodsSpecificationController {
     public R queryGoodsSpec(@PathVariable("goods_id") Integer goods_id) {
 //        Map<String, Object> resultObj = new HashMap();
         List<GoodsSpecificationEntity> list = goodsSpecificationService.queryGoodsSpec(goods_id);
-        // 查询对应规格值
+        //查询对应规格值
         for (int i = 0; i < list.size(); i++) {
             GoodsSpecificationEntity oneSpec = list.get(i);
             Map param = new HashMap();

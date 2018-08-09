@@ -143,7 +143,7 @@ public class ApiAuthController extends ApiBaseAction {
 
         resultObj.put("token", token);
 //        resultObj.put("userInfo", userService.queryByOpenId(sessionData.getString("openid")));
-        resultObj.put("userInfo", userInfo);
+        resultObj.put("userInfo", userVo);
         resultObj.put("userId", userVo.getUserId());
 
         // 调用获取为您access_token定时器 需要启动项目完成后立即执行

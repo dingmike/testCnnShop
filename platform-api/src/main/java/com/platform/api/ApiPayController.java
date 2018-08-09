@@ -206,7 +206,7 @@ public class ApiPayController extends ApiBaseAction {
 
         String xml = MapUtils.convertMap2Xml(parame);
         logger.info("xml:" + xml);
-        Map<String, Object> resultUn = null;
+        Map<String, Object> resultUn;
         try {
             resultUn = XmlUtil.xmlStrToMap(WechatUtil.requestOnce(ResourceUtil.getConfigByName("wx.orderquery"), xml));
         } catch (Exception e) {
@@ -704,8 +704,9 @@ public class ApiPayController extends ApiBaseAction {
     /**
      * 共读微信查询订单状态
      */
-    @RequestMapping("gongDuQuery")
-    public Object gongDuQuery(@LoginUser UserVo loginUser, Integer orderId) {
+//    @RequestMapping("gongDuQuery")
+    @GetMapping("gongDuQuery")
+    public Object gongDuQuery(@LoginUser UserVo loginUser, String orderId) {
         if (orderId == null) {
             return toResponsFail("订单不存在");
         }
@@ -726,7 +727,7 @@ public class ApiPayController extends ApiBaseAction {
 
         String xml = MapUtils.convertMap2Xml(parame);
         logger.info("xml:" + xml);
-        Map<String, Object> resultUn = null;
+        Map<String, Object> resultUn;
         try {
             resultUn = XmlUtil.xmlStrToMap(WechatUtil.requestOnce(ResourceUtil.getConfigByName("wx.orderquery"), xml));
         } catch (Exception e) {
@@ -755,7 +756,8 @@ public class ApiPayController extends ApiBaseAction {
                 userLearnVo.setUserid(gongDuOrderVo.getUserId().intValue());
                 userLearnVo.setStartStatus(1);// 开启共读
                 userLearnVo.setMiss(0);
-                userLearnVo.setUnlocks(0);
+                userLearnVo.setSetupTime(" "); // 默认7点提醒
+                userLearnVo.setUnlocks(1); // 支付成功后默认开启第一天课程
                 apiUserLearnService.save(userLearnVo);
                 return toResponsMsgSuccess("支付成功");
             } else if (trade_state.equals("USERPAYING")) {
@@ -763,10 +765,10 @@ public class ApiPayController extends ApiBaseAction {
                 Integer num = (Integer) J2CacheUtils.get("queryRepeatNum" + orderId + "");
                 if (num == null) {
                     J2CacheUtils.put("queryRepeatNum" + orderId + "", 1);
-                    this.orderQuery(loginUser, orderId);
+                    this.gongDuQuery(loginUser, orderId);
                 } else if (num <= 3) {
                     J2CacheUtils.remove("queryRepeatNum" + orderId);
-                    this.orderQuery(loginUser, orderId);
+                    this.gongDuQuery(loginUser, orderId);
                 } else {
                     return toResponsFail("查询失败,error=" + trade_state);
                 }

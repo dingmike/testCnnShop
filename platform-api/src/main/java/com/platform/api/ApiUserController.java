@@ -180,4 +180,24 @@ public class ApiUserController extends ApiBaseAction {
 
         return toResponsFail("执行失败");
     }
+
+    /**
+     * 支付往后绑定微信号和手机号
+     *
+     */
+    @ApiOperation(value = "支付往后绑定微信号和手机号")
+    @PostMapping("submitPhone")
+    public Object submitPhone(@LoginUser UserVo loginUser){
+        JSONObject jsonParams = getJsonRequest();
+        String openid =  loginUser.getWeixin_openid();
+        if (null != jsonParams&& openid.equals(jsonParams.getString("uid"))) {
+            UserVo userVo = userService.queryObject(loginUser.getUserId());
+            userVo.setUsername(jsonParams.getString("wechatId"));
+            userVo.setMobile(jsonParams.getString("mobile"));
+            userService.update(userVo);
+            return toResponsMsgSuccess("绑定成功");
+        }
+
+       return toResponsFail("绑定失败");
+    }
 }
