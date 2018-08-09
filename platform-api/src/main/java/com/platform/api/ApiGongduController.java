@@ -17,6 +17,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -79,7 +80,7 @@ public class ApiGongduController extends ApiBaseAction {
     /**
      * 获取共读内容/api/gongdu/getContent
      */
-    @RequestMapping("getOraleDetail")
+    @PostMapping("getOraleDetail")
     @ApiOperation(value = "获取共读重点以及问答接口", response = Map.class)
     public Object getOraleDetail(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
@@ -98,7 +99,8 @@ public class ApiGongduController extends ApiBaseAction {
     /**
      * 获取某天打卡信息/api/gongdu/getOneCard
      */
-    @RequestMapping("getOneCard")
+//    @RequestMapping("getOneCard")
+    @PostMapping("getOneCard")
     @ApiOperation(value = "获取某天打卡接口", response = Map.class)
     public Object getOneCard(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();

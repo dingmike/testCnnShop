@@ -13,12 +13,12 @@ import java.util.Date;
 /**
  * @ClassName JsonTimeSerializer
  * @Description Long时间格式化化为标准时间
- * @author zhuliyun
+ * @author admin
  * @Date 2016年10月10日 下午5:26:24
  * @version 1.0.0
  */
 public class JsonTimeSerializer extends JsonSerializer<Long> {  
-	   private SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+	   private SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	   @Override  
 	   public void serialize(Long datel, JsonGenerator gen, SerializerProvider provider)  throws IOException, JsonProcessingException {  
 		   if(datel.toString().length()<13){
@@ -27,5 +27,6 @@ public class JsonTimeSerializer extends JsonSerializer<Long> {
 	       Date date= new Date(datel);
 	       String value = dateFormat.format(date);  
 	       gen.writeString(value);  
-	   }  
-	}  
+	   }
+
+	}
