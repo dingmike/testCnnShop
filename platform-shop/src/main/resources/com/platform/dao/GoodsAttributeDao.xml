@@ -17,6 +17,7 @@
 
     <select id="queryList" resultType="com.platform.entity.GoodsAttributeEntity">
         select * from nideshop_goods_attribute
+        LEFT JOIN nideshop_specification ON nideshop_goods_attribute.good_id = nideshop_goods_specification.specification_id
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
