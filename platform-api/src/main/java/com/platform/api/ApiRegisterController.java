@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @email 939961241@qq.com
  * @date 2017-03-26 17:27
  */
-@Api(tags = "注册")
+@Api(tags = "普通用户注册")
 @RestController
 @RequestMapping("/api/register")
 public class ApiRegisterController {
