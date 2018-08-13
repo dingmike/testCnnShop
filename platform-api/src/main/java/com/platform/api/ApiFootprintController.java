@@ -113,8 +113,6 @@ public class ApiFootprintController extends ApiBaseAction {
 
         return this.toResponsSuccess(resultObj);
     }
-    
-
 
     /**
      * 分享足迹
