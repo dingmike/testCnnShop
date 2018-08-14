@@ -20,7 +20,11 @@ public class AttributeServiceImpl implements AttributeService {
 	public AttributeEntity queryObject(Integer id){
 		return attributeDao.queryObject(id);
 	}
-	
+	@Override
+	public List<AttributeEntity> queryListByCateId(Integer attributeCategoryId){
+		return attributeDao.queryListByCateId(attributeCategoryId);
+	}
+
 	@Override
 	public List<AttributeEntity> queryList(Map<String, Object> map){
 		return attributeDao.queryList(map);

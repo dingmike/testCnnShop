@@ -106,6 +106,13 @@ var vm = new Vue({
                 vm.attribute = r.attribute;
             });
         },
+        reloadSearch: function() {
+            vm.q = {
+                name: '',
+                categoryName: ''
+            }
+            vm.reload();
+        },
         reload: function (event) {
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam', 'page');

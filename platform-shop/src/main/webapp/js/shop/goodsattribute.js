@@ -3,10 +3,10 @@ $(function () {
         url: '../goodsattribute/list',
         colModel: [
 			{label: 'id', name: 'id', index: 'id', key: true, hidden: true},
-			{label: '商品名称', name: 'id', index: 'id', key: true, hidden: true},
-			{label: '商品序列号', name: 'goodsId', index: 'goods_id', width: 80},
-			{label: '属性Id', name: 'attributeId', index: 'attribute_id', width: 80},
-			{label: '属性值', name: 'value', index: 'value', width: 80}]
+			{label: '商品名称', name: 'goodsName', index: 'goodsName', width:120},
+			// {label: '商品序列号', name: 'goodsId', index: 'goods_id', width: 80},
+			{label: '属性名称', name: 'attributeName', index: 'attributeName', width: 100},
+			{label: '属性值', name: 'value', index: 'value', width: 120}]
     });
 });
 
@@ -22,10 +22,40 @@ let vm = new Vue({
 			]
 		},
 		q: {
-		    name: ''
-		}
+            goodsId: ''
+		},
+        attributeCategories: [],
+        attributes: [],
+        goodss: []
 	},
+    mounted() {
+        this.getGoodss();
+    },
 	methods: {
+        getGoodss: function () {
+            $.get("../goods/queryAll/", function (r) {
+                vm.goodss = r.list;
+            });
+        },
+        getAttributeCategory: function () {
+            $.get("../attributecategory/queryAll/", function (r) {
+                vm.attributeCategories = r.list;
+            });
+        },
+        changeCateId: function (cateId) {
+            debugger
+            vm.getAttributes(cateId);
+        },
+        getAttributes: function (attributeCategoryId) {
+            $.get("../attribute/attributeList/" + attributeCategoryId, function (r) {
+                vm.attributes = r.list;
+            });
+        },
+      /*  getAttributesByCateId: function (cateId) {
+            $.get("../attribute/attributeList/" + cateId, function (r) {
+                vm.attributes = r.list;
+            });
+        },*/
 		query: function () {
 			vm.reload();
 		},
@@ -33,6 +63,8 @@ let vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.goodsAttribute = {};
+			vm.getGoodss();
+			vm.getAttributeCategory();
 		},
 		update: function (event) {
             let id = getSelectedRow("#jqGrid");
@@ -41,7 +73,8 @@ let vm = new Vue({
 			}
 			vm.showList = false;
             vm.title = "修改";
-
+            vm.getGoodss();
+            vm.getAttributeCategory();
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
@@ -87,18 +120,19 @@ let vm = new Vue({
                 }
             });
 		},
+        // 搜索刷新
 		reload: function (event) {
 			vm.showList = true;
             let page = $("#jqGrid").jqGrid('getGridParam', 'page');
 			$("#jqGrid").jqGrid('setGridParam', {
-                postData: {'name': vm.q.name},
+                postData: {'goodsId': vm.q.goodsId},
                 page: page
             }).trigger("reloadGrid");
             vm.handleReset('formValidate');
 		},
         reloadSearch: function() {
             vm.q = {
-                name: ''
+                goodsId: ''
             }
             vm.reload();
         },

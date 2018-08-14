@@ -270,6 +270,12 @@ var vm = new Vue({
                 vm.getCategory();
             });
         },
+        reloadSearch: function() {
+            vm.q = {
+                name: ''
+            }
+            vm.reload();
+        },
         reload: function (event) {
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam', 'page');

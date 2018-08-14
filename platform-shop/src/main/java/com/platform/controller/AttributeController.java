@@ -15,8 +15,8 @@ import java.util.Map;
 /**
  * Controller
  *
- * @author lipengjun
- * @email 939961241@qq.com
+ * @author admin
+ * @email 2252277509@qq.com
  * @date 2017-08-17 16:48:17
  */
 @RestController
@@ -96,5 +96,14 @@ public class AttributeController {
         List<AttributeEntity> list = attributeService.queryList(params);
 
         return R.ok().put("list", list);
+    }
+
+    /**
+     * 通过属性分类ID查询属性列表
+     */
+    @GetMapping("/attributeList/{attributeCategoryId}")
+    public R attributeList(@PathVariable("attributeCategoryId") Integer attributeCategoryId) {
+       List<AttributeEntity> attributes = attributeService.queryListByCateId(attributeCategoryId);
+       return R.ok().put("list", attributes);
     }
 }

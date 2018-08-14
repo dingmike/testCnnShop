@@ -425,6 +425,7 @@ public class ApiCartController extends ApiBaseAction {
         if (null == addressEntities || addressEntities.size() == 0) {
             resultObj.put("checkedAddress", new AddressVo());
         } else {
+            // 查询的地址为一个list
             resultObj.put("checkedAddress", addressEntities.get(0));
         }
 

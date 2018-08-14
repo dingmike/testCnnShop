@@ -7,8 +7,8 @@ import java.util.Date;
 /**
  * 
  * 
- * @author lipengjun
- * @email 939961241@qq.com
+ * @author admin
+ * @email 2252277509@qq.com
  * @date 2017-08-13 10:41:08
  */
 public class GoodsAttributeEntity implements Serializable {
@@ -22,6 +22,10 @@ public class GoodsAttributeEntity implements Serializable {
 	private Integer attributeId;
 	//属性值
 	private String value;
+	//属性名称
+	private String attributeName;
+	//商品名称
+	private String goodsName;
 
 	/**
 	 * 设置：主键
@@ -70,5 +74,31 @@ public class GoodsAttributeEntity implements Serializable {
 	 */
 	public String getValue() {
 		return value;
+	}
+
+	/**
+	 * 获取：属性名称
+	 */
+	public String getAttributeName() {
+		return attributeName;
+	}
+	/**
+	 * 设置：属性名称
+	 */
+	public void setAttributeName(String attributeName) {
+		this.attributeName = attributeName;
+	}
+
+	/**
+	 * 获取：商品名称
+	 */
+	public String getGoodsName() {
+		return goodsName;
+	}
+	/**
+	 * 设置：商品名称
+	 */
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
 	}
 }

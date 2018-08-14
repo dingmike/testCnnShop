@@ -172,6 +172,14 @@ let vm = new Vue({
                 }
             });
         },
+        reloadSearch: function() {
+            vm.q = {
+                orderSn: '',
+                orderStatus: '',
+                orderType: ''
+            }
+            vm.reload();
+        },
         reload: function (event) {
             vm.showList = true;
             vm.detail = false;

@@ -159,7 +159,7 @@ public class ApiOrderController extends ApiBaseAction {
 //    @RequestMapping("submit")
     @PostMapping("submit")
     public Object submit(@LoginUser UserVo loginUser) {
-        Map resultObj = null;
+        Map resultObj;
         try {
             resultObj = orderService.submit(getJsonRequest(), loginUser);
             if (null != resultObj) {

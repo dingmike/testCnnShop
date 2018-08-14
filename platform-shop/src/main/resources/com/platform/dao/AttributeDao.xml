@@ -12,6 +12,20 @@
         <result property="sortOrder" column="sort_order"/>
     </resultMap>
 
+
+    <select id="queryListByCateId" resultType="com.platform.entity.AttributeEntity">
+        select
+        id,
+        attribute_category_id,
+        name,
+        input_type,
+        value,
+        sort_order
+        from nideshop_attribute
+        where attribute_category_id = #{attributeCategoryId}
+    </select>
+
+
     <select id="queryObject" resultType="com.platform.entity.AttributeEntity">
 		select
 			id,

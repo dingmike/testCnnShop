@@ -8,13 +8,15 @@ import java.util.Map;
 /**
  * 
  * 
- * @author lipengjun
- * @email 939961241@qq.com
+ * @author admin
+ * @email 2252277509@qq.com
  * @date 2017-08-13 10:41:11
  */
 public interface AttributeService {
 	
 	AttributeEntity queryObject(Integer id);
+
+	List<AttributeEntity> queryListByCateId(Integer attributeCategoryId);
 	
 	List<AttributeEntity> queryList(Map<String, Object> map);
 	

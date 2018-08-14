@@ -8,6 +8,8 @@
         <result property="id" column="id"/>
         <result property="goodsId" column="goods_id"/>
         <result property="attributeId" column="attribute_id"/>
+        <result property="attributeName" column="attributeName"/>
+        <result property="goodsName" column="goodsName"/>
         <result property="value" column="value"/>
     </resultMap>
 
@@ -16,8 +18,14 @@
 	</select>
 
     <select id="queryList" resultType="com.platform.entity.GoodsAttributeEntity">
-        select * from nideshop_goods_attribute
-        LEFT JOIN nideshop_specification ON nideshop_goods_attribute.good_id = nideshop_goods_specification.specification_id
+        select
+        nga.*,na.name as attributeName , ng.name as goodsName from nideshop_goods_attribute nga
+        LEFT JOIN nideshop_attribute na ON na.id = nga.attribute_id
+        LEFT JOIN nideshop_goods ng ON ng.id = nga.goods_id
+        WHERE 1=1
+        <if test="goodsId != null and goodsId.trim() != ''">
+            and nga.goods_id = #{goodsId}
+        </if>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
