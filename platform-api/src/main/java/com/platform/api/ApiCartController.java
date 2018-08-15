@@ -407,7 +407,7 @@ public class ApiCartController extends ApiBaseAction {
     @ApiOperation(value = "订单提交前的检验和填写相关订单信息")
 //    @RequestMapping("checkout")
     @GetMapping("checkout")
-    public Object checkout(@LoginUser UserVo loginUser, Integer couponId, @RequestParam(defaultValue = "cart") String type) {
+    public Object checkout(@LoginUser UserVo loginUser, Integer couponId, Integer addressId, @RequestParam(defaultValue = "cart") String type) {
         Map<String, Object> resultObj = new HashMap();
         //根据收货地址计算运费
 
@@ -417,16 +417,17 @@ public class ApiCartController extends ApiBaseAction {
         param.put("user_id", loginUser.getUserId());
         List addressEntities = addressService.queryList(param);
 
-
-
-        //resultObj.put("checkedAddress", addressEntities.get(0));
-
-
         if (null == addressEntities || addressEntities.size() == 0) {
             resultObj.put("checkedAddress", new AddressVo());
         } else {
             // 查询的地址为一个list
-            resultObj.put("checkedAddress", addressEntities.get(0));
+            for(AddressVo addressVo : (List<AddressVo>) addressEntities) {
+                if(addressVo.getId() == addressId.longValue()){
+                    resultObj.put("checkedAddress", addressVo);
+                }
+               // System.out.println(attribute);
+            }
+
         }
 
         // * 获取要购买的商品和总价
