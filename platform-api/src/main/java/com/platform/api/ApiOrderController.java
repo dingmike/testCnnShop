@@ -59,11 +59,13 @@ public class ApiOrderController extends ApiBaseAction {
 //    @RequestMapping("list")
     @GetMapping("list")
     public Object list(@LoginUser UserVo loginUser,
+                       @RequestParam(value = "orderStatus", defaultValue = "") Integer orderStatus,
                        @RequestParam(value = "page", defaultValue = "1") Integer page,
                        @RequestParam(value = "size", defaultValue = "10") Integer size) {
         //
         Map params = new HashMap();
         params.put("user_id", loginUser.getUserId());
+        params.put("order_status", orderStatus); // 订单状态查询
         params.put("page", page);
         params.put("limit", size);
         params.put("sidx", "id");
@@ -84,6 +86,7 @@ public class ApiOrderController extends ApiBaseAction {
                 goodsCount += orderGoodsEntity.getNumber();
                 item.setGoodsCount(goodsCount);
             }
+            item.setGoodsVos(goodsList);
         }
         return toResponsSuccess(pageUtil);
     }
