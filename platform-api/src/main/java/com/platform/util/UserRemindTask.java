@@ -1,6 +1,6 @@
 package com.platform.util;
 
-import com.platform.annotation.LoginUser;
+
 import com.platform.dao.ScheduleJobDao;
 import com.platform.entity.AccessTokenEntity;
 import com.platform.entity.UserLearnVo;
@@ -11,7 +11,7 @@ import com.platform.service.*;
 import com.platform.util.wechat.WechatUtil;
 import com.platform.utils.ScheduleUtils;
 import com.platform.validator.ValidatorUtils;
-import org.apache.commons.lang.builder.ToStringBuilder;
+
 import org.quartz.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,11 +59,8 @@ public class UserRemindTask {
         Calendar cal = Calendar.getInstance();
         //获取时间
         String setTime = cal.get(cal.HOUR_OF_DAY) + ":"+ cal.get(cal.MINUTE);
-
         // 根据不同用户发送给不同用户提醒信息
         System.out.println("提醒用户:"+userid+"时间到了该打卡了！！！！！");
-
-
         // ----------------发送模板消息
         String templateId = "aR2vBrOkQipCeAB1tcQ2-jXHJket3CjhpGjYiYdGaOY"; // 日程提醒模板
         UserLearnVo newUserLearnObj = userLearnService.queryObjectByUserId(userid);
@@ -75,11 +72,9 @@ public class UserRemindTask {
         String waybillCode = setTime;
         String waybillDesc = "Come on! fight!";
         String jsonObj = WechatUtil.makeRouteMessage(openid,templateId,page,formId,templateUrl,topcolor,carrierName,waybillCode,waybillDesc);
-
         // 发送消息
         AccessTokenEntity accessTokenEntity = accessTokenService.queryByFirst();
         Boolean sendSuccess = WechatUtil.sendTemplateMessage(accessTokenEntity.getAccessToken(),jsonObj);
-
     }
 
     public void test(Long userId, String setupTime) {
@@ -109,7 +104,6 @@ public class UserRemindTask {
         scheduleJob.setCronExpression(cornStr); // */5 * * * * ?   ///  上午10：15 "0 15 10 ? * *"
         ValidatorUtils.validateEntity(scheduleJob);
 
-
 //        ScheduleJobEntity newScheduleJob =scheduleJobService.queryObjectByMethodName("remindTask");// 通过方法名去查询job
         ScheduleJobEntity newScheduleJob =scheduleJobService.queryObjectByUserId(userId.intValue());// 通过userId去查询job
 
@@ -125,7 +119,6 @@ public class UserRemindTask {
             ScheduleJobEntity newScheduleJobTwo =scheduleJobService.queryObjectByUserId(userId.intValue());
             ScheduleUtils.run(scheduler, newScheduleJobTwo);// 立即执行定时任务
         }
-
 
         try {
             Thread.sleep(1000L);

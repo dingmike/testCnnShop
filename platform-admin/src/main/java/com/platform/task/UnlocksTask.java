@@ -1,26 +1,12 @@
 package com.platform.task;
 
 
-import com.platform.annotation.LoginUser;
 
-
-import com.platform.entity.UserVo;
 import com.platform.service.ApiUserLearnService;
-
-import com.platform.utils.R;
-import com.platform.utils.ResourceUtil;
-import me.chanjar.weixin.mp.api.WxMpConfigStorage;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-
-import cn.binarywang.wx.miniapp.api.WxMaMsgService;  // 发送消息，发送模板消息服务
-
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * 更新解锁天数定时任务
@@ -38,9 +24,9 @@ public class UnlocksTask {
     private ApiUserLearnService userLearnService;
 
     // 更新user_learn unlocks
-    public void updateUnlocks() {
-        logger.info("我是不带参数的updateUnlocks方法，正在被执行~");
-        userLearnService.updateUnlocks();
+    public void updateUnlocks(String params) {
+        logger.info("我是携带参数"+params+"的updateUnlocks方法，正在被执行,更新爱学习用户的unlocks~");
+        userLearnService.updateUnlocks(Integer.valueOf(params));
     }
 
 }

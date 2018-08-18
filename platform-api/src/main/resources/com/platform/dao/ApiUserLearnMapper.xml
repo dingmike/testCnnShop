@@ -107,6 +107,10 @@
 	</insert>
 	<update id="updateUnlocks" parameterType="com.platform.entity.UserLearnVo">
 		update cnn_user_learn set unlocks = unlocks + 1
+		where
+		<if test="totalUnlocks != null">
+		  unlocks &lt; #{totalUnlocks}
+		</if>
 	</update>
 
 	<update id="update" parameterType="com.platform.entity.UserLearnVo">

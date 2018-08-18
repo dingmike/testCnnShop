@@ -484,9 +484,9 @@ public class OrderVo implements Serializable {
 
         //如果订单已经发货，没有收货，则可收货操作和退款、退货操作
         if (order_status == 300) {
-//            handleOption.put("cancel", true);
+//            handleOption.put("cancel", true); // 发货后就不能退款退货
             handleOption.put("confirm", true);
-//            handleOption.put("return", true);
+//            handleOption.put("return", true);// 暂时不可退货退款
         }
 
         //如果订单已经支付，且已经收货，则可完成交易、评论和再次购买
