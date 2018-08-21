@@ -76,8 +76,8 @@ let vm = new Vue({
 			}
 			vm.showList = false;
             vm.title = "修改";
-
-            vm.getInfo(id)
+            vm.getLearnTypes();
+            vm.getInfo(id);
 		},
 		saveOrUpdate: function (event) {
             let url = vm.cnnLearnQuestion.id == null ? "../cnnlearnquestion/save" : "../cnnlearnquestion/update";
