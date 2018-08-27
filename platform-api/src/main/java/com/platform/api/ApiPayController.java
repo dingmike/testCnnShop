@@ -11,6 +11,7 @@ import com.platform.entity.wxPayResp.UnifiedOrderResult;
 import com.platform.entity.UserVo;
 import com.platform.service.*;
 import com.platform.util.ApiBaseAction;
+import com.platform.util.CommonUtil;
 import com.platform.util.wechat.WechatRefundApiResult;
 import com.platform.util.wechat.WechatUtil;
 import com.platform.utils.*;
@@ -83,7 +84,7 @@ public class ApiPayController extends ApiBaseAction {
     @ApiOperation(value = "获取支付的请求参数")
     @GetMapping("prepay")
 //    @RequestMapping("prepay")
-    public Object payPrepay(@LoginUser UserVo loginUser, Integer orderId) {
+    public Object payPrepay(@LoginUser UserVo loginUser, Integer orderId, Integer repay) {
         //
         OrderVo orderInfo = orderService.queryObject(orderId);
 
@@ -91,9 +92,22 @@ public class ApiPayController extends ApiBaseAction {
             return toResponsObject(400, "订单已取消", "");
         }
 
-        if (orderInfo.getPay_status() != 0) {
+
+        if (orderInfo.getPay_status() ==2) {
             return toResponsObject(400, "订单已支付，请不要重复操作", "");
         }
+
+
+        // 没有完成支付的订单继续支付，刷新订单编号
+        if(repay==1&&orderInfo.getOrder_status()==0){
+            orderInfo.setOrder_sn(CommonUtil.generateOrderNumber());
+        }else{
+            if (orderInfo.getPay_status() ==1) {
+                return toResponsObject(400, "订单支付中，请不要重复操作", "");
+            }
+        }
+
+        String  order_sn = orderInfo.getOrder_sn();
 
         String nonceStr = CharUtil.getRandomString(32);
 
@@ -109,7 +123,8 @@ public class ApiPayController extends ApiBaseAction {
             // 随机字符串
             parame.put("nonce_str", randomStr);
             // 商户订单编号
-            parame.put("out_trade_no", orderId);
+//            parame.put("out_trade_no", orderId);
+            parame.put("out_trade_no", order_sn);
             Map orderGoodsParam = new HashMap();
             orderGoodsParam.put("order_id", orderId);
             // 商品描述
@@ -186,6 +201,9 @@ public class ApiPayController extends ApiBaseAction {
     @GetMapping("query")
 //    @RequestMapping("query")
     public Object orderQuery(@LoginUser UserVo loginUser, Integer orderId) {
+
+        OrderVo orderInfo = orderService.queryObject(orderId);
+        String  order_sn = orderInfo.getOrder_sn();
         if (orderId == null) {
             return toResponsFail("订单不存在");
         }
@@ -198,7 +216,8 @@ public class ApiPayController extends ApiBaseAction {
         // 随机字符串
         parame.put("nonce_str", randomStr);
         // 商户订单编号
-        parame.put("out_trade_no", orderId);
+//        parame.put("out_trade_no", orderId);
+        parame.put("out_trade_no", order_sn);
 
         String sign = WechatUtil.arraySign(parame, ResourceUtil.getConfigByName("wx.paySignKey"));
         // 数字签证
@@ -222,13 +241,13 @@ public class ApiPayController extends ApiBaseAction {
             if (trade_state.equals("SUCCESS")) {
                 // 更改订单状态
                 // 业务处理
-                OrderVo orderInfo = new OrderVo();
-                orderInfo.setId(orderId);
-                orderInfo.setPay_status(2);
-                orderInfo.setOrder_status(201);
-                orderInfo.setShipping_status(0);
-                orderInfo.setPay_time(new Date());
-                orderService.update(orderInfo);
+                OrderVo orderInfo2 = new OrderVo();
+                orderInfo2.setId(orderId);
+                orderInfo2.setPay_status(2);
+                orderInfo2.setOrder_status(201);
+                orderInfo2.setShipping_status(0);
+                orderInfo2.setPay_time(new Date());
+                orderService.update(orderInfo2);
                 return toResponsMsgSuccess("支付成功");
             } else if (trade_state.equals("USERPAYING")) {
                 // 重新查询 正在支付中
