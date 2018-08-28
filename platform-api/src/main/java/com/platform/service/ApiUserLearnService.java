@@ -26,6 +26,7 @@ public class ApiUserLearnService {
         return userLearnMapper.queryObject(id);
     }
     public void updateUnlocks(Integer totalUnlocks) { userLearnMapper.updateUnlocks(totalUnlocks); }
+    public void updateFormId(Integer userId, String updateFormIds) { userLearnMapper.updateFormId(userId,updateFormIds); }
 
 
     public UserLearnVo queryObjectByUserId(Integer userId) {

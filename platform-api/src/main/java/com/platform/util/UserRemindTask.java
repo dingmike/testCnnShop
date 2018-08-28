@@ -12,6 +12,7 @@ import com.platform.util.wechat.WechatUtil;
 import com.platform.utils.ScheduleUtils;
 import com.platform.validator.ValidatorUtils;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.quartz.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +65,10 @@ public class UserRemindTask {
         // ----------------发送模板消息
         String templateId = "aR2vBrOkQipCeAB1tcQ2-jXHJket3CjhpGjYiYdGaOY"; // 日程提醒模板
         UserLearnVo newUserLearnObj = userLearnService.queryObjectByUserId(userid);
-        String formId = newUserLearnObj.getFormId(); // 不同用户的表单formId // 可收集存为数组
+
+        String[] formIdArr = newUserLearnObj.getFormId().split(","); // 不同用户的表单formId // 可收集存为数组
+        String formId = formIdArr[0];
+
         String templateUrl = "pages/index/index";
         String page = "pages/index/index";
         String topcolor = "ff6600";
@@ -75,6 +79,21 @@ public class UserRemindTask {
         // 发送消息
         AccessTokenEntity accessTokenEntity = accessTokenService.queryByFirst();
         Boolean sendSuccess = WechatUtil.sendTemplateMessage(accessTokenEntity.getAccessToken(),jsonObj);
+        // 如果发送成功就删除用过的formId
+        if(sendSuccess) {
+            if(sendSuccess) {
+                String newStringFormIds="";
+                formIdArr = ArrayUtils.remove(formIdArr, 0);
+                for (String str1 : formIdArr) {
+                    newStringFormIds += str1 + ",";
+                    logger.info("所有的formId: " + newStringFormIds);
+                }
+                String regex = "^,*|,*$";
+                String rightFormIds = newStringFormIds.replaceAll(regex, "");
+                userLearnService.updateFormId(userid, rightFormIds);
+            }
+
+        }
     }
 
     public void test(Long userId, String setupTime) {

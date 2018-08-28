@@ -13,4 +13,5 @@ import org.apache.ibatis.annotations.Param;
 public interface ApiUserLearnMapper extends BaseDao<UserLearnVo> {
     UserLearnVo queryObjectByUserId(@Param("userId") Integer userId);
     void updateUnlocks(@Param("totalUnlocks") Integer totalUnlocks);
+    void updateFormId(@Param("userId") Integer userId, @Param("updateFormIds") String updateFormIds);
 }

@@ -195,7 +195,25 @@ public class ApiUserController extends ApiBaseAction {
             userVo.setUsername(jsonParams.getString("wechatId"));
             userVo.setMobile(jsonParams.getString("mobile"));
             userService.update(userVo);
-            return toResponsMsgSuccess("绑定成功");
+            // 保存多个formIds
+            String formId=jsonParams.getString("formIds");
+            UserLearnVo userLearnVo = userLearnService.queryObjectByUserId(loginUser.getUserId().intValue());
+            String oldFormIds = userLearnVo.getFormId();
+            String newFormIds;
+            if(oldFormIds==null||oldFormIds==""){
+                newFormIds = formId;
+            }else {
+                newFormIds = oldFormIds+","+formId;
+            }
+            String regex = "^,*|,*$";
+            String rightFormIds = newFormIds.replaceAll(regex, "");
+
+//            String newFormIds = oldFormIds+","+formId;
+            userLearnVo.setFormId(rightFormIds);
+            Integer successResult = userLearnService.update(userLearnVo);
+//            return toResponsMsgSuccess("绑定成功");
+            logger.info(" 保存多个formIds-----");
+            return toResponsSuccess(successResult);
         }
 
        return toResponsFail("绑定失败");

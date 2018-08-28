@@ -220,10 +220,13 @@ public class ApiGongduController extends ApiBaseAction {
                 }
 
                 Integer saveSuccess = cnnUserCardService.save(userCard);
-                // 打卡完后更新微信表单formID
+                // 打卡完后更新微信表单formID 多个formId是个字符串用“，”隔开
                 UserLearnVo userLearnVo = new UserLearnVo();
                 userLearnVo.setLearnTypeId(learnTypeId);
-                userLearnVo.setFormId(formId);
+
+                String oldFormIds = userLearnVo.getFormId();
+                String newFormIds = oldFormIds+","+ formId;
+                userLearnVo.setFormId(newFormIds);
                 userLearnVo.setUserid(userId.intValue());
                 Integer successResult = userLearnService.update(userLearnVo);
                 System.out.println("更新formId成功-----------");

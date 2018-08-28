@@ -113,6 +113,15 @@
 		</if>
 	</update>
 
+	<update id="updateFormId" parameterType="com.platform.entity.UserLearnVo">
+		update cnn_user_learn
+		<set>
+			<if test="updateFormIds != null">`formId` = #{updateFormIds}, </if>
+		</set>
+		where
+	    userid = #{userId}
+	</update>
+
 	<update id="update" parameterType="com.platform.entity.UserLearnVo">
 		update cnn_user_learn 
 		<set>
