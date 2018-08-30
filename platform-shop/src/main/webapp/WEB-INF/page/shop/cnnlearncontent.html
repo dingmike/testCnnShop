@@ -51,10 +51,10 @@
                               style="width: 188px;"/>
             </Form-item>
             <Form-item label="内容关键词" prop="keyNums">
-                <i-input v-model="cnnLearnContent.keyNums" type="textarea" placeholder="内容关键词"/>
+                <i-input v-model="cnnLearnContent.keyNums" type="textarea" :rows="6" placeholder="内容关键词"/>
             </Form-item>
             <Form-item label="学习内容详情" prop="oraleContent">
-                <i-input v-model="cnnLearnContent.oraleContent" type="textarea" placeholder="学习内容详情"/>
+                <i-input v-model="cnnLearnContent.oraleContent" type="textarea" :rows="6" placeholder="学习内容详情"/>
             </Form-item>
            <!-- <Form-item label="内容语音链接" prop="oraleSound">
                 <i-input v-model="cnnLearnContent.oraleSound" placeholder="内容语音链接"/>
@@ -68,7 +68,7 @@
                 <i-col span="3">
                     <Form-item :label-width="1">
                         <Upload style="width: 300px;" action="../sys/oss/upload" :format="['mp3']"
-                                max-size="10240"
+                                max-size="20240"
                                 :on-success="handleSuccessPicUrl" :on-format-error="handleFormatError"
                                 :show-upload-list="false"
                                 :on-exceeded-size="handleMaxSize">
@@ -99,7 +99,7 @@
                 </Radio-group>
             </Form-item>
             <Form-item label="扩展内容标题" prop="extendSen">
-                <i-input v-model="cnnLearnContent.extendSen" placeholder="扩展内容标题"/>
+                <i-input v-model="cnnLearnContent.extendSen" type="textarea" :rows="6" placeholder="扩展内容标题"/>
             </Form-item>
            <!-- <Form-item label="语音链接" prop="extendSound">
                 <i-input v-model="cnnLearnContent.extendSound" placeholder="语音链接"/>
@@ -112,12 +112,12 @@
                 </i-col>
                 <i-col span="3">
                     <Form-item :label-width="1">
-                        <Upload style="width: 300px;" action="../sys/oss/upload" :format="['mp3']"
-                                max-size="10240"
+                        <Upload style="width: 300px;" action="../sys/oss/upload" :format="['mp3','mp4']"
+                                max-size="20240"
                                 :on-success="handleSuccessPicUrlExtend" :on-format-error="handleFormatError"
                                 :show-upload-list="false"
                                 :on-exceeded-size="handleMaxSize">
-                            <i-button icon="ios-cloud-upload-outline">上传语音文件</i-button>
+                            <i-button icon="ios-cloud-upload-outline">上传语音文件或者视频</i-button>
                         </Upload>
                     </Form-item>
                 </i-col>
@@ -131,7 +131,7 @@
                 </i-col>
             </Row>
             <Form-item label="扩展内容详情" prop="extendWord">
-                <i-input v-model="cnnLearnContent.extendWord" type="textarea" placeholder="扩展内容"/>
+                <i-input v-model="cnnLearnContent.extendWord" type="textarea" :rows="6" placeholder="扩展内容"/>
             </Form-item>
             <!--<Form-item label="添加时间" prop="addTime">-->
                 <!--<i-input v-model="cnnLearnContent.addTime" placeholder="添加时间"/>-->
