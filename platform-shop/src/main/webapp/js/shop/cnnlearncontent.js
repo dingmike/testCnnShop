@@ -14,7 +14,7 @@ $(function () {
                 formatter: function (value) {
                     return transStatus(value);
                 }},
-			{label: '扩展内容标题', name: 'extendSen', index: 'extend_sen', width: 80},
+			// {label: '扩展内容标题', name: 'extendSen', index: 'extend_sen', width: 80},
 			{label: '扩展语音', name: 'extendSound', index: 'extend_sound', width: 80},
 			// {label: '扩展内容', name: 'extendWord', index: 'extend_word', width: 80},
 			{label: '添加时间', name: 'addTime', index: 'add_time', width: 80, formatter: function (value) {
