@@ -133,6 +133,8 @@
 	<insert id="save" parameterType="com.platform.entity.CnnUserCardVo" useGeneratedKeys="true" keyProperty="id">
 		insert into cnn_user_card(
 			`learn_type_id`,
+			`username`,
+			`nickname`,
 			`userid`,
 			`card_day`,
 			`day`,
@@ -144,6 +146,8 @@
 			`update_time`)
 		values(
 			#{learnTypeId},
+			#{username},
+			#{nickname},
 			#{userid},
 			#{cardDay},
 			#{day},

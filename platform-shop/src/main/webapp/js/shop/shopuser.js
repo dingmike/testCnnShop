@@ -57,7 +57,8 @@ var vm = new Vue({
             ]
         },
         q: {
-            username: ''
+            username: '',
+            nickname: ''
         },
         userLevels: []
     },
@@ -174,10 +175,17 @@ var vm = new Vue({
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam', 'page');
             $("#jqGrid").jqGrid('setGridParam', {
-                postData: {'username': vm.q.username},
+                postData: {'username': vm.q.username, 'nickname': vm.q.nickname},
                 page: page,
             }).trigger("reloadGrid");
             vm.handleReset('formValidate');
+        },
+        reloadSearch: function() {
+            vm.q = {
+                username: '',
+                nickname: ''
+            }
+            vm.reload();
         },
         handleSubmit: function (name) {
             handleSubmitValidate(this, name, function () {

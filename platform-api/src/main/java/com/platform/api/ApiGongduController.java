@@ -172,6 +172,8 @@ public class ApiGongduController extends ApiBaseAction {
         String openid =  loginUser.getWeixin_openid();
 
         Long userId=  loginUser.getUserId();
+        String username = loginUser.getUsername();
+        String nickname = loginUser.getNickname();
         // 微信授权用户才能获取信息
         if (null != jsonParams&& openid.equals(jsonParams.getString("uid"))) {
 
@@ -211,6 +213,8 @@ public class ApiGongduController extends ApiBaseAction {
                 userCard.setCardDay(day);
                 Integer newUserId = userId.intValue();
                 userCard.setUserid(newUserId);
+                userCard.setUsername(username);
+                userCard.setNickname(nickname);
                 userCard.setLearnTypeId(learnTypeId);
                 // 规定时间5-10点
                 if(hour>5&&hour<10){

@@ -41,6 +41,8 @@
 		select
 		ud.id,
 		ud.learn_type_id,
+		ud.username,
+		ud.nickname,
 		ud.userid,
 		ud.card_day,
 		ud.day,
@@ -50,15 +52,16 @@
 		ud.card_time,
 		ud.add_time,
 		ud.update_time,
-		lt.learn_type as learnType,
-		u.username as username,
-		u.nickname as nickname
+		lt.learn_type as learnType
 		from cnn_user_card ud
 		left join nideshop_user u on ud.userid = u.id
 		left join cnn_learn_type lt on ud.learn_type_id = lt.id
 		WHERE 1=1
-		<if test="name != null and name.trim() != ''">
-			AND name LIKE concat('%',#{name},'%')
+		<if test="username != null and username.trim() != ''">
+			and ud.username like concat('%',#{username},'%')
+		</if>
+		<if test="nickname != null and nickname.trim() != ''">
+			and ud.nickname like concat('%',#{nickname},'%')
 		</if>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
@@ -76,8 +79,8 @@
  	<select id="queryTotal" resultType="int">
 		select count(*) from cnn_user_card
 		WHERE 1=1
-        <if test="name != null and name.trim() != ''">
-            AND name LIKE concat('%',#{name},'%')
+        <if test="userid != null">
+            AND userid = #{userid}
         </if>
 	</select>
 	 

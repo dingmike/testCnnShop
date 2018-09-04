@@ -6,12 +6,13 @@ $(function () {
 			//{label: '学习类型', name: 'learnTypeId', index: 'learn_type_id', width: 80},
 			{label: '学习类型', name: 'learnType', index: 'learn_type', width: 80},
 			//{label: '用户', name: 'userid', index: 'userid', width: 80},
-			{label: '用户昵称', name: 'nickname', index: 'nickname', width: 80},
-			{label: '打第几天卡', name: 'cardDay', index: 'card_day', width: 80},
-			{label: '打卡日', name: 'day', index: 'day', width: 60},
-			{label: '打卡月', name: 'month', index: 'month', width: 60},
-			{label: '打卡年', name: 'year', index: 'year', width: 60},
-			{label: '是否有效', name: 'reasonable', index: 'reasonable', width: 80,
+			{label: '微信昵称', name: 'nickname', index: 'nickname', width: 80},
+			{label: '用户名称', name: 'username', index: 'username', width: 100},
+			{label: '打第几天卡', name: 'cardDay', index: 'card_day', width: 40},
+			{label: '打卡日', name: 'day', index: 'day', width: 40},
+			{label: '打卡月', name: 'month', index: 'month', width: 30},
+			{label: '打卡年', name: 'year', index: 'year', width:30},
+			{label: '是否有效', name: 'reasonable', index: 'reasonable', width: 40,
 				formatter: function (value) {
 					return transStatus(value);
 				}},
@@ -37,7 +38,8 @@ let vm = new Vue({
 			]
 		},
 		q: {
-		    name: ''
+            username: '',
+            nickname: ''
 		},
 		learnTypes: []
 	},
@@ -117,14 +119,15 @@ let vm = new Vue({
 			vm.showList = true;
             let page = $("#jqGrid").jqGrid('getGridParam', 'page');
 			$("#jqGrid").jqGrid('setGridParam', {
-                postData: {'name': vm.q.name},
+                postData: {'username': vm.q.username, 'nickname': vm.q.nickname},
                 page: page
             }).trigger("reloadGrid");
             vm.handleReset('formValidate');
 		},
         reloadSearch: function() {
             vm.q = {
-                name: ''
+                username: '',
+                nickname: ''
             }
             vm.reload();
         },

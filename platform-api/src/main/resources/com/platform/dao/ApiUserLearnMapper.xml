@@ -22,17 +22,6 @@
     </resultMap>
 
 	<select id="queryObject" resultType="com.platform.entity.UserLearnVo">
-	/*	select
-			`id`,
-			`learn_type_id`,
-			`userid`,
-			`unlocks`,
-			`start_status`,
-			`setup_time`,
-			`add_time`,
-			`update_time`
-		from cnn_user_learn*/
-
 		select o.*,u.username as username,u.nickname as nickname,u.avatar as avatar,l.learn_type as learntype from cnn_user_learn o
 		left join nideshop_user u on o.userid = u.id
 		left join cnn_learn_type l on o.learn_type_id = l.id
