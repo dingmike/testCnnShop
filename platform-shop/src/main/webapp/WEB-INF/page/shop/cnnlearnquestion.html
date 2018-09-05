@@ -18,8 +18,8 @@
                 </i-col>
                 <i-col span="4">
                     <!--<i-input v-model="q.name" @on-enter="query" placeholder="学习天数"/>-->
-                    <Input-number :min="0" :step="1" :max="4" v-model="q.genusDays" placeholder="学习天数"
-                                  style="width: 100px;"/>
+                    <Input-number :min="0" :step="1" :max="100" v-model="q.genusDays" placeholder="学习天数"
+                                  style="width: 120px;"/>
                 </i-col>
                 <i-button @click="query">查询</i-button>
                 <i-button @click="reloadSearch">重置</i-button>
@@ -59,9 +59,11 @@
             <Form-item label="关键词" prop="keyword">
                 <i-input v-model="cnnLearnQuestion.keyword" type="textarea" :rows="4" placeholder="关键词"/>
             </Form-item>
-            <Form-item label="解题分析" prop="analysis">
-                <i-input v-model="cnnLearnQuestion.analysis" type="textarea" :rows="6" placeholder="解题分析"/>
+
+            <Form-item label="主要问题" prop="oralejp">
+                <i-input v-model="cnnLearnQuestion.oralejp" type="textarea" :rows="6" placeholder="其它问题"/>
             </Form-item>
+
             <Form-item label="选项1" prop="opt1">
                 <i-input v-model="cnnLearnQuestion.opt1" type="textarea" :rows="4" placeholder="选项1"/>
             </Form-item>
@@ -74,6 +76,18 @@
             <Form-item label="选项4" prop="opt4">
                 <i-input v-model="cnnLearnQuestion.opt4" type="textarea" :rows="4" placeholder="选项4"/>
             </Form-item>
+            <Form-item label="中文问题" prop="oralech">
+                <i-input v-model="cnnLearnQuestion.oralech" type="textarea" :rows="6" placeholder="中文问题"/>
+            </Form-item>
+            <Form-item label="答案选项" prop="copt">
+                <Input-number :min="0" :step="1" :max="4" v-model="cnnLearnQuestion.copt" placeholder="答案选项"
+                              style="width: 120px;"/>
+            </Form-item>
+
+            <Form-item label="解题分析" prop="analysis">
+                <i-input v-model="cnnLearnQuestion.analysis" type="textarea" :rows="6" placeholder="解题分析"/>
+            </Form-item>
+
 
             <Row>
                 <i-col span="14">
@@ -101,16 +115,7 @@
                 </i-col>
             </Row>
 
-            <Form-item label="中文问题" prop="oralech">
-                <i-input v-model="cnnLearnQuestion.oralech" type="textarea" :rows="6" placeholder="中文问题"/>
-            </Form-item>
-            <Form-item label="其它问题" prop="oralejp">
-                <i-input v-model="cnnLearnQuestion.oralejp" type="textarea" :rows="6" placeholder="其它问题"/>
-            </Form-item>
-            <Form-item label="答案选项" prop="copt">
-                <Input-number :min="0" :step="1" :max="4" v-model="cnnLearnQuestion.copt" placeholder="答案选项"
-                              style="width: 120px;"/>
-            </Form-item>
+
             <Form-item label="是否是问答" prop="typeof">
                 <Radio-group v-model="cnnLearnQuestion.typeof">
                     <Radio label="1">

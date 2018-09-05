@@ -170,10 +170,11 @@ public class ApiGongduController extends ApiBaseAction {
         Integer learnTypeId = jsonParams.getInteger("type");
         String formId = jsonParams.getString("formId");
         String openid =  loginUser.getWeixin_openid();
-
         Long userId=  loginUser.getUserId();
         String username = loginUser.getUsername();
         String nickname = loginUser.getNickname();
+        UserLearnVo userLearnObj = userLearnService.queryObjectByUserId(userId.intValue());
+        Integer setCardDay = userLearnObj.getUnlocks();
         // 微信授权用户才能获取信息
         if (null != jsonParams&& openid.equals(jsonParams.getString("uid"))) {
 
@@ -194,7 +195,6 @@ public class ApiGongduController extends ApiBaseAction {
             Integer day=cal.get(cal.DATE);
             Integer hour=cal.get(cal.HOUR_OF_DAY);
 
-
             CnnUserCardVo userCardVo = cnnUserCardService.queryObjectByOther(userId, day, month, year, learnTypeId);
 
             System.out.println("------------------------------");
@@ -210,7 +210,7 @@ public class ApiGongduController extends ApiBaseAction {
                 userCard.setDay(day);
                 userCard.setMonth(month);
                 userCard.setYear(year);
-                userCard.setCardDay(day);
+                userCard.setCardDay(setCardDay); // 从day 1开始不包括day1 从day2开始 连续打卡20天  2-21
                 Integer newUserId = userId.intValue();
                 userCard.setUserid(newUserId);
                 userCard.setUsername(username);

@@ -599,7 +599,7 @@ public class ApiPayController extends ApiBaseAction {
             parame.put("out_trade_no", orderId);
 
             // 商品描述
-            parame.put("body", "商品-支付");
+            parame.put("body", "服务-支付");
 
             //支付金额
             parame.put("total_fee", productPrice);
@@ -692,7 +692,7 @@ public class ApiPayController extends ApiBaseAction {
                 //订单编号
                 String out_trade_no = result.getOut_trade_no();
                 logger.info("订单" + out_trade_no + "支付成功");
-                System.out.println("订单sss22222222222222" + out_trade_no + "支付成功");
+                System.out.println("共读订单: " + out_trade_no + "支付成功");
                 // 业务处理
 //                OrderVo orderInfo = orderService.queryObject(Integer.valueOf(out_trade_no));
                 GongDuOrderVo gongDuOrderVo = apiGongduOrderService.queryObject(String.valueOf(out_trade_no));
