@@ -228,7 +228,8 @@ public class ApiGongduController extends ApiBaseAction {
                 UserLearnVo userLearnVo = new UserLearnVo();
                 userLearnVo.setLearnTypeId(learnTypeId);
 
-                String oldFormIds = userLearnVo.getFormId();
+                UserLearnVo oldUserLearnVo = userLearnService.queryObjectByUserId(newUserId);
+                String oldFormIds = oldUserLearnVo.getFormId();
                 String newFormIds = oldFormIds+","+ formId;
                 userLearnVo.setFormId(newFormIds);
                 userLearnVo.setUserid(userId.intValue());

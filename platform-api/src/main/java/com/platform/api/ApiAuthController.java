@@ -99,11 +99,13 @@ public class ApiAuthController extends ApiBaseAction {
         JSONObject sessionData = JSON.parseObject(res);
 
         if (null == sessionData || StringUtils.isNullOrEmpty(sessionData.getString("openid"))) {
+            System.out.println("1-登录失败");
             return toResponsFail("登录失败");
         }
         //验证用户信息完整性
         String sha1 = CommonUtil.getSha1(fullUserInfo.getRawData() + sessionData.getString("session_key"));
         if (!fullUserInfo.getSignature().equals(sha1)) {
+            System.out.println("2-登录失败");
             return toResponsFail("登录失败");
         }
         Date nowTime = new Date();
@@ -126,11 +128,9 @@ public class ApiAuthController extends ApiBaseAction {
         } else {
             userVo.setLast_login_ip(this.getClientIp());
             userVo.setLast_login_time(nowTime);
-
             userVo.setAvatar(userInfo.getAvatarUrl());
             userVo.setGender(userInfo.getGender()); // //性别 0：未知、1：男、2：女
             userVo.setNickname(userInfo.getNickName());
-
             userService.update(userVo);
         }
 
