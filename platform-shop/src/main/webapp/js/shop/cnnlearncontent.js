@@ -140,11 +140,9 @@ let vm = new Vue({
             handleResetForm(this, name);
         },
         handleSuccessPicUrl: function (res, file) {
-			debugger
             vm.cnnLearnContent.oraleSound = file.response.url;
         },
         handleSuccessPicUrlExtend: function (res, file) {
-			debugger
             vm.cnnLearnContent.extendSound = file.response.url;
         },
         handleFormatError: function (file) {
@@ -166,6 +164,6 @@ let vm = new Vue({
         eyeImagePicUrlExtend: function () {
             var url = vm.cnnLearnContent.extendSound;
             eyeImage(url);
-        },
+        }
 	}
 });
