@@ -118,7 +118,6 @@ let vm = new Vue({
             vm.handleReset('formValidate');
 		},
         handleSuccess: function (res, file) {
-			debugger
             vm.cnnAd.imageUrl = file.response.url;
         },
         handleFormatError: function (file) {

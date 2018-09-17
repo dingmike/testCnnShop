@@ -72,8 +72,12 @@ public class ApiIndexController extends ApiBaseAction {
         String learnTypeId = request.getParameter("learnTypeId"); // 只获取一种学习类型的用户学习情况
         Map<String, Object> resultObj = new HashMap();
         Map param = new HashMap();
-        List<CnnAdVo> banner = cnnAdService.queryList(param);
+//        List<CnnAdVo> banner = cnnAdService.queryList(param);
+        List<CnnAdVo> banner = cnnAdService.queryListByMediaType(1);
+        //获取计划详情说明图片
+        List<CnnAdVo> learnFilePics = cnnAdService.queryListByMediaType(2);
         resultObj.put("banner", banner);
+        resultObj.put("learnFilePics", learnFilePics);
 
         param = new HashMap();
 

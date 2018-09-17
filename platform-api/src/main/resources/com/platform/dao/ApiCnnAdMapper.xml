@@ -59,6 +59,25 @@
         </if>
     </select>
 
+    <select id="queryListByMediaType" resultType="com.platform.entity.CnnAdVo">
+        select
+        `id`,
+        `media_type`,
+        `name`,
+        `link`,
+        `image_url`,
+        `content`,
+        `enabled`,
+        `add_time`,
+        `update_time`
+        from cnn_ad
+        WHERE 1=1
+        <if test="mediaType != null">
+            AND `media_type` = #{mediaType}
+        </if>
+
+    </select>
+
     <select id="queryTotal" resultType="int">
         select count(*) from cnn_ad
         WHERE 1=1

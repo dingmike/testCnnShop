@@ -24,6 +24,9 @@ public class ApiCnnAdService {
         return cnnAdDao.queryList(map);
     }
 
+    public List<CnnAdVo> queryListByMediaType(Integer mediaType) {
+        return cnnAdDao.queryListByMediaType(mediaType);
+    }
 
     public int queryTotal(Map<String, Object> map) {
         return cnnAdDao.queryTotal(map);
