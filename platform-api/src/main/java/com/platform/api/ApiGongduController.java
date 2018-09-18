@@ -242,6 +242,14 @@ public class ApiGongduController extends ApiBaseAction {
                 Integer successResult = userLearnService.update(userLearnVo);
                 System.out.println("更新formId成功-----------");
                 System.out.println(successResult);
+
+                // 每次打卡完成判断是否是第二十一天最后一次打卡，记录该用户是否按规定打完21天的卡完成学习任务。
+                if(setCardDay==21){
+
+                }
+
+
+
                 if(successResult !=0){
                     return toResponsSuccess(saveSuccess);
                 }else{
