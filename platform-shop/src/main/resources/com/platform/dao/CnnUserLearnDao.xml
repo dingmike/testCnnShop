@@ -7,6 +7,8 @@
         <result property="id" column="id"/>
         <result property="learnTypeId" column="learn_type_id"/>
         <result property="userid" column="userid"/>
+		<result property="username" column="username"/>
+		<result property="nickname" column="nickname"/>
         <result property="unlocks" column="unlocks"/>
         <result property="formId" column="formId"/>
         <result property="miss" column="miss"/>
@@ -14,9 +16,9 @@
         <result property="setupTime" column="setup_time"/>
         <result property="addTime" column="add_time"/>
         <result property="updateTime" column="update_time"/>
-		<result property="userName" column="username"/>
+		<!--<result property="userName" column="username"/>-->
 		<result property="avatar" column="avatar"/>
-		<result property="nickname" column="nickname"/>
+		<!--<result property="nickname" column="nickname"/>-->
 		<result property="learnType" column="learntype"/>
     </resultMap>
 
@@ -45,8 +47,11 @@
 		left join nideshop_user u on o.userid = u.id
 		left join cnn_learn_type l on o.learn_type_id = l.id
 		WHERE 1=1
-		<if test="name != null and name.trim() != ''">
-			AND name LIKE concat('%',#{name},'%')
+		<if test="username != null and username.trim() != ''">
+			and u.username like concat('%',#{username},'%')
+		</if>
+		<if test="nickname != null and nickname.trim() != ''">
+			and u.nickname like concat('%',#{nickname},'%')
 		</if>
 		<choose>
 			<when test="sidx != null and sidx.trim() != ''">
@@ -73,6 +78,7 @@
 		insert into cnn_user_learn(
 			`learn_type_id`,
 			`userid`,
+
 			`unlocks`,
 			`formId`,
 			`start_status`,

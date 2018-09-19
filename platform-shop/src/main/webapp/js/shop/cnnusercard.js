@@ -7,7 +7,7 @@ $(function () {
 			{label: '学习类型', name: 'learnType', index: 'learn_type', width: 80},
 			//{label: '用户', name: 'userid', index: 'userid', width: 80},
 			{label: '微信昵称', name: 'nickname', index: 'nickname', width: 80},
-			{label: '用户名称', name: 'username', index: 'username', width: 100},
+			{label: '会员名称（微信ID）', name: 'username', index: 'username', width: 100},
 			{label: '打第几天卡', name: 'cardDay', index: 'card_day', width: 40},
 			{label: '打卡日', name: 'day', index: 'day', width: 40},
 			{label: '打卡月', name: 'month', index: 'month', width: 30},

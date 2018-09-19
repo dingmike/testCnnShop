@@ -37,7 +37,7 @@ public class CnnUserLearnEntity implements Serializable {
     private Date updateTime;
 
     //用户名称
-    private String userName;
+    private String username;
     //用户头像
     private String avatar;
 
@@ -181,11 +181,11 @@ public class CnnUserLearnEntity implements Serializable {
 
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.username = userName;
     }
 
     public String getAvatar() {

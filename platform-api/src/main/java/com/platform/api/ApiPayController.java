@@ -663,7 +663,7 @@ public class ApiPayController extends ApiBaseAction {
      */
     @RequestMapping(value = "/gongDuNotify", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     @ResponseBody
-    public void gongDuNotify(HttpServletRequest request, HttpServletResponse response) {
+    public void gongDuNotify(@LoginUser UserVo loginUser, HttpServletRequest request, HttpServletResponse response) {
         try {
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");
@@ -702,13 +702,21 @@ public class ApiPayController extends ApiBaseAction {
                 apiGongduOrderService.update(gongDuOrderVo);
                 // 支付成功可以进行共读
 //                UserLearnVo userLearnVo = apiUserLearnService.queryObject(gongDuOrderVo.getUserId().intValue());
-                UserLearnVo userLearnVo = new UserLearnVo();
+
+
+               /* UserLearnVo userLearnVo = new UserLearnVo();
                 userLearnVo.setLearnTypeId(gongDuOrderVo.getLearnTypeId());
                 userLearnVo.setUserid(gongDuOrderVo.getUserId().intValue());
+
+                userLearnVo.setUserName(loginUser.getUsername());
+                userLearnVo.setNickname(loginUser.getNickname());
+
                 userLearnVo.setStartStatus(1);// 开启共读
                 userLearnVo.setMiss(0);
                 userLearnVo.setUnlocks(0);
-                apiUserLearnService.save(userLearnVo);
+                apiUserLearnService.save(userLearnVo);*/
+
+
 //                XMLUtil.setXml
                 response.getWriter().write(setXml("SUCCESS", "OK"));
             }
@@ -777,16 +785,21 @@ public class ApiPayController extends ApiBaseAction {
                 userLearnVo.setMiss(0);
                 userLearnVo.setSetupTime(" "); // 默认7点提醒
                 userLearnVo.setUnlocks(1); // 支付成功后默认开启第一天课程
+
+                // 新加入微信名称等
+                userLearnVo.setUserName(loginUser.getUsername());
+                userLearnVo.setNickname(loginUser.getNickname());
+
                 apiUserLearnService.save(userLearnVo);
                 return toResponsMsgSuccess("支付成功");
             } else if (trade_state.equals("USERPAYING")) {
                 // 重新查询 正在支付中
-                Integer num = (Integer) J2CacheUtils.get("queryRepeatNum" + orderId + "");
+                Integer num = (Integer) J2CacheUtils.get(J2CacheUtils.SHOP_CACHE_NAME, "queryRepeatNum" + orderId + "");
                 if (num == null) {
-                    J2CacheUtils.put("queryRepeatNum" + orderId + "", 1);
+                    J2CacheUtils.put(J2CacheUtils.SHOP_CACHE_NAME,"queryRepeatNum" + orderId + "", 1);
                     this.gongDuQuery(loginUser, orderId);
                 } else if (num <= 3) {
-                    J2CacheUtils.remove("queryRepeatNum" + orderId);
+                    J2CacheUtils.remove(J2CacheUtils.SHOP_CACHE_NAME,"queryRepeatNum" + orderId);
                     this.gongDuQuery(loginUser, orderId);
                 } else {
                     return toResponsFail("查询失败,error=" + trade_state);

@@ -14,7 +14,7 @@
         <result property="setupTime" column="setup_time"/>
         <result property="addTime" column="add_time"/>
         <result property="updateTime" column="update_time"/>
-		<result property="userName" column="username"/>
+		<result property="username" column="username"/>
 		<result property="avatar" column="avatar"/>
 		<result property="nickname" column="nickname"/>
 		<result property="learnType" column="learntype"/>
@@ -63,7 +63,7 @@
 			limit 8
 		</if>
 	</select>
-	
+
  	<select id="queryTotal" resultType="int">
 		select count(*) from cnn_user_learn
 		WHERE 1=1
@@ -71,11 +71,13 @@
             AND name LIKE concat('%',#{name},'%')
         </if>
 	</select>
-	 
+
 	<insert id="save" parameterType="com.platform.entity.UserLearnVo" useGeneratedKeys="true" keyProperty="id">
 		insert into cnn_user_learn(
 			`learn_type_id`,
 			`userid`,
+			`username`,
+			`nickname`,
 			`unlocks`,
 			`formId`,
 			`miss`,
@@ -86,6 +88,8 @@
 		values(
 			#{learnTypeId},
 			#{userid},
+			#{username},
+			#{nickname},
 			#{unlocks},
 			#{formId},
 			#{miss},
@@ -112,7 +116,7 @@
 	</update>
 
 	<update id="update" parameterType="com.platform.entity.UserLearnVo">
-		update cnn_user_learn 
+		update cnn_user_learn
 		<set>
 			<if test="learnTypeId != null">`learn_type_id` = #{learnTypeId}, </if>
 			<if test="userid != null">`userid` = #{userid}, </if>
@@ -125,13 +129,13 @@
 		</set>
 		where userid = #{userid}
 	</update>
-	
+
 	<delete id="delete">
 		delete from cnn_user_learn where id = #{value}
 	</delete>
-	
+
 	<delete id="deleteBatch">
-		delete from cnn_user_learn where id in 
+		delete from cnn_user_learn where id in
 		<foreach item="id" collection="array" open="(" separator="," close=")">
 			#{id}
 		</foreach>
