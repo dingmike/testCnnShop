@@ -245,7 +245,12 @@ public class ApiGongduController extends ApiBaseAction {
 
                 // 每次打卡完成判断是否是第二十一天最后一次打卡，记录该用户是否按规定打完21天的卡完成学习任务。
                 if(setCardDay==21){
+                  List<CnnUserCardVo> userCardList = cnnUserCardService.queryUserCardList(userId, learnTypeId);
+                  for(int i=0; i<userCardList.size(); i++){
+                      if(userCardList.get(i).getReasonable()==0){
 
+                      }
+                  }
                 }
 
 
