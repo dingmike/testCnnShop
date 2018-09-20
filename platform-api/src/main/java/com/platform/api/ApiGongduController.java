@@ -55,6 +55,9 @@ public class ApiGongduController extends ApiBaseAction {
     @Autowired
     private AccessTokenService accessTokenService;
 
+    @Autowired
+    private ApiCnnLearnResultService cnnLearnResultService;
+
     /**
      * 获取共读内容/api/gongdu/getContent
      */
@@ -244,13 +247,47 @@ public class ApiGongduController extends ApiBaseAction {
                 System.out.println(successResult);
 
                 // 每次打卡完成判断是否是第二十一天最后一次打卡，记录该用户是否按规定打完21天的卡完成学习任务。
+                // 打的21天最后一天卡 就终止打卡行为
                 if(setCardDay==21){
                   List<CnnUserCardVo> userCardList = cnnUserCardService.queryUserCardList(userId, learnTypeId);
+                    // 打卡天数必须为20天
+                    CnnLearnResultVo learnResultVo = new CnnLearnResultVo();
+                    learnResultVo.setTotalCards(userCardList.size());
+                    String reasonStr = "";
+                  if(userCardList.size()<20){
+                      learnResultVo.setResult(0);
+                      reasonStr = "打卡天数不够";
+                    //  learnResultVo.setReason("打卡天数不够");
+                  }
+                  Integer successCardsNum=0;
+
+                      for(int j=0;j<userCardList.size(); j++){
+
+                          for(int i=2; i<=21;i++){
+                              if(i== userCardList.get(j).getCardDay()){
+
+                              }
+                          }
+
+                      }
+
+
                   for(int i=0; i<userCardList.size(); i++){
+
                       if(userCardList.get(i).getReasonable()==0){
+                        // 添加用户最终打卡结果有一天是无效的则无效
+//                          cnnLearnResultService
+                          learnResultVo.setResult(0);
+                          reasonStr = reasonStr+ "而且有未在规定时间打卡";
+                          break;
+                      }else{
+                          // 记录成功打卡天数
+                          ++successCardsNum;
 
                       }
                   }
+                    learnResultVo.setSuccessTotalCards(++successCardsNum);
+                    learnResultVo.setReason(reasonStr);
                 }
 
 

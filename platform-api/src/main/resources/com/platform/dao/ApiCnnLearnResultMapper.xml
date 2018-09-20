@@ -10,6 +10,7 @@
         <result property="username" column="username"/>
         <result property="nickname" column="nickname"/>
         <result property="result" column="result"/>
+        <result property="reason" column="reason"/>
         <result property="addTime" column="add_time"/>
         <result property="updateTime" column="update_time"/>
     </resultMap>
@@ -22,6 +23,7 @@
 			`username`,
 			`nickname`,
 			`result`,
+			`reason`,
 			`add_time`,
 			`update_time`
 		from cnn_learn_result
@@ -36,6 +38,7 @@
     		`username`,
     		`nickname`,
     		`result`,
+    		`reason`,
     		`add_time`,
     		`update_time`
 		from cnn_learn_result
@@ -71,6 +74,7 @@
 			`username`,
 			`nickname`,
 			`result`,
+			`reason`,
 			`add_time`,
 			`update_time`)
 		values(
@@ -79,8 +83,9 @@
 			#{username},
 			#{nickname},
 			#{result},
-			#{addTime},
-			#{updateTime})
+			#{reason},
+			now(),
+			now())
 	</insert>
 	 
 	<update id="update" parameterType="com.platform.entity.CnnLearnResultVo">
@@ -91,8 +96,8 @@
 			<if test="username != null">`username` = #{username}, </if>
 			<if test="nickname != null">`nickname` = #{nickname}, </if>
 			<if test="result != null">`result` = #{result}, </if>
-			<if test="addTime != null">`add_time` = #{addTime}, </if>
-			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+			<if test="reason != null">`reason` = #{reason}, </if>
+			<if test="updateTime != null">`update_time` = now()</if>
 		</set>
 		where id = #{id}
 	</update>
