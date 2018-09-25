@@ -46,7 +46,8 @@
    
    
    
-   
+    ##提交 > git commit -a -m "zhushi"
+    ##上传 >  git push
     ##生产环境打包 platform-wechat-mall>mvn package -P prod
     
     1. mvn clean 清理上次生成的

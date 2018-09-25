@@ -248,7 +248,7 @@ public class ApiGongduController extends ApiBaseAction {
 
                 // 每次打卡完成判断是否是第二十一天最后一次打卡，记录该用户是否按规定打完21天的卡完成学习任务。
                 // 打的21天最后一天卡 就终止打卡行为
-                if(setCardDay==21){
+                if(setCardDay==16){
                   List<CnnUserCardVo> userCardList = cnnUserCardService.queryUserCardList(userId, learnTypeId);
                     // 打卡天数必须为20天
                     CnnLearnResultVo learnResultVo = new CnnLearnResultVo();
@@ -256,21 +256,23 @@ public class ApiGongduController extends ApiBaseAction {
                     String reasonStr = "";
                   if(userCardList.size()<20){
                       learnResultVo.setResult(0);
-                      reasonStr = "打卡天数不够";
+                      reasonStr = "打卡天数不够,";
                     //  learnResultVo.setReason("打卡天数不够");
                   }
                   Integer successCardsNum=0;
 
-                      for(int j=0;j<userCardList.size(); j++){
-
-                          for(int i=2; i<=21;i++){
-                              if(i== userCardList.get(j).getCardDay()){
-
-                              }
-                          }
-
-                      }
-
+                    List<Integer> cardsList = new ArrayList<>();
+                    for(int j=0;j<userCardList.size(); j++){
+                        cardsList.add(userCardList.get(j).getCardDay());
+                    }
+                    for(int i=2; i<=21;i++){
+                        if(cardsList.contains(i)){
+                            continue;
+                        }else{
+//                            cardStr = cardStr + "第"+i+"天";
+                            reasonStr = reasonStr+"(第"+ i +"天)未打卡;";
+                        }
+                    }
 
                   for(int i=0; i<userCardList.size(); i++){
 
@@ -286,8 +288,17 @@ public class ApiGongduController extends ApiBaseAction {
 
                       }
                   }
+                    learnResultVo.setLearnTypeId(learnTypeId);
+                    learnResultVo.setUserid(userId.intValue());
+                    learnResultVo.setUsername(username);
+                    learnResultVo.setNickname(nickname);
                     learnResultVo.setSuccessTotalCards(++successCardsNum);
                     learnResultVo.setReason(reasonStr);
+                    cnnLearnResultService.save(learnResultVo);
+                    // 终止打卡行为
+                    return toResponsSuccess(21);
+
+
                 }
 
 
