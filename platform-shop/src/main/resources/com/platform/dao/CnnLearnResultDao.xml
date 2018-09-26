@@ -49,8 +49,11 @@
     		`update_time`
 		from cnn_learn_result
 		WHERE 1=1
-		<if test="name != null and name.trim() != ''">
-			AND name LIKE concat('%',#{name},'%')
+		<if test="username != null and username.trim() != ''">
+			and ud.username like concat('%',#{username},'%')
+		</if>
+		<if test="nickname != null and nickname.trim() != ''">
+			and ud.nickname like concat('%',#{nickname},'%')
 		</if>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
@@ -90,8 +93,8 @@
 			#{learnTypeId},
 			#{username},
 			#{nickname},
-			#{success_total_cards},
-			#{total_cards},
+			#{successTotalCards},
+			#{totalCards},
 			#{result},
 			#{reason},
 			now(),

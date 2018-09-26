@@ -201,11 +201,15 @@ public class ApiGongduController extends ApiBaseAction {
             CnnUserCardVo userCardVo = cnnUserCardService.queryObjectByOther(userId, day, month, year, learnTypeId);
 
             System.out.println("------------------------------");
-            System.out.println(userCardVo);
 
             // 如果已经打过卡了，就返回0
             if(null != userCardVo){
-                return toResponsSuccess(0);
+                if(16!=setCardDay){
+                    return toResponsSuccess(0);
+                }else {
+                    return toResponsSuccess(21);
+                }
+
             }else{
                 // 还没打卡继续打卡操作
                 CnnUserCardVo userCard = new CnnUserCardVo();
@@ -292,16 +296,12 @@ public class ApiGongduController extends ApiBaseAction {
                     learnResultVo.setUserid(userId.intValue());
                     learnResultVo.setUsername(username);
                     learnResultVo.setNickname(nickname);
-                    learnResultVo.setSuccessTotalCards(++successCardsNum);
+                    learnResultVo.setSuccessTotalCards(successCardsNum);
                     learnResultVo.setReason(reasonStr);
                     cnnLearnResultService.save(learnResultVo);
                     // 终止打卡行为
                     return toResponsSuccess(21);
-
-
                 }
-
-
 
                 if(successResult !=0){
                     return toResponsSuccess(saveSuccess);

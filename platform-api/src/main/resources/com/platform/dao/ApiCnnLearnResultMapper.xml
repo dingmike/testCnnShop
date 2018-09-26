@@ -3,12 +3,14 @@
 
 <mapper namespace="com.platform.dao.ApiCnnLearnResultMapper">
 
-    <resultMap type="com.platform.entity.CnnLearnResultEntity" id="cnnLearnResultMap">
+    <resultMap type="com.platform.entity.CnnLearnResultVo" id="cnnLearnResultMap">
         <result property="id" column="id"/>
         <result property="userid" column="userid"/>
         <result property="learnTypeId" column="learn_type_id"/>
         <result property="username" column="username"/>
         <result property="nickname" column="nickname"/>
+		<result property="successTotalCards" column="success_total_cards"/>
+		<result property="totalCards" column="total_cards"/>
         <result property="result" column="result"/>
         <result property="reason" column="reason"/>
         <result property="addTime" column="add_time"/>
@@ -22,6 +24,8 @@
 			`learn_type_id`,
 			`username`,
 			`nickname`,
+			`success_total_cards`,
+			`total_cards`,
 			`result`,
 			`reason`,
 			`add_time`,
@@ -37,6 +41,8 @@
     		`learn_type_id`,
     		`username`,
     		`nickname`,
+		    `success_total_cards`,
+		    `total_cards`,
     		`result`,
     		`reason`,
     		`add_time`,
@@ -73,6 +79,8 @@
 			`learn_type_id`,
 			`username`,
 			`nickname`,
+			`success_total_cards`,
+			`total_cards`,
 			`result`,
 			`reason`,
 			`add_time`,
@@ -82,6 +90,8 @@
 			#{learnTypeId},
 			#{username},
 			#{nickname},
+			#{successTotalCards},
+			#{totalCards},
 			#{result},
 			#{reason},
 			now(),
@@ -95,6 +105,8 @@
 			<if test="learnTypeId != null">`learn_type_id` = #{learnTypeId}, </if>
 			<if test="username != null">`username` = #{username}, </if>
 			<if test="nickname != null">`nickname` = #{nickname}, </if>
+			<if test="successTotalCards != null">`success_total_cards` = #{successTotalCards}, </if>
+			<if test="totalCards != null">`total_cards` = #{totalCards}, </if>
 			<if test="result != null">`result` = #{result}, </if>
 			<if test="reason != null">`reason` = #{reason}, </if>
 			<if test="updateTime != null">`update_time` = now()</if>
