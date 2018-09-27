@@ -122,9 +122,6 @@ public class ApiGongduController extends ApiBaseAction {
         return toResponsFail("执行失败");
     }
 
-
-
-
     /**
      * 获取共读有效打卡信息/api/gongdu/getCardNums
      */
@@ -180,8 +177,6 @@ public class ApiGongduController extends ApiBaseAction {
         Integer setCardDay = userLearnObj.getUnlocks();
         // 微信授权用户才能获取信息
         if (null != jsonParams&& openid.equals(jsonParams.getString("uid"))) {
-
-//            SimpleDateFormat simdf = new SimpleDateFormat("MM月dd日");
             Calendar cal = Calendar.getInstance();
             //分别获取年、月、日
             System.out.println("年："+cal.get(cal.YEAR));
@@ -204,12 +199,12 @@ public class ApiGongduController extends ApiBaseAction {
 
             // 如果已经打过卡了，就返回0
             if(null != userCardVo){
-                if(16!=setCardDay){
-                    return toResponsSuccess(0);
-                }else {
+                // 如果打卡日大于等于21则返回21 计划已完成
+                if(21<=setCardDay){
                     return toResponsSuccess(21);
+                }else{
+                    return toResponsSuccess(0);
                 }
-
             }else{
                 // 还没打卡继续打卡操作
                 CnnUserCardVo userCard = new CnnUserCardVo();
@@ -261,10 +256,8 @@ public class ApiGongduController extends ApiBaseAction {
                   if(userCardList.size()<20){
                       learnResultVo.setResult(0);
                       reasonStr = "打卡天数不够,";
-                    //  learnResultVo.setReason("打卡天数不够");
                   }
                   Integer successCardsNum=0;
-
                     List<Integer> cardsList = new ArrayList<>();
                     for(int j=0;j<userCardList.size(); j++){
                         cardsList.add(userCardList.get(j).getCardDay());
@@ -273,23 +266,19 @@ public class ApiGongduController extends ApiBaseAction {
                         if(cardsList.contains(i)){
                             continue;
                         }else{
-//                            cardStr = cardStr + "第"+i+"天";
-                            reasonStr = reasonStr+"(第"+ i +"天)未打卡;";
+                            reasonStr = reasonStr+"(第"+ i +"天)未打卡、";
                         }
                     }
 
                   for(int i=0; i<userCardList.size(); i++){
-
                       if(userCardList.get(i).getReasonable()==0){
                         // 添加用户最终打卡结果有一天是无效的则无效
-//                          cnnLearnResultService
                           learnResultVo.setResult(0);
                           reasonStr = reasonStr+ "而且有未在规定时间打卡";
                           break;
                       }else{
                           // 记录成功打卡天数
                           ++successCardsNum;
-
                       }
                   }
                     learnResultVo.setLearnTypeId(learnTypeId);
@@ -308,9 +297,7 @@ public class ApiGongduController extends ApiBaseAction {
                 }else{
                     return toResponsFail("内部错误没有formID，联系管理员！");
                 }
-
             }
-
         }
         return toResponsFail("执行失败");
     }
