@@ -49,17 +49,14 @@
             <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header"><a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
                         class="fa fa-bars"></i> </a>
-                    <form role="search" class="navbar-form-custom" method="post" action="#">
+                    <!--<form role="search" class="navbar-form-custom" method="post" action="#">
                         <div class="form-group">
                             <input type="text" placeholder="请输入您需要查找的内容 …" class="form-control" name="top-search"
                                    id="top-search">
                         </div>
-                    </form>
+                    </form>-->
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
-                  <!--  <li class="dropdown">
-                        <a href="javascript:;" @click="love"><i class="fa fa-rmb"></i> &nbsp;捐赠</a>
-                    </li>-->
                     <li class="dropdown">
                         <a href="javascript:;" @click="toggleFullScreen"><i class="fa fa-arrows-alt"></i> &nbsp;全屏</a>
                     </li>
@@ -252,9 +249,9 @@
                                 </div>
                                 <div class="media-body">
 
-                                    这是一条测试消息
+                                   测试消息
                                     <br>
-                                    <small class="text-muted">今天 4:21</small>
+                                    <small class="text-muted">今天 1:21</small>
                                 </div>
                             </a>
                         </div>
@@ -403,15 +400,6 @@
                     }, 500);
                 });
             },
-            love: function () {
-                openWindow({
-                    type: 2,
-                    title: '支持开源',
-                    area: ['806px', '467px'],
-                    closeBtn: 2,
-                    content: ['statics/img/love.jpg', 'no']
-                });
-            }
         },
         created: function () {
             this.getUser();

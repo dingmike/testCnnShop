@@ -4,23 +4,23 @@ $(function () {
         colModel: [
 			// {label: 'id', name: 'id', index: 'id', key: true, hidden: true},
 			// {label: 'cnn媒体广告类型', name: 'mediaType', index: 'media_type', width: 80},
-			{label: '广告名称', name: 'name', index: 'name', width: 80},
-            {label: '形式', name: 'mediaType', index: 'media_type', width: 80},
-			{label: '链接', name: 'link', index: 'link', width: 80},
+			{label: '广告名称',align : "center", name: 'name', index: 'name', width: 80},
+            {label: '形式',align : "center", name: 'mediaType', index: 'media_type', width: 80},
+			{label: '链接',align : "center", name: 'link', index: 'link', width: 80},
             {
-                label: '图片', name: 'imageUrl', index: 'image_url', width: 80, formatter: function (value) {
+                label: '图片',align : "center", name: 'imageUrl', index: 'image_url', width: 80, formatter: function (value) {
                 return transImg(value);
             }
             },
-			{label: '文字类容', name: 'content', index: 'content', width: 80},
-			{label: '添加时间', name: 'addTime', index: 'add_time', width: 80, formatter: function (value) {
+			{label: '文字类容',align : "center", name: 'content', index: 'content', width: 80},
+			{label: '添加时间',align : "center", name: 'addTime', index: 'add_time', width: 80, formatter: function (value) {
                 return transDate(value,'yyyy-MM-dd hh:mm:ss');
             }},
-			{label: '更新时间', name: 'updateTime', index: 'update_time', width: 80, formatter: function (value) {
+			{label: '更新时间',align : "center", name: 'updateTime', index: 'update_time', width: 80, formatter: function (value) {
                 return transDate(value,'yyyy-MM-dd hh:mm:ss');
             }},
             {
-                label: '状态', name: 'enabled', index: 'enabled', width: 80, formatter: function (value) {
+                label: '状态',align : "center", name: 'enabled', index: 'enabled', width: 80, formatter: function (value) {
                 return value === 0 ?
                     '<span class="label label-danger">禁用</span>' :
                     '<span class="label label-success">正常</span>';

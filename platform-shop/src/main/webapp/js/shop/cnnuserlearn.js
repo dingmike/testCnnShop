@@ -3,24 +3,23 @@ $(function () {
         url: '../cnnuserlearn/list',
         colModel: [
 			{label: 'id', name: 'id', index: 'id', key: true, hidden: true},
-			{label: '微信昵称', name: 'nickname', index: 'nickname', width: 60},
-			{label: '会员名称（微信ID）', name: 'userName', index: 'username', width: 80},
-			{label: '头像', name: 'avatar', index: 'avatar', width: 60, formatter: function (value) {
+			{label: '微信昵称',align : "center", name: 'nickname', index: 'nickname', width: 60},
+			{label: '会员名称（微信ID）', align : "center",name: 'userName', index: 'username', width: 80},
+			{label: '头像',align : "center", name: 'avatar', index: 'avatar', width: 60, formatter: function (value) {
                 return transImg(value);
             }},
-			{label: '学习类型', name: 'learnType', index: 'learn_type', width: 80},
+			{label: '学习类型',align : "center", name: 'learnType', index: 'learn_type', width: 80},
 			// {label: '用户ID', name: 'userid', index: 'userid', width: 80},
-			{label: '累计该打卡天数', name: 'unlocks', index: 'unlocks', width: 60},
-			{label: '微信表单ID', name: 'formId', index: 'formId', width: 80},
+			{label: '累计该打卡天数',align : "center", name: 'unlocks', index: 'unlocks', width: 60},
+			{label: '微信表单ID', align : "center",name: 'formId', index: 'formId', width: 80},
 			/*{label: '提醒打卡时间', name: 'setupTime', index: 'setup_time', width: 80, formatter:function (value) {
 				return formatDateTime(value, 'hh:mm');
             }},*/
-
-            {label: '提醒打卡时间', name: 'setupTime', index: 'setup_time', width: 80},
-            {label: '是否开始', name: 'startStatus', index: 'start_status', width: 50,  formatter: function (value) {
+            {label: '提醒打卡时间',align : "center", name: 'setupTime', index: 'setup_time', width: 80},
+            {label: '是否开始',align : "center", name: 'startStatus', index: 'start_status', width: 50,  formatter: function (value) {
                 return transIsNot(value);
             }},
-			{label: '添加时间', name: 'addTime', index: 'add_time', width: 80, formatter: function (value) {
+			{label: '添加时间',align : "center", name: 'addTime', index: 'add_time', width: 80, formatter: function (value) {
                 return transDate(value, 'yyyy-MM-dd hh:mm:ss');
             }},
 			/*{label: '更新时间', name: 'updateTime', index: 'update_time', width: 80, formatter: function (value) {

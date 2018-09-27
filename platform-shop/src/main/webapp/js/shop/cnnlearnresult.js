@@ -3,13 +3,21 @@ $(function () {
         url: '../cnnlearnresult/list',
         colModel: [
 			{label: 'id', name: 'id', index: 'id', key: true, hidden: true},
-			{label: '', name: 'userid', index: 'userid', width: 80},
-			{label: '', name: 'learnTypeId', index: 'learn_type_id', width: 80},
-			{label: '', name: 'username', index: 'username', width: 80},
-			{label: '', name: 'nickname', index: 'nickname', width: 80},
-			{label: '21天后打卡结果1：成功，0失败', name: 'result', index: 'result', width: 80},
-			{label: '添加时间', name: 'addTime', index: 'add_time', width: 80},
-			{label: '更新时间', name: 'updateTime', index: 'update_time', width: 80}]
+			// {label: '', name: 'userid', index: 'userid', width: 80},
+			{label: '微信ID', align : "center", name: 'username', index: 'username', width: 40},
+			{label: '微信昵称',align : "center", name: 'nickname', index: 'nickname', width: 40},
+            {label: '学习类型',align : "center", name: 'learnType', index: 'learn_type', width: 60},
+			{label: '最终打卡结果',align : "center", name: 'result', index: 'result', width: 50,
+                formatter: function (value) {
+                    return toSuccessOrFailture(value);
+                }
+			},
+            {label: '失败原因',align : "left", name: 'reason', index: 'reason', width: 220},
+            {label: '生成时间',align : "center", name: 'addTime', index: 'add_time', width: 60,
+                formatter: function (value) {
+                    return transDate(value, 'yyyy-MM-dd hh:mm:ss');
+                }},
+		]
     });
 });
 

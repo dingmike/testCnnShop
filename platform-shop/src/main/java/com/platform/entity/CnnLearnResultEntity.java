@@ -22,6 +22,8 @@ public class CnnLearnResultEntity implements Serializable {
     private Integer userid;
     //
     private Integer learnTypeId;
+
+    private String learnType;
     //
     private String username;
     //
@@ -103,7 +105,19 @@ public class CnnLearnResultEntity implements Serializable {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+    /**
+     * 设置：学习类型名称
+     */
+    public void setLearnType(String learnType) {
+        this.learnType = learnType;
+    }
 
+    /**
+     * 获取：学习类型名称
+     */
+    public String getLearnType() {
+        return learnType;
+    }
     /**
      * 获取：
      */

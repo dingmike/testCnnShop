@@ -3,24 +3,24 @@ $(function () {
         url: '../cnnlearncontent/list',
         colModel: [
 			// {label: 'id', name: 'id', index: 'id', key: true, hidden: true},
-			{label: '学习类型', name: 'learnType', index: 'learn_type', width: 80},
-			{label: '主内容标题', name: 'title', index: 'title', width: 80},
-			{label: '学习天数', name: 'genusDays', index: 'genus_days', width: 40},
-			{label: '内容关键词', name: 'keyNums', index: 'key_nums', width: 80},
+			{label: '学习类型',align : "center", name: 'learnType', index: 'learn_type', width: 80},
+			{label: '主内容标题',align : "center", name: 'title', index: 'title', width: 100},
+			{label: '学习天数',align : "center", name: 'genusDays', index: 'genus_days', width: 40},
+			{label: '内容关键词',align : "left", name: 'keyNums', index: 'key_nums', width: 100},
 			// {label: '主内容详情', name: 'oraleContent', index: 'orale_content', width: 80},
-			{label: '主内容语音', name: 'oraleSound', index: 'orale_sound', width: 80},
-			{label: '合成图片路径', name: 'scenceImg', index: 'scence_img', width: 80},
-			{label: '状态', name: 'isUse', index: 'is_use', width: 40,
+			{label: '主内容语音',align : "center", name: 'oraleSound', index: 'orale_sound', width: 80},
+			{label: '合成图片路径',align : "center", name: 'scenceImg', index: 'scence_img', width: 80},
+			{label: '状态', align : "center",name: 'isUse', index: 'is_use', width: 30,
                 formatter: function (value) {
                     return transStatus(value);
                 }},
 			// {label: '扩展内容标题', name: 'extendSen', index: 'extend_sen', width: 80},
-			{label: '扩展语音', name: 'extendSound', index: 'extend_sound', width: 80},
+			{label: '扩展语音',align : "center", name: 'extendSound', index: 'extend_sound', width: 80},
 			// {label: '扩展内容', name: 'extendWord', index: 'extend_word', width: 80},
-			{label: '添加时间', name: 'addTime', index: 'add_time', width: 80, formatter: function (value) {
+			{label: '添加时间', align : "center",name: 'addTime', index: 'add_time', width: 60, formatter: function (value) {
                 return transDate(value, 'yyyy-MM-dd hh:mm:ss');
             }},
-			{label: '修改时间', name: 'updateTime', index: 'update_time', width: 80, formatter: function (value) {
+			{label: '修改时间', align : "center",name: 'updateTime', index: 'update_time', width: 60, formatter: function (value) {
                 return transDate(value, 'yyyy-MM-dd hh:mm:ss');
             }}]
     });

@@ -4,19 +4,19 @@ $(function () {
         colModel: [
 			//{label: 'id', name: 'id', index: 'id', key: true, hidden: true},
 			//{label: '学习类型', name: 'learnTypeId', index: 'learn_type_id', width: 80},
-			{label: '学习类型', name: 'learnType', index: 'learn_type', width: 80},
+			{label: '学习类型',align : "center", name: 'learnType', index: 'learn_type', width: 80},
 			//{label: '用户', name: 'userid', index: 'userid', width: 80},
-			{label: '微信昵称', name: 'nickname', index: 'nickname', width: 80},
-			{label: '会员名称（微信ID）', name: 'username', index: 'username', width: 100},
-			{label: '打第几天卡', name: 'cardDay', index: 'card_day', width: 40},
-			{label: '打卡日', name: 'day', index: 'day', width: 40},
-			{label: '打卡月', name: 'month', index: 'month', width: 30},
-			{label: '打卡年', name: 'year', index: 'year', width:30},
-			{label: '是否有效', name: 'reasonable', index: 'reasonable', width: 40,
+			{label: '微信昵称',align : "center", name: 'nickname', index: 'nickname', width: 80},
+			{label: '会员名称（微信ID）',align : "center", name: 'username', index: 'username', width: 100},
+			{label: '打第几天卡',align : "center", name: 'cardDay', index: 'card_day', width: 40},
+			{label: '打卡日',align : "center", name: 'day', index: 'day', width: 40},
+			{label: '打卡月',align : "center", name: 'month', index: 'month', width: 30},
+			{label: '打卡年', align : "center",name: 'year', index: 'year', width:30},
+			{label: '是否有效',align : "center", name: 'reasonable', index: 'reasonable', width: 40,
 				formatter: function (value) {
 					return transStatus(value);
 				}},
-			{label: '打卡时间', name: 'cardTime', index: 'card_time', width: 80,
+			{label: '打卡时间',align : "center", name: 'cardTime', index: 'card_time', width: 80,
 				formatter: function (value) {
 					return transDate(value, 'yyyy-MM-dd hh:mm:ss');
 				}}

@@ -7,6 +7,7 @@
         <result property="id" column="id"/>
         <result property="userid" column="userid"/>
         <result property="learnTypeId" column="learn_type_id"/>
+		<result property="learnType" column="learn_type"/>
         <result property="username" column="username"/>
         <result property="nickname" column="nickname"/>
 		<result property="successTotalCards" column="success_total_cards"/>
@@ -36,21 +37,26 @@
 
 	<select id="queryList" resultType="com.platform.entity.CnnLearnResultVo">
 		select
-    		`id`,
-    		`userid`,
-    		`learn_type_id`,
-    		`username`,
-    		`nickname`,
-		    `success_total_cards`,
-		    `total_cards`,
-    		`result`,
-    		`reason`,
-    		`add_time`,
-    		`update_time`
-		from cnn_learn_result
+    		lr.id,
+    		lr.userid,
+    		lr.learn_type_id,
+    		lr.username,
+    		lr.nickname,
+		    lr.success_total_cards,
+		    lr.total_cards,
+    		lr.result,
+    		lr.reason,
+    		lr.add_time,
+    		lr.update_time,
+		    lt.learn_type as learnType
+		from cnn_learn_result lr
+		left join cnn_learn_type lt on lr.learn_type_id = lt.id
 		WHERE 1=1
-		<if test="name != null and name.trim() != ''">
-			AND name LIKE concat('%',#{name},'%')
+		<if test="username != null and username.trim() != ''">
+			and lr.username like concat('%',#{username},'%')
+		</if>
+		<if test="nickname != null and nickname.trim() != ''">
+			and lr.nickname like concat('%',#{nickname},'%')
 		</if>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">

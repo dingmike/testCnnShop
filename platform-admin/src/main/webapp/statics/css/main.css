@@ -113,3 +113,5 @@ tbody > tr > th {
     float: right;
     padding-right: 10px;
 }
+/*jqGrid单元格自动换行*/
+.ui-jqgrid tr.jqgrow td { white-space: normal !important; height:auto; }

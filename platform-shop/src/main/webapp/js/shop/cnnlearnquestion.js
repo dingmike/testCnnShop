@@ -4,28 +4,28 @@ $(function () {
         colModel: [
 			//{label: 'id', name: 'id', index: 'id', key: true, hidden: true},
 			//{label: '学习类型ID', name: 'learnTypeId', index: 'learn_type_id', width: 80},
-			{label: '学习类型', name: 'learnType', index: 'learn_type', width: 60},
-			{label: '学习天数', name: 'genusDays', index: 'genus_days', width: 40},
+			{label: '学习类型',align : "center", name: 'learnType', index: 'learn_type', width: 60},
+			{label: '学习天数',align : "center", name: 'genusDays', index: 'genus_days', width: 40},
 			// {label: '重点内容', name: 'oraleitem', index: 'oraleitem', width: 80},
-			{label: '关键词', name: 'keyword', index: 'keyword', width: 80},
-			{label: '主要问题', name: 'oralejp', index: 'oralejp', width: 120},
+			{label: '关键词',align : "left", name: 'keyword', index: 'keyword', width: 80},
+			{label: '主要问题',align : "left", name: 'oralejp', index: 'oralejp', width: 120},
 			// {label: '其它问题', name: 'oralech', index: 'oralecn', width: 80},
 			// {label: '解题分析', name: 'analysis', index: 'analysis', width: 80},
 			// {label: '选项1', name: 'opt1', index: 'opt1', width: 80},
 			// {label: '选项2', name: 'opt2', index: 'opt2', width: 80},
 			// {label: '选项3', name: 'opt3', index: 'opt3', width: 80},
 			// {label: '选项4', name: 'opt4', index: 'opt4', width: 80},
-			{label: '内容语音链接', name: 'oralesound', index: 'oralesound', width: 80},
-			{label: '答案选项', name: 'copt', index: 'copt', width: 60},
-			{label: '问答题吗？', name: 'typeof', index: 'typeof', width: 60,
+			{label: '内容语音链接',align : "center", name: 'oralesound', index: 'oralesound', width: 80},
+			{label: '答案选项',align : "center", name: 'copt', index: 'copt', width: 60},
+			{label: '问答题吗？', align : "center",name: 'typeof', index: 'typeof', width: 60,
 				formatter: function (value) {
 					return transIsNot(value);
 				}},
-			{label: '添加时间', name: 'addTime', index: 'add_time', width: 80,
+			{label: '添加时间',align : "center",name: 'addTime', index: 'add_time', width: 80,
 				formatter: function (value) {
 					return transDate(value, 'yyyy-MM-dd hh:mm:ss');
 				}},
-			{label: '修改时间', name: 'updateTime', index: 'update_time', width: 80,
+			{label: '修改时间',align : "center", name: 'updateTime', index: 'update_time', width: 80,
 				formatter: function (value) {
 					return transDate(value, 'yyyy-MM-dd hh:mm:ss');
 				}}]

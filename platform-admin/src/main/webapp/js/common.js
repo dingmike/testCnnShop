@@ -250,6 +250,13 @@ function transStatus(value) {
     return '<span class="label label-danger">无效</span>';
 };
 
+function toSuccessOrFailture(value) {
+    if (value == 1) {
+        return '<span class="label label-success">成功</span>';
+    }
+    return '<span class="label label-danger">失败</span>';
+};
+
 function toUrl(href) {
     window.location.href = href;
 }
