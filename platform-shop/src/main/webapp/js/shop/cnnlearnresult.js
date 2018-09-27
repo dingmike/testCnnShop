@@ -34,9 +34,18 @@ let vm = new Vue({
 		},
 		q: {
 		    name: ''
-		}
+		},
+        learnTypes: []
 	},
 	methods: {
+        /**
+         * 获取学习类型
+         */
+        getLearnTypes: function () {
+            $.get("../cnnlearntype/queryAll", function (r) {
+                vm.learnTypes = r.list;
+            });
+        },
 		query: function () {
 			vm.reload();
 		},
@@ -44,6 +53,7 @@ let vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.cnnLearnResult = {};
+            vm.getLearnTypes();
 		},
 		update: function (event) {
             let id = getSelectedRow("#jqGrid");
@@ -52,7 +62,7 @@ let vm = new Vue({
 			}
 			vm.showList = false;
             vm.title = "修改";
-
+            vm.getLearnTypes();
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {

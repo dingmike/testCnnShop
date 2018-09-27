@@ -33,12 +33,16 @@
 
     <Card v-show="!showList">
         <p slot="title">{{title}}</p>
-		<i-form ref="formValidate" :model="cnnLearnResult" :rules="ruleValidate" :label-width="80">
-            <Form-item label="" prop="userid">
-                <i-input v-model="cnnLearnResult.userid" placeholder=""/>
+		<i-form ref="formValidate" :model="cnnLearnResult" :rules="ruleValidate" :label-width="100">
+            <Form-item label="微信昵称" prop="nickname">
+                <i-input v-model="cnnLearnResult.nickname" placeholder=""/>
             </Form-item>
-            <Form-item label="" prop="learnTypeId">
-                <i-input v-model="cnnLearnResult.learnTypeId" placeholder=""/>
+            <Form-item label="学习类型" prop="learnTypeId" style="width: 268px;">
+                <!--<i-input v-model="cnnLearnResult.learnTypeId" placeholder=""/>-->
+                <i-select v-model="cnnLearnResult.learnTypeId" filterable>
+                    <i-option v-for="learnType in learnTypes" :value="learnType.id" :key="learnType.id">{{learnType.learnType}}
+                    </i-option>
+                </i-select>
             </Form-item>
             <Form-item label="成功打卡天数" prop="successTotalCards">
                 <i-input v-model="cnnLearnResult.successTotalCards" placeholder="成功打卡天数"/>
@@ -47,7 +51,7 @@
                 <i-input v-model="cnnLearnResult.totalCards" placeholder="总共打卡天数"/>
             </Form-item>
             <Form-item label="原因" prop="reason">
-                <i-input v-model="cnnLearnResult.reason" placeholder="原因"/>
+                <i-input type="textarea" :rows="4" v-model="cnnLearnResult.reason" placeholder="原因"/>
             </Form-item>
            <!-- <Form-item label="" prop="username">
                 <i-input v-model="cnnLearnResult.username" placeholder=""/>
