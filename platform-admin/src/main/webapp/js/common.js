@@ -256,6 +256,18 @@ function toSuccessOrFailture(value) {
     }
     return '<span class="label label-danger">失败</span>';
 };
+function toFreezed(value) {
+    if (value == 1) {
+        return '<span class="label label-danger">冻结</span>';
+    }
+    return '<span class="label label-success">正常</span>';
+};
+function toPlusMins(value) {
+    if (value == 0) {
+        return '<span class="label label-danger">减少</span>';
+    }
+    return '<span class="label label-success">增加</span>';
+};
 
 function toUrl(href) {
     window.location.href = href;

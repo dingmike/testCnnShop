@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -57,6 +58,12 @@ public class ApiGongduController extends ApiBaseAction {
 
     @Autowired
     private ApiCnnLearnResultService cnnLearnResultService;
+
+    @Autowired
+    private ApiUserService userService;
+
+    @Autowired
+    private ApiUserIntergralLogService userIntergralLogService;
 
     /**
      * 获取共读内容/api/gongdu/getContent
@@ -200,7 +207,7 @@ public class ApiGongduController extends ApiBaseAction {
             // 如果已经打过卡了，就返回0
             if(null != userCardVo){
                 // 如果打卡日大于等于21则返回21 计划已完成
-                if(21<=setCardDay){
+                if(16<=setCardDay){
                     return toResponsSuccess(21);
                 }else{
                     return toResponsSuccess(0);
@@ -224,8 +231,25 @@ public class ApiGongduController extends ApiBaseAction {
                 }else{
                     userCard.setReasonable(0);
                 }
-
+                // 打卡信息保存
                 Integer saveSuccess = cnnUserCardService.save(userCard);
+                // 打卡信息保存后都可以获得积分10
+                BigDecimal increased  =  new BigDecimal(10);
+                loginUser.setIntergral(increased);
+                userService.update(loginUser);
+
+                UserIntergralLogVo userIntergralLogVo = new UserIntergralLogVo();
+
+                userIntergralLogVo.setUserid(userId.intValue());
+                userIntergralLogVo.setLearnTypeId(learnTypeId);
+                userIntergralLogVo.setNickname(nickname);
+                userIntergralLogVo.setUsername(username);
+                userIntergralLogVo.setPlusMins(1); // 1加 0减
+                userIntergralLogVo.setMemo("每日打卡获得");
+                userIntergralLogVo.setPoints(increased);
+                userIntergralLogService.save(userIntergralLogVo);
+
+
                 // 打卡完后更新微信表单formID 多个formId是个字符串用“，”隔开
                 UserLearnVo userLearnVo = new UserLearnVo();
                 userLearnVo.setLearnTypeId(learnTypeId);
@@ -254,9 +278,12 @@ public class ApiGongduController extends ApiBaseAction {
                     learnResultVo.setTotalCards(userCardList.size());
                     String reasonStr = "";
                   if(userCardList.size()<20){
+                      // 最终结果
                       learnResultVo.setResult(0);
                       reasonStr = "打卡天数不够,";
-                  }
+                  }else{
+                      learnResultVo.setResult(1);
+                    }
                   Integer successCardsNum=0;
                     List<Integer> cardsList = new ArrayList<>();
                     for(int j=0;j<userCardList.size(); j++){
@@ -264,8 +291,11 @@ public class ApiGongduController extends ApiBaseAction {
                     }
                     for(int i=2; i<=21;i++){
                         if(cardsList.contains(i)){
+                            learnResultVo.setResult(1);
                             continue;
                         }else{
+                            // 最终结果
+                            learnResultVo.setResult(0);
                             reasonStr = reasonStr+"(第"+ i +"天)未打卡、";
                         }
                     }
@@ -277,6 +307,7 @@ public class ApiGongduController extends ApiBaseAction {
                           reasonStr = reasonStr+ "而且有未在规定时间打卡";
                           break;
                       }else{
+                          learnResultVo.setResult(1);
                           // 记录成功打卡天数
                           ++successCardsNum;
                       }

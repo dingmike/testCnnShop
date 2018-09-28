@@ -1,12 +1,13 @@
 package com.platform.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 
 /**
- * @author lipengjun
- * @email 939961241@qq.com
+ * @author admin
+ * @email 2252277509@qq.com
  * @date 2017-08-15 08:03:41
  */
 public class UserVo implements Serializable {
@@ -38,8 +39,14 @@ public class UserVo implements Serializable {
     private String register_ip;
     //头像
     private String avatar;
-    //微信Id
+    //微信openid
     private String weixin_openid;
+    //积分
+    private BigDecimal intergral;
+    //余额
+    private BigDecimal balance;
+    //是否冻结余额和积分1冻结，0不冻结
+    private Integer freeze;
 
     public Long getUserId() {
         return userId;
@@ -152,4 +159,46 @@ public class UserVo implements Serializable {
     public void setWeixin_openid(String weixin_openid) {
         this.weixin_openid = weixin_openid;
     }
+
+
+    /**
+     * 设置：积分
+     */
+    public void setIntergral(BigDecimal intergral) {
+        this.intergral = intergral;
+    }
+
+    /**
+     * 获取：积分
+     */
+    public BigDecimal getIntergral() {
+        return intergral;
+    }
+    /**
+     * 设置：余额
+     */
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    /**
+     * 获取：余额
+     */
+    public BigDecimal getBalance() {
+        return balance;
+    }
+    /**
+     * 设置：是否冻结余额和积分1冻结，0不冻结
+     */
+    public void setFreeze(Integer freeze) {
+        this.freeze = freeze;
+    }
+
+    /**
+     * 获取：是否冻结余额和积分1冻结，0不冻结
+     */
+    public Integer getFreeze() {
+        return freeze;
+    }
+
 }

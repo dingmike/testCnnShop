@@ -53,10 +53,10 @@
 		left join cnn_learn_type lt on lr.learn_type_id = lt.id
 		WHERE 1=1
 		<if test="username != null and username.trim() != ''">
-			and ud.username like concat('%',#{username},'%')
+			and lr.username like concat('%',#{username},'%')
 		</if>
 		<if test="nickname != null and nickname.trim() != ''">
-			and ud.nickname like concat('%',#{nickname},'%')
+			and lr.nickname like concat('%',#{nickname},'%')
 		</if>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">

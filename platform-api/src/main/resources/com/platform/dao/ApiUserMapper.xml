@@ -19,6 +19,10 @@
         <result property="register_ip" column="register_ip"/>
         <result property="avatar" column="avatar"/>
         <result property="weixin_openid" column="weixin_openid"/>
+        <result property="weixin_openid" column="weixin_openid"/>
+        <result property="intergral" column="intergral"/>
+        <result property="balance" column="balance"/>
+        <result property="freeze" column="freeze"/>
     </resultMap>
 
     <select id="queryObject" resultMap="userMap">
@@ -67,7 +71,10 @@
 			`mobile`, 
 			`register_ip`, 
 			`avatar`, 
-			`weixin_openid`
+			`weixin_openid`,
+			`intergral`,
+			`balance`,
+			`freeze`
 		)
 		values
 		(
@@ -83,7 +90,10 @@
 			#{mobile},
 			#{register_ip},
 			#{avatar},
-			#{weixin_openid}
+			#{weixin_openid},
+			#{intergral},
+			#{balance},
+			#{freeze})
 		)
 	</insert>
 
@@ -102,7 +112,9 @@
             <if test="mobile != null">`mobile` = #{mobile},</if>
             <if test="register_ip != null">`register_ip` = #{register_ip},</if>
             <if test="avatar != null">`avatar` = #{avatar},</if>
-            <if test="weixin_openid != null">`weixin_openid` = #{weixin_openid}</if>
+            <if test="weixin_openid != null">`weixin_openid` = #{weixin_openid},</if>
+            <if test="intergral==10">`intergral` = `intergral` + #{intergral}, </if>
+            <if test="balance != null">`balance` = #{balance}</if>
         </set>
         where id = #{userId}
     </update>

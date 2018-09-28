@@ -3,43 +3,61 @@ $(function () {
         url: '../user/list',
         colModel: [{
             label: 'id', name: 'id', index: 'id', key: true, hidden: true
-        }, {
-            label: '会员名称', name: 'username', index: 'username', width: 80
-        }, {
-            label: '会员密码', name: 'password', index: 'password', hidden: true
-        }, {
-            label: '性别', name: 'gender', index: 'gender', width: 40, formatter: function (value) {
-                return transGender(value);
-            }
-        }, {
-            label: '出生日期', name: 'birthday', index: 'birthday', width: 80, formatter: function (value) {
-                return transDate(value);
-            }
-        }, {
-            label: '注册时间', name: 'registerTime', index: 'register_time', width: 80, formatter: function (value) {
-                return transDate(value);
-            }
-        }, {
-            label: '最后登录时间', name: 'lastLoginTime', index: 'last_login_time', width: 80, formatter: function (value) {
-                return transDate(value);
-            }
-        }, {
-            label: '最后登录Ip', name: 'lastLoginIp', index: 'last_login_ip', hidden: true
-        }, {
-            label: '会员等级', name: 'levelName', width: 40
-        }, {
-            label: '微信名', name: 'nickname', index: 'nickname', width: 80
-        }, {
-            label: '手机号码', name: 'mobile', index: 'mobile', width: 120
-        }, {
-            label: '注册Ip', name: 'registerIp', index: 'register_ip', hidden: true
-        }, {
-            label: '头像', name: 'avatar', index: 'avatar', width: 80, formatter: function (value) {
+        },
+            {
+                label: '头像', name: 'avatar',align : "center", index: 'avatar', width: 30, formatter: function (value) {
                 return transImg(value);
             }
-        }, {
-            label: '微信Id', name: 'weixinOpenid', index: 'weixin_openid', width: 80, hidden: true
-        }]
+            }, {
+                label: '会员名称',align : "center", name: 'username', index: 'username', width: 60
+            },
+
+            {
+                label: '微信昵称',align : "center", name: 'nickname', index: 'nickname', width: 60
+            },
+            {label: '积分',align : "center", name: 'intergral', index: 'intergral', width: 30},
+            {label: '余额',align : "center", name: 'balance', index: 'balance', width: 30},
+            {
+                label: '状态',align : "center", name: 'freeze', index: 'freeze', width: 30, formatter: function (value) {
+                return toFreezed(value);
+            }
+            },
+
+            {
+                label: '手机号码',align : "center", name: 'mobile', index: 'mobile', width: 50
+            },
+            {
+                label: '会员密码',align : "center", name: 'password', index: 'password', hidden: true
+            }, {
+                label: '性别',align : "center", name: 'gender', index: 'gender', width: 40, formatter: function (value) {
+                    return transGender(value);
+                }
+            }, {
+                label: '出生日期',align : "center", name: 'birthday', index: 'birthday', width: 60, formatter: function (value) {
+                    return transDate(value);
+                }
+            }, {
+                label: '注册时间',align : "center", name: 'registerTime', index: 'register_time', width: 60, formatter: function (value) {
+                    return transDate(value);
+                }
+            }, {
+                label: '最后登录时间',
+                align : "center",
+                name: 'lastLoginTime',
+                index: 'last_login_time',
+                width: 60,
+                formatter: function (value) {
+                    return transDate(value);
+                }
+            }, {
+                label: '最后登录IP',align : "center", name: 'lastLoginIp', index: 'last_login_ip', hidden: true
+            }, {
+                label: '会员等级', align : "center",name: 'levelName', width: 40, hidden: true
+            }, {
+                label: '注册IP', align : "center",name: 'registerIp', index: 'register_ip', hidden: true
+            }, {
+                label: '微信Id', align : "center",name: 'weixinOpenid', index: 'weixin_openid', width: 80, hidden: true
+            }]
     });
 });
 
@@ -180,7 +198,7 @@ var vm = new Vue({
             }).trigger("reloadGrid");
             vm.handleReset('formValidate');
         },
-        reloadSearch: function() {
+        reloadSearch: function () {
             vm.q = {
                 username: '',
                 nickname: ''

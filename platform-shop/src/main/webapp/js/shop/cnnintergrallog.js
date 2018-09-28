@@ -1,23 +1,25 @@
 $(function () {
     $("#jqGrid").Grid({
-        url: '../cnnlearnresult/list',
+        url: '../cnnintergrallog/list',
         colModel: [
 			{label: 'id', name: 'id', index: 'id', key: true, hidden: true},
-			// {label: '', name: 'userid', index: 'userid', width: 80},
-			{label: '微信ID', align : "center", name: 'username', index: 'username', width: 40},
-			{label: '微信昵称',align : "center", name: 'nickname', index: 'nickname', width: 40},
-            {label: '学习类型',align : "center", name: 'learnType', index: 'learn_type', width: 60},
-			{label: '最终打卡结果',align : "center", name: 'result', index: 'result', width: 50,
+			{label: '学习类型', align : "center", name: 'learnTypeId', index: 'learn_type_id', width: 60, hidden: true},
+			{label: '用户ID', align : "center", name: 'userid', index: 'userid', width: 80, hidden: true},
+			{label: '用户名', align : "center", name: 'username', index: 'username', width: 80},
+			{label: '微信昵称', align : "center", name: 'nickname', index: 'nickname', width: 80},
+			{label: '积分记录', align : "center", name: 'points', index: 'points', width: 80},
+			{label: '打卡记录Id', align : "center", name: 'cardId', index: 'card_id', width: 40, hidden: true},
+			{label: '积分状态（加减）', align : "center",name: 'plusMins', index: 'plus_mins', width: 40,
                 formatter: function (value) {
-                    return toSuccessOrFailture(value);
-                }
-			},
-            {label: '失败原因',align : "left", name: 'reason', index: 'reason', width: 220},
-            {label: '生成时间',align : "center", name: 'addTime', index: 'add_time', width: 60,
-                formatter: function (value) {
-                    return transDate(value, 'yyyy-MM-dd hh:mm:ss');
+                    return toPlusMins(value);
                 }},
-		]
+			{label: '记录说明', align : "center", name: 'memo', index: 'memo', width: 100},
+			{label: '生成时间', align : "center", name: 'addTime', index: 'add_time', width: 60, formatter: function (value) {
+                return transDate(value, 'yyyy-MM-dd hh:mm:ss');
+            }},
+			{label: '更新时间', align : "center",name: 'updateTime', index: 'update_time', width: 60, hidden: true, formatter: function (value) {
+                return transDate(value, 'yyyy-MM-dd hh:mm:ss');
+            }}]
     });
 });
 
@@ -26,35 +28,24 @@ let vm = new Vue({
 	data: {
         showList: true,
         title: null,
-		cnnLearnResult: {},
+		cnnIntergralLog: {},
 		ruleValidate: {
 			name: [
 				{required: true, message: '名称不能为空', trigger: 'blur'}
 			]
 		},
-        q: {
-            username: '',
-            nickname: ''
-        },
-        learnTypes: []
+		q: {
+		    name: ''
+		}
 	},
 	methods: {
-        /**
-         * 获取学习类型
-         */
-        getLearnTypes: function () {
-            $.get("../cnnlearntype/queryAll", function (r) {
-                vm.learnTypes = r.list;
-            });
-        },
 		query: function () {
 			vm.reload();
 		},
 		add: function () {
 			vm.showList = false;
 			vm.title = "新增";
-			vm.cnnLearnResult = {};
-            vm.getLearnTypes();
+			vm.cnnIntergralLog = {};
 		},
 		update: function (event) {
             let id = getSelectedRow("#jqGrid");
@@ -63,14 +54,14 @@ let vm = new Vue({
 			}
 			vm.showList = false;
             vm.title = "修改";
-            vm.getLearnTypes();
+
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
-            let url = vm.cnnLearnResult.id == null ? "../cnnlearnresult/save" : "../cnnlearnresult/update";
+            let url = vm.cnnIntergralLog.id == null ? "../cnnintergrallog/save" : "../cnnintergrallog/update";
             Ajax.request({
 			    url: url,
-                params: JSON.stringify(vm.cnnLearnResult),
+                params: JSON.stringify(vm.cnnIntergralLog),
                 type: "POST",
 			    contentType: "application/json",
                 successCallback: function (r) {
@@ -88,7 +79,7 @@ let vm = new Vue({
 
 			confirm('确定要删除选中的记录？', function () {
                 Ajax.request({
-				    url: "../cnnlearnresult/delete",
+				    url: "../cnnintergrallog/delete",
                     params: JSON.stringify(ids),
                     type: "POST",
 				    contentType: "application/json",
@@ -102,10 +93,10 @@ let vm = new Vue({
 		},
 		getInfo: function(id){
             Ajax.request({
-                url: "../cnnlearnresult/info/"+id,
+                url: "../cnnintergrallog/info/"+id,
                 async: true,
                 successCallback: function (r) {
-                    vm.cnnLearnResult = r.cnnLearnResult;
+                    vm.cnnIntergralLog = r.cnnIntergralLog;
                 }
             });
 		},
@@ -113,7 +104,7 @@ let vm = new Vue({
 			vm.showList = true;
             let page = $("#jqGrid").jqGrid('getGridParam', 'page');
 			$("#jqGrid").jqGrid('setGridParam', {
-                postData: {'username': vm.q.username, 'nickname': vm.q.nickname},
+                postData: {'name': vm.q.name},
                 page: page
             }).trigger("reloadGrid");
             vm.handleReset('formValidate');

@@ -1,6 +1,7 @@
 package com.platform.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -40,9 +41,14 @@ public class UserEntity implements Serializable {
     private String registerIp;
     //头像
     private String avatar;
-    //微信Id
+    //微信openid
     private String weixinOpenid;
-
+    //积分
+    private BigDecimal intergral;
+    //余额
+    private BigDecimal balance;
+    //是否冻结余额和积分1冻结，0不冻结
+    private Integer freeze;
     /**
      * 翻译用的字段
      */
@@ -251,5 +257,44 @@ public class UserEntity implements Serializable {
 
     public void setLevelName(String levelName) {
         this.levelName = levelName;
+    }
+    /**
+     * 设置：积分
+     */
+    public void setIntergral(BigDecimal intergral) {
+        this.intergral = intergral;
+    }
+
+    /**
+     * 获取：积分
+     */
+    public BigDecimal getIntergral() {
+        return intergral;
+    }
+    /**
+     * 设置：余额
+     */
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    /**
+     * 获取：余额
+     */
+    public BigDecimal getBalance() {
+        return balance;
+    }
+    /**
+     * 设置：是否冻结余额和积分1冻结，0不冻结
+     */
+    public void setFreeze(Integer freeze) {
+        this.freeze = freeze;
+    }
+
+    /**
+     * 获取：是否冻结余额和积分1冻结，0不冻结
+     */
+    public Integer getFreeze() {
+        return freeze;
     }
 }
