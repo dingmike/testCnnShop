@@ -29,7 +29,7 @@ import java.util.Map;
  * @author admin
  * @ClassName: ApiBaseAction
  * @Description: 基础控制类
- * @date 2016年9月2日
+ * @date 2018年9月2日
  */
 public class ApiBaseAction {
     protected Logger logger = Logger.getLogger(getClass());

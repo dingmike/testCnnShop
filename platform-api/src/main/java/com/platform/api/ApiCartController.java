@@ -468,6 +468,10 @@ public class ApiCartController extends ApiBaseAction {
             }
         }
 
+        //获取用户积分
+
+
+
         //订单的总价
         BigDecimal orderTotalPrice = goodsTotalPrice.add(freightPrice);
 

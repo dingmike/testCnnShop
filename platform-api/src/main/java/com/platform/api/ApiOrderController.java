@@ -1,5 +1,6 @@
 package com.platform.api;
 
+import com.alibaba.fastjson.JSONObject;
 import com.platform.annotation.IgnoreAuth;
 import com.platform.annotation.LoginUser;
 import com.platform.entity.OrderGoodsVo;
@@ -20,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -163,7 +165,16 @@ public class ApiOrderController extends ApiBaseAction {
     @PostMapping("submit")
     public Object submit(@LoginUser UserVo loginUser) {
         Map resultObj;
+        JSONObject jsonParams = getJsonRequest();
         try {
+
+            // 获取用户输入的积分1积分抵扣1元，且不能超过用户拥有的总积分
+            BigDecimal totalIntergrals = loginUser.getIntergral();
+            BigDecimal intergrals = jsonParams.getBigDecimal("intergrals");
+            if(intergrals.compareTo(totalIntergrals)==1){ // intergrals>totalInterfrals
+                return toResponsFail("积分不够了");
+            }
+
             resultObj = orderService.submit(getJsonRequest(), loginUser);
             if (null != resultObj) {
                 return toResponsObject(MapUtils.getInteger(resultObj, "errno"), MapUtils.getString(resultObj, "errmsg"), resultObj.get("data"));

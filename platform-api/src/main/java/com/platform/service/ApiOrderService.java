@@ -89,6 +89,7 @@ public class ApiOrderService {
 
         Integer couponId = jsonParam.getInteger("couponId");
         String type = jsonParam.getString("type");
+        BigDecimal intergrals = jsonParam.getBigDecimal("intergrals");// 抵扣积分
         String postscript = jsonParam.getString("postscript");
 //        AddressVo addressVo = jsonParam.getObject("checkedAddress",AddressVo.class);
         AddressVo addressVo = apiAddressMapper.queryObject(jsonParam.getInteger("addressId"));
@@ -141,10 +142,19 @@ public class ApiOrderService {
             }
         }
 
+
+
+
         //订单价格计算
         BigDecimal orderTotalPrice = goodsTotalPrice.add(new BigDecimal(freightPrice)); //订单的总价
 
-        BigDecimal actualPrice = orderTotalPrice.subtract(couponPrice);  //减去其它支付的金额后，要实际支付的金额
+        BigDecimal orderTotalPriceReally = orderTotalPrice.subtract(intergrals); //积分抵扣
+
+//        BigDecimal actualPrice = orderTotalPrice.subtract(couponPrice);  //减去其它支付的金额后，要实际支付的金额
+        BigDecimal actualPrice = orderTotalPriceReally.subtract(couponPrice);  //减去其它支付的金额后，要实际支付的金额
+
+        //获取积分抵扣
+
 
         Long currentTime = System.currentTimeMillis() / 1000;
 

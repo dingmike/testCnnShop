@@ -163,15 +163,12 @@ public class ApiUserController extends ApiBaseAction {
     @PostMapping("getLearnInfo")
     public Object getLearnInfo(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
-//        UserVo entity = new UserVo();
-//        UserLearnVo userLearnEntity = new UserLearnVo();
         String openid =  loginUser.getWeixin_openid();
 
         System.out.println("openID:---------------:  " + openid);
         System.out.println("openID2:---------------:  " + jsonParams.getString("uid"));
 
         if (null != jsonParams&& openid.equals(jsonParams.getString("uid"))) {
-
             Long userId =  loginUser.getUserId();
             Integer userNewId = userId.intValue();
             Object userLearn = userLearnService.queryObjectByUserId(userNewId);
@@ -181,11 +178,33 @@ public class ApiUserController extends ApiBaseAction {
         return toResponsFail("执行失败");
     }
 
+
+    /**
+     * 获取用户积分余额等信息
+     */
+    @ApiOperation(value = "微信授权后获取用户学习信息")
+//    @RequestMapping("getLearnInfo")
+    @PostMapping("getUserIntergralInfo")
+    public Object getUserIntergralInfo(@LoginUser UserVo loginUser) {
+        JSONObject jsonParams = getJsonRequest();
+        String openid =  loginUser.getWeixin_openid();
+        if (null != jsonParams&& openid.equals(jsonParams.getString("uid"))) {
+            Map<String, Object> param = new HashMap<String, Object>();
+            param.put("intergrals", loginUser.getIntergral());
+            param.put("balance", loginUser.getBalance());
+            param.put("openId", loginUser.getWeixin_openid());
+            return toResponsSuccess(param);
+        }
+        return toResponsFail("执行失败");
+    }
+
+
+
     /**
      * 支付往后绑定微信号和手机号
      *
      */
-    @ApiOperation(value = "支付往后绑定微信号和手机号")
+    @ApiOperation(value = "支付完后绑定微信号和手机号")
     @PostMapping("submitPhone")
     public Object submitPhone(@LoginUser UserVo loginUser){
         JSONObject jsonParams = getJsonRequest();
