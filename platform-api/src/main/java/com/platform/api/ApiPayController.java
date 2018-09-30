@@ -67,6 +67,9 @@ public class ApiPayController extends ApiBaseAction {
     @Autowired
     private ApiUserLearnService apiUserLearnService;
 
+    @Autowired
+    private ApiUserService apiUserService;
+
 
     /**
      * 跳转
@@ -248,6 +251,13 @@ public class ApiPayController extends ApiBaseAction {
                 orderInfo2.setShipping_status(0);
                 orderInfo2.setPay_time(new Date());
                 orderService.update(orderInfo2);
+                // 支付成功扣除用户积分
+                BigDecimal latestIntergral = (loginUser.getIntergral()).subtract(orderInfo.getIntegral_money());
+                UserVo userNew= new UserVo();
+                userNew.setUserId(loginUser.getUserId());
+                userNew.setIntergral(latestIntergral);
+                apiUserService.update(userNew);
+
                 return toResponsMsgSuccess("支付成功");
             } else if (trade_state.equals("USERPAYING")) {
                 // 重新查询 正在支付中

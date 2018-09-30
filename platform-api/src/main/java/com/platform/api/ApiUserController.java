@@ -182,7 +182,7 @@ public class ApiUserController extends ApiBaseAction {
     /**
      * 获取用户积分余额等信息
      */
-    @ApiOperation(value = "微信授权后获取用户学习信息")
+    @ApiOperation(value = "微信授权后获取用户积分余额信息")
 //    @RequestMapping("getLearnInfo")
     @PostMapping("getUserIntergralInfo")
     public Object getUserIntergralInfo(@LoginUser UserVo loginUser) {

@@ -153,8 +153,6 @@ public class ApiOrderService {
 //        BigDecimal actualPrice = orderTotalPrice.subtract(couponPrice);  //减去其它支付的金额后，要实际支付的金额
         BigDecimal actualPrice = orderTotalPriceReally.subtract(couponPrice);  //减去其它支付的金额后，要实际支付的金额
 
-        //获取积分抵扣
-
 
         Long currentTime = System.currentTimeMillis() / 1000;
 
@@ -188,7 +186,7 @@ public class ApiOrderService {
         orderInfo.setShipping_id(0);
         orderInfo.setShipping_fee(new BigDecimal(0));
         orderInfo.setIntegral(0);
-        orderInfo.setIntegral_money(new BigDecimal(0));
+        orderInfo.setIntegral_money(intergrals); //使用的积分
         if (type.equals("cart")) {
             orderInfo.setOrder_type("1");
         } else {

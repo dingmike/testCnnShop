@@ -175,7 +175,7 @@ public class ApiOrderController extends ApiBaseAction {
                 return toResponsFail("积分不够了");
             }
 
-            resultObj = orderService.submit(getJsonRequest(), loginUser);
+            resultObj = orderService.submit(jsonParams, loginUser);
             if (null != resultObj) {
                 return toResponsObject(MapUtils.getInteger(resultObj, "errno"), MapUtils.getString(resultObj, "errmsg"), resultObj.get("data"));
             }
