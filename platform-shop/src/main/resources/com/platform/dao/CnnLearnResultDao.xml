@@ -55,6 +55,9 @@
 		<if test="username != null and username.trim() != ''">
 			and lr.username like concat('%',#{username},'%')
 		</if>
+		<if test="learnTypeId != null">
+			and lr.learn_type_id = #{learnTypeId}
+		</if>
 		<if test="nickname != null and nickname.trim() != ''">
 			and lr.nickname like concat('%',#{nickname},'%')
 		</if>

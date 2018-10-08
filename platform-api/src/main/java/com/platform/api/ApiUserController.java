@@ -192,7 +192,6 @@ public class ApiUserController extends ApiBaseAction {
             Map<String, Object> param = new HashMap<String, Object>();
             param.put("intergrals", loginUser.getIntergral());
             param.put("balance", loginUser.getBalance());
-            param.put("openId", loginUser.getWeixin_openid());
             return toResponsSuccess(param);
         }
         return toResponsFail("执行失败");

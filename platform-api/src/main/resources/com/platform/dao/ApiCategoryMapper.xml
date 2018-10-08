@@ -39,6 +39,9 @@
         <if test="parent_id != null and parent_id != null">
             and parent_id = #{parent_id}
         </if>
+        <if test="is_show != null and is_show != ''">
+            and is_show = #{is_show}
+        </if>
         <if test="notName != null and notName != null">
             and 'name' != #{notName}
         </if>

@@ -23,6 +23,11 @@ $(function () {
             {label: '销售量', name: 'sellVolume', index: 'sell_volume', width: 80},
             {label: '市场价', name: 'marketPrice', index: 'market_price', width: 80},
             {
+                label: '新品', name: 'isNew', index: 'is_new', width: 80, formatter: function (value) {
+                return transIsNot(value);
+            }
+            },
+            {
                 label: '热销', name: 'isHot', index: 'is_hot', width: 80, formatter: function (value) {
                 return transIsNot(value);
             }

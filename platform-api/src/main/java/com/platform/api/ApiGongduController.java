@@ -233,8 +233,8 @@ public class ApiGongduController extends ApiBaseAction {
                 }
                 // 打卡信息保存
                 Integer saveSuccess = cnnUserCardService.save(userCard);
-                // 打卡信息保存后都可以获得积分10
-                BigDecimal increased  =  new BigDecimal(10);
+                // 打卡信息保存后都可以获得积分1
+                BigDecimal increased  =  new BigDecimal(1);
                 loginUser.setIntergral(increased);
                 userService.update(loginUser);
 
