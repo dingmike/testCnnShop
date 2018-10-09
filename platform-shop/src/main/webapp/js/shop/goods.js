@@ -381,6 +381,9 @@ var vm = new Vue({
         },
         eyeImage: function (e) {
             eyeImage($(e.target).attr('src'));
+        },
+        clearClick: function (e) {
+            vm.goods.attributeCategory=0;
         }
     },
     mounted() {

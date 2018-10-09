@@ -205,7 +205,7 @@
             <if test="categoryId != null">`category_id` = #{categoryId},</if>
             <if test="goodsSn != null">`goods_sn` = #{goodsSn},</if>
             <if test="name != null">`name` = #{name},</if>
-            <if test="brandId != null">`brand_id` = #{brandId},</if>
+            <if test="brandId != null and brandId != ''">`brand_id` = #{brandId},</if>
             <if test="goodsNumber != null">`goods_number` = #{goodsNumber},</if>
             <if test="keywords != null">`keywords` = #{keywords},</if>
             <if test="goodsBrief != null">`goods_brief` = #{goodsBrief},</if>
@@ -215,7 +215,7 @@
             <if test="updateTime != null">`update_time` = #{updateTime},</if>
             <if test="sortOrder != null">`sort_order` = #{sortOrder},</if>
             <if test="isDelete != null">`is_delete` = #{isDelete},</if>
-            <if test="attributeCategory != null">`attribute_category` = #{attributeCategory},</if>
+            <if test="attributeCategory != null and attributeCategory != ''">`attribute_category` = #{attributeCategory},</if>
             <if test="counterPrice != null">`counter_price` = #{counterPrice},</if>
             <if test="extraPrice != null">`extra_price` = #{extraPrice},</if>
             <if test="isNew != null">`is_new` = #{isNew},</if>

@@ -15,9 +15,9 @@ import java.util.Map;
 /**
  * Controller
  *
- * @author lipengjun
- * @email 939961241@qq.com
- * @date 2017-08-21 21:19:49
+ * @author admin
+ * @email 2252277509@qq.com
+ * @date 2017-09-21 21:19:49
  */
 @RestController
 @RequestMapping("goods")
