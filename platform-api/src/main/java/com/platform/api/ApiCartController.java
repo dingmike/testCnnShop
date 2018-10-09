@@ -424,6 +424,8 @@ public class ApiCartController extends ApiBaseAction {
             for(AddressVo addressVo : (List<AddressVo>) addressEntities) {
                 if(addressVo.getId() == addressId.longValue()){
                     resultObj.put("checkedAddress", addressVo);
+                }else if(addressId==0&&addressVo.getIs_default()==1){
+                    resultObj.put("checkedAddress", addressVo);
                 }
                // System.out.println(attribute);
             }

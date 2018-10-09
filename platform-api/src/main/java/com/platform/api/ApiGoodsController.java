@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 /**
- * 作者: @author Harmon <br>
- * 时间: 2017-08-11 08:32<br>
+ * 作者: @author admin <br>
+ * 时间: 2018-08-11 08:32<br>
  * 描述: ApiIndexController <br>
  */
 @Api(tags = "商品管理")
@@ -275,7 +275,8 @@ public class ApiGoodsController extends ApiBaseAction {
     @ApiOperation(value = " 获取分类下的商品")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "分类id", paramType = "path", required = true)})
     @IgnoreAuth
-    @RequestMapping(value = "category", method = RequestMethod.GET)
+    @GetMapping(value = "category")
+//    @RequestMapping(value = "category", method = RequestMethod.GET)
     public Object category(@LoginUser UserVo loginUser, Integer id) {
         Map<String, Object> resultObj = new HashMap();
         //
@@ -301,7 +302,8 @@ public class ApiGoodsController extends ApiBaseAction {
             @ApiImplicitParam(name = "isNew", value = "新商品", paramType = "path", required = true),
             @ApiImplicitParam(name = "isHot", value = "热卖商品", paramType = "path", required = true)})
     @IgnoreAuth
-    @RequestMapping(value = "list", method = RequestMethod.GET)
+    @GetMapping(value = "list")
+//    @RequestMapping(value = "list", method = RequestMethod.GET)
     public Object list(@LoginUser UserVo loginUser, Integer categoryId,
                        Integer brandId, String keyword, Integer isNew, Integer isHot,
                        @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "size", defaultValue = "10") Integer size,
@@ -342,7 +344,7 @@ public class ApiGoodsController extends ApiBaseAction {
         rootCategory.setName("全部");
         rootCategory.setChecked(false);
         filterCategory.add(rootCategory);
-        //
+
         params.put("fields", "category_id");
         List<GoodsVo> categoryEntityList = goodsService.queryList(params);
         params.remove("fields");
@@ -354,6 +356,7 @@ public class ApiGoodsController extends ApiBaseAction {
             //查找二级分类的parent_id
             Map categoryParam = new HashMap();
             categoryParam.put("ids", categoryIds);
+            categoryParam.put("is_show", 1); // new add
             categoryParam.put("fields", "parent_id");
             List<CategoryVo> parentCategoryList = categoryService.queryList(categoryParam);
             //
@@ -366,6 +369,7 @@ public class ApiGoodsController extends ApiBaseAction {
             categoryParam.put("fields", "id,name");
             categoryParam.put("order", "asc");
             categoryParam.put("sidx", "sort_order");
+            categoryParam.put("is_show", 1); // new add
             categoryParam.put("ids", parentIds);
             List<CategoryVo> parentCategory = categoryService.queryList(categoryParam);
             if (null != parentCategory) {
@@ -378,6 +382,7 @@ public class ApiGoodsController extends ApiBaseAction {
             Map categoryParam = new HashMap();
             categoryParam.put("parent_id", categoryId);
             categoryParam.put("fields", "id");
+            categoryParam.put("is_show", 1); // new add
             List<CategoryVo> childIds = categoryService.queryList(categoryParam);
             for (CategoryVo categoryEntity : childIds) {
                 categoryIds.add(categoryEntity.getId());
@@ -408,7 +413,8 @@ public class ApiGoodsController extends ApiBaseAction {
      * 　　商品列表筛选的分类列表
      */
     @IgnoreAuth
-    @RequestMapping(value = "filter", method = RequestMethod.GET)
+    @GetMapping(value = "filter")
+//    @RequestMapping(value = "filter", method = RequestMethod.GET)
     public Object filter(@LoginUser UserVo loginUser, Integer categoryId,
                          String keyword, Integer isNew, Integer isHot) {
         Map params = new HashMap();
@@ -421,6 +427,7 @@ public class ApiGoodsController extends ApiBaseAction {
         if (null != categoryId) {
             Map categoryParams = new HashMap();
             categoryParams.put("categoryId", categoryId);
+            categoryParams.put("is_show", 1); // new add
             List<CategoryVo> categoryEntityList = categoryService.queryList(categoryParams);
             List<Integer> category_ids = new ArrayList();
             for (CategoryVo categoryEntity : categoryEntityList) {
@@ -443,6 +450,7 @@ public class ApiGoodsController extends ApiBaseAction {
             //查找二级分类的parent_id
             Map categoryParam = new HashMap();
             categoryParam.put("categoryIds", categoryIds);
+            categoryParam.put("is_show", 1);// new  add
             List<CategoryVo> parentCategoryList = categoryService.queryList(categoryParam);
             //
             List<Integer> parentIds = new ArrayList();
@@ -451,6 +459,7 @@ public class ApiGoodsController extends ApiBaseAction {
             }
             //一级分类
             categoryParam.put("categoryIds", parentIds);
+            categoryParam.put("is_show", 1);// new  add
             List<CategoryVo> parentCategory = categoryService.queryList(categoryParam);
             if (null != parentCategory) {
                 filterCategory.addAll(parentCategory);
@@ -463,7 +472,8 @@ public class ApiGoodsController extends ApiBaseAction {
      * 　　新品首发
      */
     @IgnoreAuth
-    @RequestMapping(value = "new", method = RequestMethod.GET)
+    @GetMapping(value = "new")
+//    @RequestMapping(value = "new", method = RequestMethod.GET)
     public Object newAction(@LoginUser UserVo loginUser) {
         Map<String, Object> resultObj = new HashMap();
         Map bannerInfo = new HashMap();
@@ -478,7 +488,8 @@ public class ApiGoodsController extends ApiBaseAction {
      * 　　人气推荐
      */
     @IgnoreAuth
-    @RequestMapping(value = "hot", method = RequestMethod.GET)
+    @GetMapping(value = "hot")
+//    @RequestMapping(value = "hot", method = RequestMethod.GET)
     public Object hot(@LoginUser UserVo loginUser) {
         Map<String, Object> resultObj = new HashMap();
         Map bannerInfo = new HashMap();
@@ -493,7 +504,8 @@ public class ApiGoodsController extends ApiBaseAction {
      * 　　商品详情页的大家都在看的商品
      */
     @IgnoreAuth
-    @RequestMapping(value = "related", method = RequestMethod.GET)
+    @GetMapping(value = "related")
+//    @RequestMapping(value = "related", method = RequestMethod.GET)
     public Object related(@LoginUser UserVo loginUser, Integer id) {
         Map<String, Object> resultObj = new HashMap();
         Map param = new HashMap();
@@ -513,11 +525,15 @@ public class ApiGoodsController extends ApiBaseAction {
             GoodsVo goodsCategory = goodsService.queryObject(id);
             Map paramRelated = new HashMap();
             paramRelated.put("fields", "id, name, list_pic_url, retail_price");
+            paramRelated.put("is_delete", 0); // new add
+            paramRelated.put("is_on_sale", 1); // new add
             paramRelated.put("category_id", goodsCategory.getCategory_id());
             relatedGoods = goodsService.queryList(paramRelated);
         } else {
             Map paramRelated = new HashMap();
             paramRelated.put("goods_ids", relatedGoodsIds);
+            paramRelated.put("is_delete", 0); //  new add
+            paramRelated.put("is_on_sale", 1); // new add
             paramRelated.put("fields", "id, name, list_pic_url, retail_price");
             relatedGoods = goodsService.queryList(paramRelated);
         }
@@ -529,7 +545,8 @@ public class ApiGoodsController extends ApiBaseAction {
      * 　　在售的商品总数
      */
     @IgnoreAuth
-    @RequestMapping(value = "count", method = RequestMethod.GET)
+    @GetMapping(value = "count")
+//    @RequestMapping(value = "count", method = RequestMethod.GET)
     public Object count(@LoginUser UserVo loginUser) {
         Map<String, Object> resultObj = new HashMap();
         Map param = new HashMap();
@@ -544,13 +561,16 @@ public class ApiGoodsController extends ApiBaseAction {
      * 　　获取商品列表
      */
     @IgnoreAuth
-    @RequestMapping(value = "productlist", method = RequestMethod.GET)
+    @GetMapping(value = "productlist")
+//    @RequestMapping(value = "productlist", method = RequestMethod.GET)
     public Object productlist(@LoginUser UserVo loginUser, Integer categoryId,
                               Integer isNew, Integer discount,
                               @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "size", defaultValue = "10") Integer size,
                               String sort, String order) {
         Map params = new HashMap();
         params.put("is_new", isNew);
+        params.put("is_on_sale", 1); // new add
+        params.put("is_delete", 0); // new add
         params.put("page", page);
         params.put("limit", size);
         params.put("order", sort);
@@ -577,6 +597,7 @@ public class ApiGoodsController extends ApiBaseAction {
             List<Integer> categoryIds = new ArrayList();
             Map categoryParam = new HashMap();
             categoryParam.put("parent_id", categoryId);
+            categoryParam.put("is_show", 1);
             categoryParam.put("fields", "id");
             List<CategoryVo> childIds = categoryService.queryList(categoryParam);
             for (CategoryVo categoryEntity : childIds) {

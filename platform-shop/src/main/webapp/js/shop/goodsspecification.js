@@ -24,7 +24,7 @@ var vm = new Vue({
     data: {
         showList: true,
         title: null,
-        goodsSpecification: {},
+        goodsSpecification: {picUrl:''},
         ruleValidate: {
             name: [
                 {required: true, message: '名称不能为空', trigger: 'blur'}
@@ -53,7 +53,7 @@ var vm = new Vue({
         add: function () {
             vm.showList = false;
             vm.title = "新增";
-            vm.goodsSpecification = {};
+            vm.goodsSpecification = {picUrl:''};
             vm.getSpecification();
             vm.getGoodss();
         },

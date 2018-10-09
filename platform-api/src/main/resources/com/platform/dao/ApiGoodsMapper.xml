@@ -162,6 +162,12 @@
         <if test="is_new != null and is_new != ''">
             and a.is_new = #{is_new}
         </if>
+        <if test="is_delete != null">
+            and is_delete = #{is_delete}
+        </if>
+        <if test="is_on_sale != null and is_on_sale != ''">
+            and is_on_sale = #{is_on_sale}
+        </if>
         <if test="is_hot != null and is_hot != ''">
             and a.is_hot = #{is_hot}
         </if>

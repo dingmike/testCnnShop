@@ -6,13 +6,13 @@ $(function () {
         }, {
             label: '品牌名称', name: 'name', index: 'name', width: 80
         }, {
-            label: '图片', name: 'listPicUrl', index: 'list_pic_url', width: 80, formatter: function (value) {
+            label: '品牌主图', name: 'listPicUrl', index: 'list_pic_url', width: 60, formatter: function (value) {
                 return transImg(value);
             }
         }, {
             label: '描述', name: 'simpleDesc', index: 'simple_desc', width: 80
         }, {
-            label: '图片', name: 'picUrl', index: 'pic_url', width: 80, formatter: function (value) {
+            label: '图片', name: 'picUrl', index: 'pic_url', width: 60, formatter: function (value) {
                 return transImg(value);
             }
         }, {
@@ -24,7 +24,7 @@ $(function () {
         }, {
             label: '展示价格', name: 'floorPrice', index: 'floor_Price', width: 80
         }, {
-            label: 'app显示图片', name: 'appListPicUrl', index: 'app_list_pic_url', width: 80, formatter: function (value) {
+            label: 'app显示图片', name: 'appListPicUrl', index: 'app_list_pic_url', width: 60, formatter: function (value) {
                 return transImg(value);
             }
         }, {
@@ -32,7 +32,7 @@ $(function () {
                 return transIsNot(value)
             }
         }, {
-            label: '新品牌图片', name: 'newPicUrl', index: 'new_pic_url', width: 80, formatter: function (value) {
+            label: '新品牌图片', name: 'newPicUrl', index: 'new_pic_url', width: 60, formatter: function (value) {
                 return transImg(value);
             }
         }, {
@@ -175,6 +175,12 @@ var vm = new Vue({
         },
         handleReset: function (name) {
             handleResetForm(this, name);
-        }
+        },
+        reloadSearch: function() {
+            vm.q = {
+                name: ''
+            }
+            vm.reload();
+        },
     }
 });
