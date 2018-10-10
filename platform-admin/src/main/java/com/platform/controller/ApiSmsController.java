@@ -15,8 +15,8 @@ import java.util.Map;
 /**
  * 发送短信接口Controller
  *
- * @author liepngjun
- * @email 939961241@qq.com
+ * @author admin
+ * @email 2252277509@qq.com
  * @date 2018-06-05 13:58:47
  */
 @RestController

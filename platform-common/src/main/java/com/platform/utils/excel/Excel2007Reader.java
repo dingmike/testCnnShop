@@ -30,9 +30,9 @@ import java.util.*;
 /**
  * Excel2007解析器
  *
- * @author lipengjun
- * @email 939961241@qq.com
- * @date 2017年10月28日 13:11:27
+ * @author admin
+ * @email 2252277509@qq.com
+ * @date 2018年10月28日 13:11:27
  */
 public class Excel2007Reader extends DefaultHandler {
 
@@ -121,6 +121,10 @@ public class Excel2007Reader extends DefaultHandler {
         this.sharedStringsTable = strings;
         InputSource sheetSource = new InputSource(sheetInputStream);
         SAXParserFactory saxFactory = SAXParserFactory.newInstance();
+        //防止外部实体注入
+        saxFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+        saxFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+        saxFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
         SAXParser saxParser = saxFactory.newSAXParser();
         XMLReader sheetParser = saxParser.getXMLReader();
         sheetParser.setContentHandler(this);

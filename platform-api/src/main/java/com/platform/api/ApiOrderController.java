@@ -70,8 +70,8 @@ public class ApiOrderController extends ApiBaseAction {
         params.put("order_status", orderStatus); // 订单状态查询
         params.put("page", page);
         params.put("limit", size);
-        params.put("sidx", "id");
-        params.put("order", "asc");
+        params.put("sidx", "add_time"); // 按添加时间倒序
+        params.put("order", "desc");  // asc正序 desc倒序
         //查询列表数据
         Query query = new Query(params);
         List<OrderVo> orderEntityList = orderService.queryList(query);
@@ -112,6 +112,12 @@ public class ApiOrderController extends ApiBaseAction {
         List<OrderGoodsVo> orderGoods = orderGoodsService.queryList(orderGoodsParam);
         //订单最后支付时间
         if (orderInfo.getOrder_status() == 0) {
+            Date addTime = orderInfo.getAdd_time();
+            if((new Date().getTime()-addTime.getTime())>30 * 60 * 1000){
+                //超过时间不支付，更新订单状态为取消
+                orderInfo.setOrder_status(101);
+                orderService.update(orderInfo);
+            }
             /* if (moment().subtract(60, 'minutes') < moment(orderInfo.add_time)) {
             orderInfo.final_pay_time = moment("001234", "Hmmss").format("mm:ss");
              } else {
@@ -158,7 +164,7 @@ public class ApiOrderController extends ApiBaseAction {
     }
 
     /**
-     * 获取订单列表
+     * 提交
      */
     @ApiOperation(value = "订单提交")
 //    @RequestMapping("submit")

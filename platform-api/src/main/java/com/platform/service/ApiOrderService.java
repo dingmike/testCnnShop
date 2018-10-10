@@ -143,8 +143,6 @@ public class ApiOrderService {
         }
 
 
-
-
         //订单价格计算
         BigDecimal orderTotalPrice = goodsTotalPrice.add(new BigDecimal(freightPrice)); //订单的总价
 

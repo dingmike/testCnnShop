@@ -39,7 +39,7 @@
                 </i-select>
             </Form-item>
 
-            <Form-item  v-if="type == 'add'" label="选规格" prop="goodsSpecs">
+            <Form-item  label="选规格" prop="goodsSpecs">
                 <i-table :loading="loading" :columns="columns7" :data="goodsSpecs" ref="table" :stripe="true"
                          :border="true" no-data-text="该商品还没有添加规格！" no-filtered-data-text="没有筛选出数据！">
                 </i-table>

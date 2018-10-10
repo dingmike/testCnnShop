@@ -203,7 +203,6 @@
             <if test="integralMoney != null">`integral_money` = #{integralMoney},</if>
             <if test="orderPrice != null">`order_price` = #{orderPrice},</if>
             <if test="goodsPrice != null">`goods_price` = #{goodsPrice},</if>
-            <if test="addTime != null">`add_time` = #{addTime},</if>
             <if test="confirmTime != null">`confirm_time` = #{confirmTime},</if>
             <if test="payTime != null">`pay_time` = #{payTime},</if>
             <if test="freightPrice != null">`freight_price` = #{freightPrice},</if>

@@ -134,8 +134,11 @@ let vm = new Vue({
             vm.type = 'update';
 
             vm.getInfo(id)
+            // new add
+            vm.getAllSpecification();
         },
         changeGoods: function (opt) {
+            debugger
             let goodsId = opt.value;
             this.productId = goodsId;
             vm.queryGoodsSpec(goodsId);
@@ -231,19 +234,17 @@ let vm = new Vue({
         },
         getAllSpecification: function () {
             $.get("../specification/queryAll/", function (r) {
-                debugger
                 vm.specifications = r.list;
             });
         },
         queryGoodsSpec: function (goods_id) {
             $.get("../goodsspecification/queryGoodsSpec/" + goods_id, function (r) {
-                debugger
+
                 vm.goodsSpecs = r.list;
                 // vm.loading = false;
             });
         },
         renderChooseSec(){
-            debugger
             for(let i=0; i<this.attribute.length; i++){
                 $.get("../goodsspecification/queryAll?goodsId=" + this.productId + "&specificationId=" +this.attribute[i] , (r)=>{
                     // vm['colors'+ this.attribute[i]] = r.list;
