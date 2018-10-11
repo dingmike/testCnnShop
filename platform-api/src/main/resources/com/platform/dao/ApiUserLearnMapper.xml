@@ -91,7 +91,7 @@
 		select count(*) from cnn_user_learn
 		WHERE 1=1
 		<if test="learnTypeId != null and learnTypeId != ''">
-			WHERE learn_type_id = #{learnTypeId}
+			AND learn_type_id = #{learnTypeId}
 		</if>
 	</select>
 
