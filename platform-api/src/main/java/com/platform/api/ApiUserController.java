@@ -164,17 +164,11 @@ public class ApiUserController extends ApiBaseAction {
     public Object getLearnInfo(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         String openid =  loginUser.getWeixin_openid();
-
-        System.out.println("openID:---------------:  " + openid);
-        System.out.println("openID2:---------------:  " + jsonParams.getString("uid"));
-
         if (null != jsonParams&& openid.equals(jsonParams.getString("uid"))) {
             Long userId =  loginUser.getUserId();
-            Integer userNewId = userId.intValue();
-            Object userLearn = userLearnService.queryObjectByUserId(userNewId);
+            Object userLearn = userLearnService.queryObjectByUserIdAndLearnTypeId(userId.intValue(), jsonParams.getInteger("learnTypeId"));
             return toResponsSuccess(userLearn);
         }
-
         return toResponsFail("执行失败");
     }
 

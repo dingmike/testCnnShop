@@ -34,7 +34,21 @@
 		left join nideshop_user u on o.userid = u.id
 		left join cnn_learn_type l on o.learn_type_id = l.id
 
-		where o.userid = #{userId}
+		<if test="userId != null and userId != ''">
+			WHERE  o.userid = #{userId}
+		</if>
+	</select>
+	<select id="queryObjectByUserIdAndLearnTypeId" resultType="com.platform.entity.UserLearnVo">
+		select o.*,u.username as username,u.nickname as nickname,u.avatar as avatar,l.learn_type as learntype,l.genusdays as genusdays from cnn_user_learn o
+		left join nideshop_user u on o.userid = u.id
+		left join cnn_learn_type l on o.learn_type_id = l.id
+
+		<if test="learnTypeId != null and learnTypeId != ''">
+			WHERE o.learn_type_id = #{learnTypeId}
+		</if>
+		<if test="userId != null and userId!= ''">
+			AND o.userid = #{userId}
+		</if>
 	</select>
 
 	<select id="queryList" resultType="com.platform.entity.UserLearnVo">
@@ -70,6 +84,15 @@
         <if test="name != null and name.trim() != ''">
             AND name LIKE concat('%',#{name},'%')
         </if>
+	</select>
+
+
+	<select id="queryTotalByLearnTypeId" resultType="int">
+		select count(*) from cnn_user_learn
+		WHERE 1=1
+		<if test="learnTypeId != null and learnTypeId != ''">
+			WHERE learn_type_id = #{learnTypeId}
+		</if>
 	</select>
 
 	<insert id="save" parameterType="com.platform.entity.UserLearnVo" useGeneratedKeys="true" keyProperty="id">

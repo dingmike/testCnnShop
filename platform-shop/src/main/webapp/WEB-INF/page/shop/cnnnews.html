@@ -37,9 +37,65 @@
             <Form-item label="文章标题" prop="title">
                 <i-input v-model="cnnNews.title" placeholder="文章标题"/>
             </Form-item>
-            <Form-item label="文章详情" prop="newsDetail">
+            <Form-item label="文章简述" prop="title">
+                <i-input v-model="cnnNews.descript" type="textarea" :rows="2" placeholder="输入文章简述"/>
+            </Form-item>
+            <Row>
+                <i-col span="16">
+                    <Form-item label="文章主图" prop="imageUrl">
+                        <i-input v-model="cnnNews.imageUrl" placeholder="图片"/>
+                    </Form-item>
+                </i-col>
+                <i-col span="3">
+                    <Form-item :label-width="1">
+                        <Upload style="width: 300px;" action="../sys/oss/upload" :format="['jpg','jpeg','png']"
+                                max-size="2048"
+                                :on-success="handleSuccess" :on-format-error="handleFormatError"
+                                :show-upload-list="false"
+                                :on-exceeded-size="handleMaxSize">
+                            <i-button icon="ios-cloud-upload-outline">上传图片</i-button>
+                        </Upload>
+                    </Form-item>
+                </i-col>
+                <i-col span="3">
+                    <Form-item :label-width="1">
+                        <i-button icon="eye" @click="eyeImage">预览图片</i-button>
+                    </Form-item>
+                </i-col>
+            </Row>
+            <Row>
+                <i-col span="16">
+                    <Form-item label="内容音频" prop="voiceUrl">
+                        <i-input v-model="cnnNews.voiceUrl" placeholder="内容音频"/>
+                    </Form-item>
+                </i-col>
+                <i-col span="3">
+                    <Form-item :label-width="1">
+                        <Upload style="width: 300px;" action="../sys/oss/upload" :format="['mp3']"
+                                max-size="20240"
+                                :on-success="handleSuccessPicUrl" :on-format-error="handleFormatError"
+                                :show-upload-list="false"
+                                :on-exceeded-size="handleMaxSize">
+                            <i-button icon="ios-cloud-upload-outline">上传语音文件</i-button>
+                        </Upload>
+                    </Form-item>
+                </i-col>
+                <i-col span="3" style=" margin-top: -10px;">
+                    <Form-item :label-width="1">
+                        <!--<i-button icon="eye" @click="eyeImagePicUrl">预览语音</i-button>-->
+                        <audio :src="cnnNews.voiceUrl" controls="controls">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </Form-item>
+                </i-col>
+            </Row>
+            <Form-item label="文章内容" prop="newsDetail">
                 <!--详情富文本-->
                 <div id="newsDetail"></div>
+            </Form-item>
+            <Form-item label="中文翻译" prop="chinese">
+                <!--详情富文本-->
+                <div id="chinese"></div>
             </Form-item>
             <Form-item label="发布" prop="isUse">
                 <Radio-group v-model="cnnNews.isUse">

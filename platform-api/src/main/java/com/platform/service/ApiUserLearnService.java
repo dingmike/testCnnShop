@@ -32,6 +32,9 @@ public class ApiUserLearnService {
     public UserLearnVo queryObjectByUserId(Integer userId) {
         return userLearnMapper.queryObjectByUserId(userId);
     }
+    public UserLearnVo queryObjectByUserIdAndLearnTypeId(Integer userId, Integer learnTypeId) {
+        return userLearnMapper.queryObjectByUserIdAndLearnTypeId(userId, learnTypeId);
+    }
 
     public List<UserLearnVo> queryList(Map<String, Object> map) {
         return userLearnMapper.queryList(map);
@@ -39,6 +42,9 @@ public class ApiUserLearnService {
 
     public int queryTotal(Map<String, Object> map) {
         return userLearnMapper.queryTotal(map);
+    }
+    public int queryTotalByLearnTypeId(Map<String, Object> map) {
+        return userLearnMapper.queryTotalByLearnTypeId(map);
     }
 
     public int save(UserLearnVo userLearn) {

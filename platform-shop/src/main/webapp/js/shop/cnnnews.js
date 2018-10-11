@@ -4,18 +4,22 @@ $(function () {
         colModel: [
 			{label: 'id', name: 'id', index: 'id', key: true, hidden: true},
 			{label: '文章标题', name: 'title', index: 'title', width: 80},
+			{label: '图片', align : "center",name: 'imageUrl', index: 'imageUrl', width: 30, formatter: function (value) {
+                return transImg(value);
+            }},
 			//{label: '文章详情', name: 'newsDetail', index: 'news_detail', width: 80},
 			//{label: '用户数据表ID', name: 'userId', index: 'user_id', width: 80},
+            {label: '文章音频', name: 'voiceUrl', index: 'voice_url', width: 100},
             {
-                label: '添加时间', name: 'addTime', index: 'add_time', width: 80, formatter: function (value) {
+                label: '添加时间', align : "center", name: 'addTime', index: 'add_time', width: 60, formatter: function (value) {
                 return transDate(value, 'yyyy-MM-dd hh:mm:ss');
             }},
 			{
-                label: '修改时间', name: 'updateTime', index: 'update_time', width: 80, formatter: function (value) {
+                label: '修改时间', align : "center", name: 'updateTime', index: 'update_time', width: 60, formatter: function (value) {
                 return transDate(value, 'yyyy-MM-dd hh:mm:ss');
             }},
             {
-                label: '发布状态', name: 'isUse', index: 'is_use', width: 80,
+                label: '发布状态', name: 'isUse', index: 'is_use', width: 40,
                 formatter: function (value) {
                     return transIsNot(value);
                 }
@@ -24,7 +28,22 @@ $(function () {
     $('#newsDetail').editable({
         inlineMode: false,
         alwaysBlank: true,
-        height: '500px', //高度
+        height: '400px', //高度
+        minHeight: '200px',
+        language: "zh_cn",
+        spellcheck: false,
+        plainPaste: true,
+        enableScript: false,
+        imageButtons: ["floatImageLeft", "floatImageNone", "floatImageRight", "linkImage", "replaceImage", "removeImage"],
+        allowedImageTypes: ["jpeg", "jpg", "png", "gif"],
+        imageUploadURL: '../sys/oss/upload',
+        imageUploadParams: {id: "edit"},
+        imagesLoadURL: '../sys/oss/queryAll'
+    })
+    $('#chinese').editable({
+        inlineMode: false,
+        alwaysBlank: true,
+        height: '300px', //高度
         minHeight: '200px',
         language: "zh_cn",
         spellcheck: false,
@@ -64,6 +83,7 @@ let vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
             $('#newsDesc').editable('setHTML', '');
+            $('#chinese').editable('setHTML', '');
 			vm.cnnNews = {
                 title: '',
                 isUse: 0
@@ -82,6 +102,7 @@ let vm = new Vue({
 		saveOrUpdate: function (event) {
             let url = vm.cnnNews.id == null ? "../cnnnews/save" : "../cnnnews/update";
             vm.cnnNews.newsDetail = $('#newsDetail').editable('getHTML');
+            vm.cnnNews.chinese= $('#chinese').editable('getHTML');
             Ajax.request({
 			    url: url,
                 params: JSON.stringify(vm.cnnNews),
@@ -121,6 +142,7 @@ let vm = new Vue({
                 successCallback: function (r) {
                     vm.cnnNews = r.cnnNews;
                     $('#newsDetail').editable('setHTML', vm.cnnNews.newsDetail);
+                    $('#chinese').editable('setHTML', vm.cnnNews.chinese);
                 }
             });
 		},
@@ -133,6 +155,25 @@ let vm = new Vue({
             }).trigger("reloadGrid");
             vm.handleReset('formValidate');
 		},
+        handleSuccess: function (res, file) {
+            vm.cnnNews.imageUrl = file.response.url;
+        },
+        handleFormatError: function (file) {
+            this.$Notice.warning({
+                title: '文件格式不正确',
+                desc: '文件 ' + file.name + ' 格式不正确，请上传 jpg 或 png 格式的图片。'
+            });
+        },
+        handleMaxSize: function (file) {
+            this.$Notice.warning({
+                title: '超出文件大小限制',
+                desc: '文件 ' + file.name + ' 太大，不能超过 2M。'
+            });
+        },
+        eyeImage: function () {
+            var url = vm.cnnNews.imageUrl;
+            eyeImage(url);
+        },
         reloadSearch: function() {
             vm.q = {
                 name: ''
@@ -146,6 +187,21 @@ let vm = new Vue({
         },
         handleReset: function (name) {
             handleResetForm(this, name);
+        },
+        handleSuccessPicUrl: function (res, file) {
+            vm.cnnNews.voiceUrl = file.response.url;
+        },
+        handleFormatError: function (file) {
+            this.$Notice.warning({
+                title: '文件格式不正确',
+                desc: '文件 ' + file.name + ' 格式不正确，请上传 mp3 格式的文件。'
+            });
+        },
+        handleMaxSize: function (file) {
+            this.$Notice.warning({
+                title: '超出文件大小限制',
+                desc: '文件 ' + file.name + ' 太大，不能超过 20M。'
+            });
         }
 	}
 });

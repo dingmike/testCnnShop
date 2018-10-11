@@ -1,7 +1,5 @@
 package com.platform.service.impl;
 
-import com.platform.entity.SysUserEntity;
-import com.platform.utils.ShiroUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +9,13 @@ import java.util.Map;
 import com.platform.dao.CnnNewsDao;
 import com.platform.entity.CnnNewsEntity;
 import com.platform.service.CnnNewsService;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service实现类
  *
  * @author admin
  * @email 2252277509@qq.com
- * @date 2018-06-29 09:17:59
+ * @date 2018-10-11 13:08:47
  */
 @Service("cnnNewsService")
 public class CnnNewsServiceImpl implements CnnNewsService {
@@ -41,16 +38,11 @@ public class CnnNewsServiceImpl implements CnnNewsService {
     }
 
     @Override
-    @Transactional
     public int save(CnnNewsEntity cnnNews) {
-        SysUserEntity user = ShiroUtils.getUserEntity();
-        cnnNews.setCreateUserId(user.getUserId());
-        cnnNews.setUpdateUserId(user.getUserId());
         return cnnNewsDao.save(cnnNews);
     }
 
     @Override
-    @Transactional
     public int update(CnnNewsEntity cnnNews) {
         return cnnNewsDao.update(cnnNews);
     }
@@ -61,7 +53,7 @@ public class CnnNewsServiceImpl implements CnnNewsService {
     }
 
     @Override
-    public int deleteBatch(Integer[]ids) {
+    public int deleteBatch(Integer[] ids) {
         return cnnNewsDao.deleteBatch(ids);
     }
 }

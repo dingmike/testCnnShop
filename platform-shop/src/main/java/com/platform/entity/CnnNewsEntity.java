@@ -19,18 +19,27 @@ public class CnnNewsEntity implements Serializable {
     private Integer id;
     //文章标题
     private String title;
+    //文章简述
+    private String descript;
     //文章详情
     private String newsDetail;
-    //创建文章用户ID
-    private Long createUserId;
-    //修改文章用户ID
-    private Long updateUserId;
+    //文章中文翻译
+    private String chinese;
+    //文章主图
+    private String imageUrl;
+    //文章音频
+    private String voiceUrl;
+    //是否使用0：不，1：是
+    private Integer isUse;
     //添加时间
     private Date addTime;
     //修改时间
     private Date updateTime;
-    //是否使用0：不，1：是
-    private Integer isUse;
+    //创建人ID
+    private Long createUserId;
+    //修改人ID
+    private Long updateUserId;
+
 
     /**
      * 设置：
@@ -59,6 +68,19 @@ public class CnnNewsEntity implements Serializable {
         return title;
     }
     /**
+     * 设置：文章简述
+     */
+    public void setDescript(String descript) {
+        this.descript = descript;
+    }
+
+    /**
+     * 获取：文章简述
+     */
+    public String getDescript() {
+        return descript;
+    }
+    /**
      * 设置：文章详情
      */
     public void setNewsDetail(String newsDetail) {
@@ -71,33 +93,58 @@ public class CnnNewsEntity implements Serializable {
     public String getNewsDetail() {
         return newsDetail;
     }
-
-
-
-
-
-    public Long getCreateUserId() {
-        return createUserId;
+    /**
+     * 设置：文章中文翻译
+     */
+    public void setChinese(String chinese) {
+        this.chinese = chinese;
     }
 
-    public void setCreateUserId(Long createUserId) {
-        this.createUserId = createUserId;
+    /**
+     * 获取：文章中文翻译
+     */
+    public String getChinese() {
+        return chinese;
+    }
+    /**
+     * 设置：文章音频
+     */
+    public void setVoiceUrl(String voiceUrl) {
+        this.voiceUrl = voiceUrl;
     }
 
-    public Long getUpdateUserId() {
-        return updateUserId;
+    /**
+     * 获取：文章音频
+     */
+    public String getVoiceUrl() {
+        return voiceUrl;
+    }
+    /**
+     * 设置：文章主图
+     */
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public void setUpdateUserId(Long updateUserId) {
-        this.updateUserId = updateUserId;
+    /**
+     * 获取：文章主图
+     */
+    public String getImageUrl() {
+        return imageUrl;
+    }
+    /**
+     * 设置：是否使用0：不，1：是
+     */
+    public void setIsUse(Integer isUse) {
+        this.isUse = isUse;
     }
 
-
-
-
-
-
-
+    /**
+     * 获取：是否使用0：不，1：是
+     */
+    public Integer getIsUse() {
+        return isUse;
+    }
     /**
      * 设置：添加时间
      */
@@ -125,16 +172,29 @@ public class CnnNewsEntity implements Serializable {
         return updateTime;
     }
     /**
-     * 设置：是否使用0：不，1：是
+     * 设置：创建人ID
      */
-    public void setIsUse(Integer isUse) {
-        this.isUse = isUse;
+    public void setCreateUserId(Long createUserId) {
+        this.createUserId = createUserId;
     }
 
     /**
-     * 获取：是否使用0：不，1：是
+     * 获取：创建人ID
      */
-    public Integer getIsUse() {
-        return isUse;
+    public Long getCreateUserId() {
+        return createUserId;
+    }
+    /**
+     * 设置：修改人ID
+     */
+    public void setUpdateUserId(Long updateUserId) {
+        this.updateUserId = updateUserId;
+    }
+
+    /**
+     * 获取：修改人ID
+     */
+    public Long getUpdateUserId() {
+        return updateUserId;
     }
 }

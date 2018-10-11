@@ -118,11 +118,6 @@ public class ApiOrderController extends ApiBaseAction {
                 orderInfo.setOrder_status(101);
                 orderService.update(orderInfo);
             }
-            /* if (moment().subtract(60, 'minutes') < moment(orderInfo.add_time)) {
-            orderInfo.final_pay_time = moment("001234", "Hmmss").format("mm:ss");
-             } else {
-                 //超过时间不支付，更新订单状态为取消
-             }*/
         }
 
         //订单可操作的选择,删除，支付，收货，评论，退换货

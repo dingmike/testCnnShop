@@ -92,7 +92,8 @@ public class ApiIndexController extends ApiBaseAction {
         resultObj.put("userLearnList", userLearnList);
 
         param = new HashMap();
-        int sum = userLearnService.queryTotal(param);
+        param.put("learnTypeId", learnTypeId);
+        int sum = userLearnService.queryTotalByLearnTypeId(param);
 
 
         resultObj.put("userListTotal", sum);
