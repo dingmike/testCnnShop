@@ -20,8 +20,8 @@ import java.util.Map;
 /**
  * 发送短信日志Controller
  *
- * @author lipengjun
- * @date 2017-12-16 23:38:05
+ * @author admin
+ * @date 2018-12-16 23:38:05
  */
 @RestController
 @RequestMapping("/sys/smslog")

@@ -28,9 +28,9 @@ import java.util.Map;
 /**
  * 文件上传Controller
  *
- * @author lipengjun
- * @email 939961241@qq.com
- * @date 2017-03-25 12:13:26
+ * @author admin
+ * @email 2252277509@qq.com
+ * @date 2018-03-25 12:13:26
  */
 @RestController
 @RequestMapping("sys/oss")

@@ -72,7 +72,7 @@ let vm = new Vue({
 			]
 		},
 		q: {
-		    name: ''
+            title: ''
 		}
 	},
 	methods: {
@@ -150,7 +150,7 @@ let vm = new Vue({
 			vm.showList = true;
             let page = $("#jqGrid").jqGrid('getGridParam', 'page');
 			$("#jqGrid").jqGrid('setGridParam', {
-                postData: {'name': vm.q.name},
+                postData: {'title': vm.q.title},
                 page: page
             }).trigger("reloadGrid");
             vm.handleReset('formValidate');

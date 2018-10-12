@@ -17,6 +17,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,6 +65,9 @@ public class ApiGongduController extends ApiBaseAction {
 
     @Autowired
     private ApiUserIntergralLogService userIntergralLogService;
+
+    @Autowired
+    private ApiUserReadNewsService apiUserReadNewsService;
 
     /**
      * 获取共读内容/api/gongdu/getContent
@@ -377,6 +381,28 @@ public class ApiGongduController extends ApiBaseAction {
 
             return toResponsSuccess(result);
             }
+        return toResponsFail("执行失败");
+    }
+
+
+    /**
+     *
+     * 获取用户已阅读文章
+     * @params userId
+     * */
+    @ApiOperation(value = "获取用户已阅读文章", response = Map.class)
+    @GetMapping(value = "getReadNewsByUserId")
+    public Object getReadNewsByUserId(@LoginUser UserVo loginUser) {
+        String uid = request.getParameter("uid"); // 只获取一种学习类型的用户学习情况
+        String openid =  loginUser.getWeixin_openid();
+        // 微信授权用户才能获取信息
+        if (openid.equals(uid)) {
+            Map param = new HashMap();
+            param.put("userid", loginUser.getUserId());
+            List<UserReadNewsVo> userReadNewsVos = apiUserReadNewsService.queryListByUserId(param);
+
+            return toResponsSuccess(userReadNewsVos);
+        }
         return toResponsFail("执行失败");
     }
 }

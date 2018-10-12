@@ -8,9 +8,9 @@ import java.util.Date;
 /**
  * 会员实体
  *
- * @author lipengjun
- * @email 939961241@qq.com
- * @date 2017-08-16 15:02:28
+ * @author admin
+ * @email 2252277509@qq.com
+ * @date 2018-08-16 15:02:28
  */
 public class UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;

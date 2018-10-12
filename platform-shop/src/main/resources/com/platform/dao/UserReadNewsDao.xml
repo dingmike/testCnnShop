@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.dao.UserReadNewsDao">
+
+    <resultMap type="com.platform.entity.UserReadNewsEntity" id="userReadNewsMap">
+        <result property="id" column="id"/>
+        <result property="userid" column="userid"/>
+        <result property="username" column="username"/>
+        <result property="nickname" column="nickname"/>
+        <result property="newsid" column="newsid"/>
+        <result property="useTime" column="use_time"/>
+        <result property="addTime" column="add_time"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="com.platform.entity.UserReadNewsEntity">
+		select
+			`id`,
+			`userid`,
+			`username`,
+			`nickname`,
+			`newsid`,
+			`use_time`,
+			`add_time`
+		from user_read_news
+		where id = #{id}
+	</select>
+
+	<select id="queryList" resultType="com.platform.entity.UserReadNewsEntity">
+		select
+    		`id`,
+    		`userid`,
+    		`username`,
+    		`nickname`,
+    		`newsid`,
+		    `use_time`,
+    		`add_time`
+		from user_read_news
+		WHERE 1=1
+		<if test="name != null and name.trim() != ''">
+			AND name LIKE concat('%',#{name},'%')
+		</if>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from user_read_news
+		WHERE 1=1
+        <if test="name != null and name.trim() != ''">
+            AND name LIKE concat('%',#{name},'%')
+        </if>
+	</select>
+	 
+	<insert id="save" parameterType="com.platform.entity.UserReadNewsEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into user_read_news(
+			`userid`,
+			`username`,
+			`nickname`,
+			`newsid`,
+		  	`use_time`,
+			`add_time`)
+		values(
+			#{userid},
+			#{username},
+			#{nickname},
+			#{newsid},
+			#{useTime},
+			#{addTime})
+	</insert>
+	 
+	<update id="update" parameterType="com.platform.entity.UserReadNewsEntity">
+		update user_read_news 
+		<set>
+			<if test="userid != null">`userid` = #{userid}, </if>
+			<if test="username != null">`username` = #{username}, </if>
+			<if test="nickname != null">`nickname` = #{nickname}, </if>
+			<if test="newsid != null">`newsid` = #{newsid}, </if>
+			<if test="useTime != null">`use_time` = #{useTime}, </if>
+			<if test="addTime != null">`add_time` = #{addTime}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from user_read_news where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from user_read_news where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

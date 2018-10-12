@@ -3,7 +3,7 @@
 
 <mapper namespace="com.platform.dao.ApiCnnUserCardMapper">
 
-    <resultMap type="com.platform.entity.CnnUserCardEntity" id="cnnUserCardMap">
+    <resultMap type="com.platform.entity.CnnUserCardVo" id="cnnUserCardMap">
         <result property="id" column="id"/>
         <result property="learnTypeId" column="learn_type_id"/>
         <result property="learnType" column="learnType"/>
