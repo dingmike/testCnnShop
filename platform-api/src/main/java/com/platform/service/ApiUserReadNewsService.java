@@ -35,6 +35,10 @@ public class ApiUserReadNewsService {
         return userReadNewsDao.queryTotal(map);
     }
 
+    public int queryTotalByUserId(Map<String, Object> map) {
+        return userReadNewsDao.queryTotalByUserId(map);
+    }
+
     public int save(UserReadNewsVo userReadNews) {
         return userReadNewsDao.save(userReadNews);
     }

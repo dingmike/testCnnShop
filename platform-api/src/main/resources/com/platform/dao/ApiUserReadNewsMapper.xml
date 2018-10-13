@@ -9,6 +9,7 @@
         <result property="username" column="username"/>
         <result property="nickname" column="nickname"/>
         <result property="newsid" column="newsid"/>
+        <result property="isValid" column="is_valid"/>
         <result property="title" column="title"/>
         <result property="descript" column="descript"/>
         <result property="imageUrl" column="imageUrl"/>
@@ -23,6 +24,7 @@
 			`username`,
 			`nickname`,
 			`newsid`,
+			`is_valid`,
 			`use_time`,
 			`add_time`
 		from user_read_news
@@ -35,6 +37,7 @@
 		`username`,
 		`nickname`,
 		`newsid`,
+		`is_valid`,
 		`use_time`,
 		`add_time`
 		from user_read_news
@@ -61,6 +64,7 @@
 		urn.username,
 		urn.nickname,
 		urn.newsid,
+		urn.is_valid,
 		urn.use_time,
 		urn.add_time,
 		cn.title as title,
@@ -92,13 +96,23 @@
             AND name LIKE concat('%',#{name},'%')
         </if>
 	</select>
-	 
+
+
+	<select id="queryTotalByUserId" resultType="int">
+		select count(*) from user_read_news
+		WHERE 1=1
+		<if test="userid != null">
+			AND userid = #{userid}
+		</if>
+	</select>
+
 	<insert id="save" parameterType="com.platform.entity.UserReadNewsVo" useGeneratedKeys="true" keyProperty="id">
 		insert into user_read_news(
 			`userid`,
 			`username`,
 			`nickname`,
 			`newsid`,
+			`isValid`,
 		  	`use_time`,
 			`add_time`)
 		values(
@@ -106,6 +120,7 @@
 			#{username},
 			#{nickname},
 			#{newsid},
+			#{is_valid},
 			#{useTime},
 			#{addTime})
 	</insert>
@@ -117,6 +132,7 @@
 			<if test="username != null">`username` = #{username}, </if>
 			<if test="nickname != null">`nickname` = #{nickname}, </if>
 			<if test="newsid != null">`newsid` = #{newsid}, </if>
+			<if test="isValid != null">`is_valid` = #{isValid}, </if>
 			<if test="useTime != null">`use_time` = #{useTime}, </if>
 			<if test="addTime != null">`add_time` = #{addTime}</if>
 		</set>

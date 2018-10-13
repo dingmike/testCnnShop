@@ -9,6 +9,7 @@
         <result property="username" column="username"/>
         <result property="nickname" column="nickname"/>
         <result property="newsid" column="newsid"/>
+        <result property="isValid" column="is_valid"/>
         <result property="useTime" column="use_time"/>
         <result property="addTime" column="add_time"/>
     </resultMap>
@@ -20,6 +21,7 @@
 			`username`,
 			`nickname`,
 			`newsid`,
+			`is_valid`,
 			`use_time`,
 			`add_time`
 		from user_read_news
@@ -33,6 +35,7 @@
     		`username`,
     		`nickname`,
     		`newsid`,
+		    `is_valid`,
 		    `use_time`,
     		`add_time`
 		from user_read_news
@@ -67,6 +70,7 @@
 			`username`,
 			`nickname`,
 			`newsid`,
+			`is_valid`,
 		  	`use_time`,
 			`add_time`)
 		values(
@@ -74,6 +78,7 @@
 			#{username},
 			#{nickname},
 			#{newsid},
+			#{isValid},
 			#{useTime},
 			#{addTime})
 	</insert>
@@ -85,6 +90,7 @@
 			<if test="username != null">`username` = #{username}, </if>
 			<if test="nickname != null">`nickname` = #{nickname}, </if>
 			<if test="newsid != null">`newsid` = #{newsid}, </if>
+			<if test="isValid != null">`is_valid` = #{isValid}, </if>
 			<if test="useTime != null">`use_time` = #{useTime}, </if>
 			<if test="addTime != null">`add_time` = #{addTime}</if>
 		</set>

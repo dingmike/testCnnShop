@@ -24,6 +24,8 @@ public class UserReadNewsEntity implements Serializable {
         private String nickname;
             //新闻ID
         private Integer newsid;
+        //阅读打卡有效
+        private Integer isValid;
             //阅读使用时间
         private Integer useTime;
             //添加时间
@@ -93,6 +95,19 @@ public class UserReadNewsEntity implements Serializable {
          */
         public Integer getNewsid() {
             return newsid;
+        }
+            /**
+         * 设置：新闻ID
+         */
+        public void setIsValid(Integer isValid) {
+            this.isValid = isValid;
+        }
+
+        /**
+         * 获取：新闻ID
+         */
+        public Integer getIsValid() {
+            return isValid;
         }
             /**
          * 设置：阅读使用时间

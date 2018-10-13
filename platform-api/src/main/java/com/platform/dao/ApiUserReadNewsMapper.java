@@ -14,4 +14,5 @@ import java.util.Map;
  */
 public interface ApiUserReadNewsMapper extends BaseDao<UserReadNewsVo> {
     List<UserReadNewsVo> queryListByUserId(Map<String, Object> params);
+    int queryTotalByUserId(Map<String, Object> params);
 }

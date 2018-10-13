@@ -10,6 +10,7 @@ import com.platform.service.*;
 //import com.platform.service.ApiUserService;
 //import com.platform.service.SysConfigService;
 import com.platform.util.ApiBaseAction;
+import com.platform.util.ApiPageUtils;
 import com.platform.util.UserRemindTask;
 import com.platform.util.wechat.WechatUtil;
 import com.platform.utils.*;
@@ -17,10 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -68,6 +66,8 @@ public class ApiGongduController extends ApiBaseAction {
 
     @Autowired
     private ApiUserReadNewsService apiUserReadNewsService;
+    @Autowired
+    private ApiCnnNewsService apiCnnNewsService;
 
     /**
      * 获取共读内容/api/gongdu/getContent
@@ -392,17 +392,38 @@ public class ApiGongduController extends ApiBaseAction {
      * */
     @ApiOperation(value = "获取用户已阅读文章", response = Map.class)
     @GetMapping(value = "getReadNewsByUserId")
-    public Object getReadNewsByUserId(@LoginUser UserVo loginUser) {
-        String uid = request.getParameter("uid"); // 只获取一种学习类型的用户学习情况
-        String openid =  loginUser.getWeixin_openid();
-        // 微信授权用户才能获取信息
-        if (openid.equals(uid)) {
-            Map param = new HashMap();
-            param.put("userid", loginUser.getUserId());
-            List<UserReadNewsVo> userReadNewsVos = apiUserReadNewsService.queryListByUserId(param);
+    public Object getReadNewsByUserId(@LoginUser UserVo loginUser,
+                                      @RequestParam(value ="page", defaultValue = "1") Integer page,
+                                      @RequestParam(value = "size", defaultValue = "10") Integer size) {
 
-            return toResponsSuccess(userReadNewsVos);
-        }
-        return toResponsFail("执行失败");
+        Map params = new HashMap();
+        params.put("userid", loginUser.getUserId());
+        params.put("page", page);
+        params.put("limit", size);
+        params.put("sidx", "add_time"); // 按添加时间倒序
+        params.put("order", "desc");  // asc正序 desc倒序
+
+            Query query = new Query(params);
+            List<UserReadNewsVo> userReadNewsVos = apiUserReadNewsService.queryListByUserId(query);
+            int total = apiUserReadNewsService.queryTotalByUserId(query);
+            //查询列表数据
+            ApiPageUtils pageUtil = new ApiPageUtils(userReadNewsVos, total, query.getLimit(), query.getPage());
+            return toResponsSuccess(pageUtil);
+
+
+    }
+
+    /**
+     *
+     * 获取用户已阅读文章
+     * @params userId
+     * */
+    @ApiOperation(value = "根据文章ID获取文章详情", response = Map.class)
+    @RequestMapping(value = "getNewsById")
+    public Object getNewsById(@LoginUser UserVo loginUser) {
+        JSONObject jsonParams = getJsonRequest();
+        Integer pageId = jsonParams.getInteger("pageId");
+        CnnNewsVo cnnNewsVo = apiCnnNewsService.queryObject(pageId);
+        return toResponsSuccess(cnnNewsVo);
     }
 }

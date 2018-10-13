@@ -18,10 +18,14 @@ public class CnnNewsVo implements Serializable {
     private String title;
     //文章详情
     private String newsDetail;
-    //创建文章用户ID
-    private Long createUserId;
-    //修改文章用户ID
-    private Long updateUserId;
+    //文章简述
+    private String descript;
+    //文章翻译
+    private String chinese;
+    //文章图片
+    private String imageUrl;
+    //文章语音
+    private String voiceUrl;
     //添加时间
     private Date addTime;
     //修改时间
@@ -73,20 +77,37 @@ public class CnnNewsVo implements Serializable {
 
 
 
-    public Long getCreateUserId() {
-        return createUserId;
+    public String getDescript() {
+        return descript;
     }
 
-    public void setCreateUserId(Long createUserId) {
-        this.createUserId = createUserId;
+    public void setDescript(String descript) {
+        this.descript = descript;
     }
 
-    public Long getUpdateUserId() {
-        return updateUserId;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setUpdateUserId(Long updateUserId) {
-        this.updateUserId = updateUserId;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getVoiceUrl() {
+        return voiceUrl;
+    }
+
+    public void setVoiceUrl(String voiceUrl) {
+        this.voiceUrl = voiceUrl;
+    }
+
+
+    public String getChinese() {
+        return chinese;
+    }
+
+    public void setChinese(String chinese) {
+        this.chinese = chinese;
     }
 
 
