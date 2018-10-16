@@ -426,4 +426,29 @@ public class ApiGongduController extends ApiBaseAction {
         CnnNewsVo cnnNewsVo = apiCnnNewsService.queryObject(pageId);
         return toResponsSuccess(cnnNewsVo);
     }
+
+
+
+    /**
+     *
+     * 打卡阅读文章
+     * @params userId
+     * */
+    @ApiOperation(value = "打卡阅读文章", response = Map.class)
+    @RequestMapping(value = "setNewsCard")
+    public Object setNewsCard(@LoginUser UserVo loginUser) {
+        JSONObject jsonParams = getJsonRequest();
+        Integer newsId = jsonParams.getInteger("newsId");
+        Integer useTime = jsonParams.getInteger("useTime");
+
+        UserReadNewsVo userReadNewsVo = new UserReadNewsVo();
+        userReadNewsVo.setUserid(loginUser.getUserId().intValue());
+        userReadNewsVo.setUsername(loginUser.getUsername());
+        userReadNewsVo.setNickname(loginUser.getNickname());
+        userReadNewsVo.setNewsid(newsId);
+
+        Integer successInt = apiUserReadNewsService.save(userReadNewsVo);
+
+        return toResponsSuccess(successInt);
+    }
 }
