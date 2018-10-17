@@ -30,7 +30,11 @@ public class UserReadNewsEntity implements Serializable {
         private Integer useTime;
             //添加时间
         private Date addTime;
-    
+            //阅读文章标题
+        private String title;
+            //阅读文章图片
+        private String imageUrl;
+
             /**
          * 设置：
          */
@@ -136,4 +140,31 @@ public class UserReadNewsEntity implements Serializable {
         public Date getAddTime() {
             return addTime;
         }
+
+    /**
+     * 设置：文章标题
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * 获取：文章标题
+     */
+    public String getTitle() {
+        return title;
+    }
+    /**
+     * 设置：文章主图
+     */
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    /**
+     * 获取：文章主图
+     */
+    public String getImageUrl() {
+        return imageUrl;
+    }
     }

@@ -25,7 +25,9 @@ public class ApiCnnNewsService {
     public CnnNewsVo queryObject(Integer id) {
         return cnnNewsDao.queryObject(id);
     }
-
+    public CnnNewsVo queryObjectByToday(Map<String, Object> map) {
+        return cnnNewsDao.queryObjectByToday(map);
+    }
 
     public List<CnnNewsVo> queryList(Map<String, Object> map) {
         return cnnNewsDao.queryList(map);

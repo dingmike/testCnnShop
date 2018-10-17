@@ -11,6 +11,8 @@
         <result property="newsid" column="newsid"/>
         <result property="isValid" column="is_valid"/>
         <result property="useTime" column="use_time"/>
+        <result property="title" column="title"/>
+        <result property="imageUrl" column="imageUrl"/>
         <result property="addTime" column="add_time"/>
     </resultMap>
 
@@ -30,18 +32,25 @@
 
 	<select id="queryList" resultType="com.platform.entity.UserReadNewsEntity">
 		select
-    		`id`,
-    		`userid`,
-    		`username`,
-    		`nickname`,
-    		`newsid`,
-		    `is_valid`,
-		    `use_time`,
-    		`add_time`
-		from user_read_news
+    	urn.id,
+		urn.userid,
+		urn.username,
+		urn.nickname,
+		urn.newsid,
+		urn.is_valid,
+		urn.use_time,
+		urn.add_time,
+		cn.title,
+		cn.imageUrl,
+		cn.is_use
+		from user_read_news urn
+		left join cnn_news cn on urn.newsid = cn.id
 		WHERE 1=1
-		<if test="name != null and name.trim() != ''">
-			AND name LIKE concat('%',#{name},'%')
+		<if test="username != null and username.trim() != ''">
+			and urn.username like concat('%',#{username},'%')
+		</if>
+		<if test="nickname != null and nickname.trim() != ''">
+			and urn.nickname like concat('%',#{nickname},'%')
 		</if>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">

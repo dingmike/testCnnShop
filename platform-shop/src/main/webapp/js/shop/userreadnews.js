@@ -3,12 +3,20 @@ $(function () {
         url: '../userreadnews/list',
         colModel: [
 			{label: 'id', name: 'id', index: 'id', key: true, hidden: true},
-			{label: '用户ID', name: 'userid', index: 'userid', width: 80},
+			{label: '用户ID', name: 'userid', index: 'userid', width:40},
 			{label: '用户名称', name: 'username', index: 'username', width: 80},
 			{label: '微信昵称', name: 'nickname', index: 'nickname', width: 80},
-			{label: '阅读文章标题', name: 'newsid', index: 'newsid', width: 80},
-			{label: '阅读用时', name: 'useTime', index: 'useTime', width: 80},
-			{label: '打卡时间', name: 'addTime', index: 'add_time', width: 80}]
+			{label: '阅读文章标题', name: 'title', index: 'title', width: 80},
+			{label: '阅读用时(s)',  align : "center",name: 'useTime', index: 'useTime', width: 80},
+            {
+                label: '状态（>30s）',align : "center", name: 'isToday', index: 'isToday', width: 40,
+                formatter: function (value) {
+                    return transIsNot(value);
+                }
+            },
+			{label: '打卡时间', align : "center", name: 'addTime', index: 'add_time', width: 80, formatter: function (value) {
+        return transDate(value, 'yyyy-MM-dd hh:mm:ss');
+    }}]
     });
 });
 
@@ -23,9 +31,10 @@ let vm = new Vue({
 				{required: true, message: '名称不能为空', trigger: 'blur'}
 			]
 		},
-		q: {
-		    name: ''
-		}
+        q: {
+            username: '',
+            nickname: ''
+        },
 	},
 	methods: {
 		query: function () {
@@ -93,14 +102,15 @@ let vm = new Vue({
 			vm.showList = true;
             let page = $("#jqGrid").jqGrid('getGridParam', 'page');
 			$("#jqGrid").jqGrid('setGridParam', {
-                postData: {'name': vm.q.name},
+                postData: {'username': vm.q.username, 'nickname': vm.q.nickname},
                 page: page
             }).trigger("reloadGrid");
             vm.handleReset('formValidate');
 		},
         reloadSearch: function() {
             vm.q = {
-                name: ''
+                username: '',
+                nickname: ''
             }
             vm.reload();
         },

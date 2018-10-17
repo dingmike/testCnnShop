@@ -2,9 +2,11 @@ package com.platform.service;
 
 import com.platform.dao.ApiCnnUserIntergralLogMapper;
 import com.platform.entity.UserIntergralLogVo;
+import com.platform.entity.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +23,8 @@ public class ApiUserIntergralLogService {
 
     @Autowired
     private  ApiCnnUserIntergralLogMapper cnnIntergralLogDao;
-
+    @Autowired
+    private ApiUserService userService;
 
     public UserIntergralLogVo queryObject(Integer id) {
         return cnnIntergralLogDao.queryObject(id);
@@ -38,8 +41,18 @@ public class ApiUserIntergralLogService {
     }
 
 
-    public int save(UserIntergralLogVo cnnIntergralLog) {
+  /*  public int save(UserIntergralLogVo cnnIntergralLog) {
         return cnnIntergralLogDao.save(cnnIntergralLog);
+    }*/
+    public void save(UserIntergralLogVo cnnIntergralLog, UserVo loginUser) {
+
+        BigDecimal increased = new BigDecimal(1);
+        loginUser.setIntergral(increased);
+        userService.update(loginUser);
+        cnnIntergralLog.setPlusMins(1); // 1加 0减
+//        cnnIntergralLog.setMemo("每日阅读打卡获得");
+        cnnIntergralLog.setPoints(increased);
+        cnnIntergralLogDao.save(cnnIntergralLog);
     }
 
 

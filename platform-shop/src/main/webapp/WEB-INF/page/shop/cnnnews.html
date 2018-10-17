@@ -97,6 +97,16 @@
                 <!--详情富文本-->
                 <div id="chinese"></div>
             </Form-item>
+            <Form-item label="今日阅读" prop="isToday">
+                <Radio-group v-model="cnnNews.isToday">
+                    <Radio label="1">
+                        <span>是</span>
+                    </Radio>
+                    <Radio label="0">
+                        <span>否</span>
+                    </Radio>
+                </Radio-group>
+            </Form-item>
             <Form-item label="发布" prop="isUse">
                 <Radio-group v-model="cnnNews.isUse">
                     <Radio label="1">

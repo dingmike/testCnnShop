@@ -112,7 +112,7 @@
 			`username`,
 			`nickname`,
 			`newsid`,
-			`isValid`,
+			`is_valid`,
 		  	`use_time`,
 			`add_time`)
 		values(
@@ -120,9 +120,9 @@
 			#{username},
 			#{nickname},
 			#{newsid},
-			#{is_valid},
+			#{isValid},
 			#{useTime},
-			#{addTime})
+			now())
 	</insert>
 	 
 	<update id="update" parameterType="com.platform.entity.UserReadNewsVo">

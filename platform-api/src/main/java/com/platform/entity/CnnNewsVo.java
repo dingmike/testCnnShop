@@ -30,6 +30,8 @@ public class CnnNewsVo implements Serializable {
     private Date addTime;
     //修改时间
     private Date updateTime;
+    //是否当天阅读0：不，1：是
+    private Integer isToday;
     //是否使用0：不，1：是
     private Integer isUse;
 
@@ -154,5 +156,18 @@ public class CnnNewsVo implements Serializable {
      */
     public Integer getIsUse() {
         return isUse;
+    }
+    /**
+     * 设置：是否当天阅读 0：不，1：是
+     */
+    public void setIsToday(Integer isToday) {
+        this.isToday = isToday;
+    }
+
+    /**
+     * 获取：是否使用0：不，1：是
+     */
+    public Integer getIsToday() {
+        return isToday;
     }
 }

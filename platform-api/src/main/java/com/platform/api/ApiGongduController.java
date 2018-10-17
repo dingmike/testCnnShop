@@ -169,12 +169,12 @@ public class ApiGongduController extends ApiBaseAction {
 
     /**
      *
-     *打卡set
+     *类型21天打卡
      *
     * */
 
     @RequestMapping("setCardById")
-    @ApiOperation(value = "打卡接口", response = Map.class)
+    @ApiOperation(value = "类型21天打卡", response = Map.class)
     public Object setCardById(@LoginUser UserVo loginUser) {
 
         JSONObject jsonParams = getJsonRequest();
@@ -211,7 +211,7 @@ public class ApiGongduController extends ApiBaseAction {
             // 如果已经打过卡了，就返回0
             if(null != userCardVo){
                 // 如果打卡日大于等于21则返回21 计划已完成
-                if(16<=setCardDay){
+                if(21<=setCardDay){
                     return toResponsSuccess(21);
                 }else{
                     return toResponsSuccess(0);
@@ -238,9 +238,9 @@ public class ApiGongduController extends ApiBaseAction {
                 // 打卡信息保存
                 Integer saveSuccess = cnnUserCardService.save(userCard);
                 // 打卡信息保存后都可以获得积分1
-                BigDecimal increased  =  new BigDecimal(1);
-                loginUser.setIntergral(increased);
-                userService.update(loginUser);
+//                BigDecimal increased  =  new BigDecimal(1);
+//                loginUser.setIntergral(increased);
+//                userService.update(loginUser);
 
                 UserIntergralLogVo userIntergralLogVo = new UserIntergralLogVo();
 
@@ -248,10 +248,10 @@ public class ApiGongduController extends ApiBaseAction {
                 userIntergralLogVo.setLearnTypeId(learnTypeId);
                 userIntergralLogVo.setNickname(nickname);
                 userIntergralLogVo.setUsername(username);
-                userIntergralLogVo.setPlusMins(1); // 1加 0减
-                userIntergralLogVo.setMemo("每日打卡获得");
-                userIntergralLogVo.setPoints(increased);
-                userIntergralLogService.save(userIntergralLogVo);
+//                userIntergralLogVo.setPlusMins(1); // 1加 0减
+                userIntergralLogVo.setMemo("21天计划打卡获得");
+//                userIntergralLogVo.setPoints(increased);
+                userIntergralLogService.save(userIntergralLogVo, loginUser);
 
 
                 // 打卡完后更新微信表单formID 多个formId是个字符串用“，”隔开
@@ -275,7 +275,7 @@ public class ApiGongduController extends ApiBaseAction {
 
                 // 每次打卡完成判断是否是第二十一天最后一次打卡，记录该用户是否按规定打完21天的卡完成学习任务。
                 // 打的21天最后一天卡 就终止打卡行为
-                if(setCardDay==16){
+                if(setCardDay==21){
                   List<CnnUserCardVo> userCardList = cnnUserCardService.queryUserCardList(userId, learnTypeId);
                     // 打卡天数必须为20天
                     CnnLearnResultVo learnResultVo = new CnnLearnResultVo();
@@ -431,24 +431,64 @@ public class ApiGongduController extends ApiBaseAction {
 
     /**
      *
-     * 打卡阅读文章
+     * 每日阅读文章打卡
      * @params userId
      * */
-    @ApiOperation(value = "打卡阅读文章", response = Map.class)
+    @ApiOperation(value = "每日阅读文章打卡", response = Map.class)
     @RequestMapping(value = "setNewsCard")
     public Object setNewsCard(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         Integer newsId = jsonParams.getInteger("newsId");
+        Integer learnTypeId = jsonParams.getInteger("learnTypeId");
         Integer useTime = jsonParams.getInteger("useTime");
+        Long userId = loginUser.getUserId();
+        String username = loginUser.getUsername();
+        String nickname = loginUser.getNickname();
 
         UserReadNewsVo userReadNewsVo = new UserReadNewsVo();
         userReadNewsVo.setUserid(loginUser.getUserId().intValue());
         userReadNewsVo.setUsername(loginUser.getUsername());
         userReadNewsVo.setNickname(loginUser.getNickname());
+        userReadNewsVo.setUseTime(useTime);
+        if(useTime>30){// 大于30s
+            userReadNewsVo.setIsValid(1);
+        }else{
+            userReadNewsVo.setIsValid(0);
+        }
         userReadNewsVo.setNewsid(newsId);
 
         Integer successInt = apiUserReadNewsService.save(userReadNewsVo);
 
+        // 打卡信息保存后都可以获得积分1
+//        BigDecimal increased  =  new BigDecimal(1);
+//        loginUser.setIntergral(increased);
+//        userService.update(loginUser);
+
+        UserIntergralLogVo userIntergralLogVo = new UserIntergralLogVo();
+        userIntergralLogVo.setUserid(userId.intValue());
+        userIntergralLogVo.setLearnTypeId(learnTypeId);
+        userIntergralLogVo.setNickname(nickname);
+        userIntergralLogVo.setUsername(username);
+        userIntergralLogVo.setMemo("每日阅读打卡获得");
+//        userIntergralLogVo.setPlusMins(1); // 1加 0减
+//        userIntergralLogVo.setMemo("每日阅读打卡获得");
+//        userIntergralLogVo.setPoints(increased);
+        userIntergralLogService.save(userIntergralLogVo, loginUser);
+
         return toResponsSuccess(successInt);
+    }
+
+    /**
+     *
+     * 当天打卡阅读的文章GET
+     * @params userId
+     * */
+    @ApiOperation(value = "当天打卡阅读的文章", response = Map.class)
+    @GetMapping(value = "getTodayNews")
+    public Object getTodayNews(@LoginUser UserVo loginUser) {
+        Map params = new HashMap();
+        params.put("isToday",1);
+        CnnNewsVo cnnNewsVo = apiCnnNewsService.queryObjectByToday(params);
+        return toResponsSuccess(cnnNewsVo);
     }
 }

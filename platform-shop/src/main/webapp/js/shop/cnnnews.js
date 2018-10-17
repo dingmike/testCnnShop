@@ -19,6 +19,12 @@ $(function () {
                 return transDate(value, 'yyyy-MM-dd hh:mm:ss');
             }},
             {
+                label: '今日阅读',align : "center", name: 'isToday', index: 'isToday', width: 40,
+                formatter: function (value) {
+                    return transIsNot(value);
+                }
+            },
+            {
                 label: '发布状态', name: 'isUse', index: 'is_use', width: 40,
                 formatter: function (value) {
                     return transIsNot(value);
