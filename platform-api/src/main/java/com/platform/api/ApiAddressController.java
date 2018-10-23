@@ -70,6 +70,9 @@ public class ApiAddressController extends ApiBaseAction {
             entity.setNationalCode(addressJson.getString("nationalCode"));
             entity.setTelNumber(addressJson.getString("telNumber"));
             entity.setIs_default(addressJson.getInteger("is_default"));
+            if(entity.getIs_default()==1){
+                addressService.updateByUserId(entity.getUserId().intValue());
+            }
         }
         if (null == entity.getId() || entity.getId() == 0) {
             entity.setId(null);

@@ -70,17 +70,16 @@ public class ApiIndexController extends ApiBaseAction {
     public Object cnnIndex() {
         String learnTypeId = request.getParameter("learnTypeId"); // 只获取一种学习类型的用户学习情况
         Map<String, Object> resultObj = new HashMap();
-        Map param = new HashMap();
 //        List<CnnAdVo> banner = cnnAdService.queryList(param);
         List<CnnAdVo> banner = cnnAdService.queryListByMediaType(1);
         //获取计划详情说明图片
         List<CnnAdVo> learnFilePics = cnnAdService.queryListByMediaType(2);
         resultObj.put("banner", banner);
         resultObj.put("learnFilePics", learnFilePics);
-        param = new HashMap();
-        List<CnnNewsVo> newsList = cnnNewsService.queryList(param);
-        resultObj.put("newsList", newsList);
-        param = new HashMap();
+//        param = new HashMap();
+//        List<CnnNewsVo> newsList = cnnNewsService.queryList(param);
+//        resultObj.put("newsList", newsList);
+        Map param = new HashMap();
         param.put("learnTypeId", learnTypeId);
         List<UserLearnVo> userLearnList = userLearnService.queryList(param);
         resultObj.put("userLearnList", userLearnList);
@@ -90,6 +89,30 @@ public class ApiIndexController extends ApiBaseAction {
         resultObj.put("userListTotal", sum);
         return toResponsSuccess(resultObj);
     }
+
+
+
+    /**
+     *  cnn首页学习类型2
+     */
+    @ApiOperation(value = "cnn首页学习类型2")
+    @IgnoreAuth
+//    @RequestMapping(value = "cnnIndex", method = RequestMethod.GET)
+    @GetMapping(value = "cnnIndexTypeTwo")
+    public Object cnnIndexTypeTwo() {
+        String learnTypeId = request.getParameter("learnTypeId"); // 只获取一种学习类型的用户学习情况
+        Map<String, Object> resultObj = new HashMap();
+        Map param = new HashMap();
+        param.put("learnTypeId", learnTypeId);
+        List<UserLearnVo> userLearnList = userLearnService.queryList(param);
+        resultObj.put("userLearnList", userLearnList);
+        param = new HashMap();
+        param.put("learnTypeId", learnTypeId);
+        int sum = userLearnService.queryTotalByLearnTypeId(param);
+        resultObj.put("userListTotal", sum);
+        return toResponsSuccess(resultObj);
+    }
+
 
     /**
      * app商城首页

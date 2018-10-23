@@ -88,6 +88,15 @@
         where id = #{id}
     </update>
 
+
+    <update id="updateByUserId" parameterType="com.platform.entity.AddressVo">
+        update nideshop_address
+        <set>
+            is_default = 0
+        </set>
+        where user_id = #{userId}
+    </update>
+
     <delete id="delete">
 		delete from nideshop_address where id = #{value}
 	</delete>

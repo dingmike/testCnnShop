@@ -29,6 +29,10 @@ public class ApiAddressService {
         return addressDao.queryTotal(map);
     }
 
+    public int updateByUserId(Integer userId) {
+        return addressDao.updateByUserId(userId);
+    }
+
 
     public void save(AddressVo address) {
         addressDao.save(address);
