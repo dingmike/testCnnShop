@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 作者: @author Harmon <br>
- * 时间: 2017-08-11 08:32<br>
+ * 作者: @author admin <br>
+ * 时间: 2018-08-11 08:32<br>
  * 描述: ApiIndexController <br>
  */
 @Api(tags = "购物车")
@@ -421,10 +421,15 @@ public class ApiCartController extends ApiBaseAction {
             resultObj.put("checkedAddress", new AddressVo());
         } else {
             // 查询的地址为一个list
+           /* if(addressId==0){
+                List addressList =  addressService.queryListByUserId(loginUser.getUserId().intValue());
+            }*/
             for(AddressVo addressVo : (List<AddressVo>) addressEntities) {
                 if(addressVo.getId() == addressId.longValue()){
                     resultObj.put("checkedAddress", addressVo);
                 }else if(addressId==0&&addressVo.getIs_default()==1){
+                    resultObj.put("checkedAddress", addressVo);
+                }else{
                     resultObj.put("checkedAddress", addressVo);
                 }
                // System.out.println(attribute);

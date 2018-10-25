@@ -32,6 +32,9 @@ public class ApiAddressService {
     public int updateByUserId(Integer userId) {
         return addressDao.updateByUserId(userId);
     }
+    public List<AddressVo> queryListByUserId(Integer userId) {
+        return addressDao.queryListByUserId(userId);
+    }
 
 
     public void save(AddressVo address) {

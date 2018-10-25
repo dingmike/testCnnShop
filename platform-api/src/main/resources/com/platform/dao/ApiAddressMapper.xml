@@ -42,6 +42,16 @@
         </if>
     </select>
 
+    <select id="queryListByUserId" resultMap="addressMap">
+        select * from nideshop_address
+        <where>
+            <if test="user_id != null">
+                and user_id = #{user_id}
+            </if>
+        </where>
+    </select>
+
+
     <select id="queryTotal" resultType="int">
 		select count(*) from nideshop_address 
 	</select>

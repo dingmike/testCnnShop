@@ -3,6 +3,8 @@ package com.platform.dao;
 import com.platform.entity.AddressVo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * @author admin
  * @email 2252277509@qq.com
@@ -10,4 +12,5 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface ApiAddressMapper extends BaseDao<AddressVo> {
     int updateByUserId(@Param("userId") Integer userId);
+    List<AddressVo> queryListByUserId(@Param("userId") Integer userId);
 }
