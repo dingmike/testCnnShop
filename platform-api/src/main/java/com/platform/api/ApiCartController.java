@@ -429,7 +429,7 @@ public class ApiCartController extends ApiBaseAction {
                     resultObj.put("checkedAddress", addressVo);
                 }else if(addressId==0&&addressVo.getIs_default()==1){
                     resultObj.put("checkedAddress", addressVo);
-                }else{
+                }else if(addressVo.getIs_default()==1){
                     resultObj.put("checkedAddress", addressVo);
                 }
                // System.out.println(attribute);
