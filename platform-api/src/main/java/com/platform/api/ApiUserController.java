@@ -202,6 +202,7 @@ public class ApiUserController extends ApiBaseAction {
     public Object submitPhone(@LoginUser UserVo loginUser){
         JSONObject jsonParams = getJsonRequest();
         String openid =  loginUser.getWeixin_openid();
+        Integer learnTypeId = jsonParams.getInteger("learnTypeId");
         if (null != jsonParams&& openid.equals(jsonParams.getString("uid"))) {
             UserVo userVo = userService.queryObject(loginUser.getUserId());
             userVo.setUsername(jsonParams.getString("wechatId"));
@@ -209,7 +210,8 @@ public class ApiUserController extends ApiBaseAction {
             userService.update(userVo);
             // 保存多个formIds
             String formId=jsonParams.getString("formIds");
-            UserLearnVo userLearnVo = userLearnService.queryObjectByUserId(loginUser.getUserId().intValue());
+//            UserLearnVo userLearnVo = userLearnService.queryObjectByUserId(loginUser.getUserId().intValue());
+            UserLearnVo userLearnVo = userLearnService.queryObjectByUserIdAndLearnTypeId(loginUser.getUserId().intValue(),learnTypeId);
             String oldFormIds = userLearnVo.getFormId();
             String newFormIds;
             if(oldFormIds==null||oldFormIds==""){
@@ -222,7 +224,8 @@ public class ApiUserController extends ApiBaseAction {
 
 //            String newFormIds = oldFormIds+","+formId;
             userLearnVo.setFormId(rightFormIds);
-            Integer successResult = userLearnService.update(userLearnVo);
+//            Integer successResult = userLearnService.update(userLearnVo);
+            Integer successResult = userLearnService.updateByUserIdAndLearnTypeId(userLearnVo);
 //            return toResponsMsgSuccess("绑定成功");
             logger.info(" 保存多个formIds-----");
             return toResponsSuccess(successResult);

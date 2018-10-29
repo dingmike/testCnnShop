@@ -184,7 +184,7 @@ public class ApiGongduController extends ApiBaseAction {
         Long userId=  loginUser.getUserId();
         String username = loginUser.getUsername();
         String nickname = loginUser.getNickname();
-        UserLearnVo userLearnObj = userLearnService.queryObjectByUserId(userId.intValue());
+        UserLearnVo userLearnObj = userLearnService.queryObjectByUserIdAndLearnTypeId(userId.intValue(),learnTypeId);
         Integer setCardDay = userLearnObj.getUnlocks();
         // 微信授权用户才能获取信息
         if (null != jsonParams&& openid.equals(jsonParams.getString("uid"))) {
@@ -258,7 +258,8 @@ public class ApiGongduController extends ApiBaseAction {
                 UserLearnVo userLearnVo = new UserLearnVo();
                 userLearnVo.setLearnTypeId(learnTypeId);
 
-                UserLearnVo oldUserLearnVo = userLearnService.queryObjectByUserId(newUserId);
+//                UserLearnVo oldUserLearnVo = userLearnService.queryObjectByUserId(newUserId);
+                UserLearnVo oldUserLearnVo = userLearnService.queryObjectByUserIdAndLearnTypeId(newUserId, learnTypeId);
                 String oldFormIds = oldUserLearnVo.getFormId();
                 String newFormIds;
                 if("".equals(oldFormIds)||oldFormIds==null){
@@ -269,7 +270,8 @@ public class ApiGongduController extends ApiBaseAction {
 
                 userLearnVo.setFormId(newFormIds);
                 userLearnVo.setUserid(userId.intValue());
-                Integer successResult = userLearnService.update(userLearnVo);
+//                Integer successResult = userLearnService.update(userLearnVo);
+                Integer successResult = userLearnService.updateByUserIdAndLearnTypeId(userLearnVo);
                 System.out.println("更新formId成功-----------");
                 System.out.println(successResult);
 
@@ -358,7 +360,8 @@ public class ApiGongduController extends ApiBaseAction {
             userLearnVo.setSetupTime(setupTime);
             userLearnVo.setLearnTypeId(learnTypeId);
             // 参加成功的用户才可以设置定时提醒时间
-            Integer result = userLearnService.update(userLearnVo);
+//            Integer result = userLearnService.update(userLearnVo);
+            Integer result = userLearnService.updateByUserIdAndLearnTypeId(userLearnVo);
             // 启动定时器执行定时任务
             userRemindTask.test(userId, setupTime);
 

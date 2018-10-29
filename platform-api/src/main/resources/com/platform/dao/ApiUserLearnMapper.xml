@@ -153,6 +153,27 @@
 		where userid = #{userid}
 	</update>
 
+
+	<update id="updateByUserIdAndLearnTypeId" parameterType="com.platform.entity.UserLearnVo">
+		update cnn_user_learn
+		<set>
+			<if test="learnTypeId != null">`learn_type_id` = #{learnTypeId}, </if>
+			<if test="userid != null">`userid` = #{userid}, </if>
+			<if test="unlocks != null">`unlocks` = #{unlocks}, </if>
+			<if test="formId != null">`formId` = #{formId}, </if>
+			<if test="miss != null">`miss` = #{miss}, </if>
+			<if test="startStatus != null">`start_status` = #{startStatus}, </if>
+			<if test="setupTime != null">`setup_time` = #{setupTime}, </if>
+			<if test="updateTime != null">`update_time` = now()</if>
+		</set>
+		<if test="learnTypeId != null and learnTypeId != ''">
+			WHERE learn_type_id = #{learnTypeId}
+		</if>
+		<if test="userid != null and userid!= ''">
+			AND userid = #{userid}
+		</if>
+	</update>
+
 	<delete id="delete">
 		delete from cnn_user_learn where id = #{value}
 	</delete>

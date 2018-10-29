@@ -54,6 +54,9 @@ public class ApiUserLearnService {
     public int update(UserLearnVo userLearn) {
         return userLearnMapper.update(userLearn);
     }
+    public int updateByUserIdAndLearnTypeId(UserLearnVo userLearnVo) {
+        return userLearnMapper.updateByUserIdAndLearnTypeId(userLearnVo);
+    }
 
     public int delete(Integer id) {
         return userLearnMapper.delete(id);

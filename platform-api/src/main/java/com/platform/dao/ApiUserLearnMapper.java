@@ -18,4 +18,5 @@ public interface ApiUserLearnMapper extends BaseDao<UserLearnVo> {
     UserLearnVo queryObjectByUserIdAndLearnTypeId(@Param("userId") Integer userId, @Param("learnTypeId") Integer learnTypeId);
     void updateUnlocks(@Param("totalUnlocks") Integer totalUnlocks);
     void updateFormId(@Param("userId") Integer userId, @Param("updateFormIds") String updateFormIds);
+    int updateByUserIdAndLearnTypeId(UserLearnVo userLearnVo);
 }
