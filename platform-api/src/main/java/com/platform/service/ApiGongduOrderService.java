@@ -81,13 +81,6 @@ public class ApiGongduOrderService {
         gongDuOrderVo.setUserId(loginUser.getUserId());
         gongDuOrderVo.setLearnTypeId(learnTypeId);
         gongDuOrderVo.setPayStatus(0);//付款状态 支付状态;0未付款;1付款中;2已付款;4退款
-          /*
-        订单状态
-        1xx 表示订单取消和删除等状态 0订单创建成功等待付款，　101订单已取消，　102订单已删除
-        2xx 表示订单支付状态　201订单已付款，等待发货
-        3xx 表示订单物流相关状态　300订单已发货， 301用户确认收货
-        4xx 表示订单退换货相关的状态　401 没有发货，退款　402 已收货，退款退货
-        */
         gongDuOrderVo.setOrderStatus(0);
         gongDuOrderVo.setGoodsPrice(cnnLearnTypeVo.getProductPrice());
         cnngongduOrderDao.save(gongDuOrderVo); //开启事务，插入订单信息和订单商品
