@@ -492,6 +492,36 @@ public class ApiGongduController extends ApiBaseAction {
         Map params = new HashMap();
         params.put("isToday",1);
         CnnNewsVo cnnNewsVo = apiCnnNewsService.queryObjectByToday(params);
+        //判断用户是否已打卡今日文章
+        Integer newsId = cnnNewsVo.getId();
+        params = new HashMap();
+        params.put("userid",loginUser.getUserId());
+        params.put("id",newsId);
+        Integer haveReaded = apiUserReadNewsService.queryTotalByUserIdAndNewsId(params);
+
         return toResponsSuccess(cnnNewsVo);
+    }
+
+
+
+    /**
+     *
+     * 是否已打卡当天文章
+     * @params userId id
+     * */
+    @ApiOperation(value = "是否已打卡当天文章", response = Map.class)
+    @PostMapping(value = "haveReaded")
+    public Object haveReaded(@LoginUser UserVo loginUser) {
+        JSONObject jsonParams = getJsonRequest();
+        String openid = loginUser.getWeixin_openid();
+        if(null != jsonParams&& openid.equals(jsonParams.getString("uid"))){
+            Map params = new HashMap();
+            params.put("userid",loginUser.getUserId());
+            params.put("id",jsonParams.getInteger("id"));
+            Integer haveReaded = apiUserReadNewsService.queryTotalByUserIdAndNewsId(params);
+            return toResponsSuccess(haveReaded);
+        }else{
+            return toResponsFail("用户未授权");
+        }
     }
 }

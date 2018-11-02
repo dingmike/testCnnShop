@@ -106,6 +106,16 @@
 		</if>
 	</select>
 
+
+	<select id="queryTotalByUserIdAndNewsId" resultType="int">
+		select count(*) from user_read_news
+		where id = #{id}
+		<if test="userid != null">
+			AND userid = #{userid}
+		</if>
+	</select>
+
+
 	<insert id="save" parameterType="com.platform.entity.UserReadNewsVo" useGeneratedKeys="true" keyProperty="id">
 		insert into user_read_news(
 			`userid`,

@@ -1,8 +1,10 @@
 package com.platform.api;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 
 import com.platform.annotation.IgnoreAuth;
+import com.platform.annotation.LoginUser;
 import com.platform.entity.*;
 import com.platform.service.*;
 import com.platform.util.ApiBaseAction;
@@ -10,10 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.util.ArrayList;
@@ -50,6 +49,8 @@ public class ApiIndexController extends ApiBaseAction {
     private ApiCategoryService categoryService;
     @Autowired
     private ApiCartService cartService;
+    @Autowired
+    private ApiUserLearnService apiUserLearnService;
     /**
      * 测试
      */
@@ -380,5 +381,29 @@ public class ApiIndexController extends ApiBaseAction {
     IndexUrlCategory: NewApiRootUrl + 'index/category', //首页数据接口IndexUrlChannel
     IndexUrlBanner: NewApiRootUrl + 'index/banner', //首页数据接口IndexUrlChannel
     IndexUrlChannel: NewApiRootUrl + 'index/channel', //首页数据接口IndexUrlChannel
+
     */
+
+
+    @ApiOperation(value = "参与每日阅读计划")
+    @PostMapping(value = "enterLearnClass")
+    public Object enterLearnClass(@LoginUser UserVo loginUser){
+        JSONObject jsonParams = getJsonRequest();
+        String openid = loginUser.getWeixin_openid();
+        //可以进行
+        if(null != jsonParams&& openid.equals(jsonParams.getString("uid"))){
+            UserLearnVo userLearnVo = new UserLearnVo();
+            userLearnVo.setLearnTypeId(2); // learnTypeId=2 每日阅读计划ID固定
+            userLearnVo.setUserid(loginUser.getUserId().intValue());
+            userLearnVo.setStartStatus(1);// 开启共读
+            // 新加入微信名称等
+            userLearnVo.setUserName(loginUser.getUsername());
+            userLearnVo.setNickname(loginUser.getNickname());
+            apiUserLearnService.save(userLearnVo);
+            return toResponsSuccess(userLearnVo);
+        }else{
+            return toResponsFail("用户未授权");
+        }
+
+    }
 }
