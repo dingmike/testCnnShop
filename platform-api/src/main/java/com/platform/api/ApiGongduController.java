@@ -478,6 +478,12 @@ public class ApiGongduController extends ApiBaseAction {
 //        userIntergralLogVo.setPoints(increased);
         userIntergralLogService.save(userIntergralLogVo, loginUser);
 
+        //用户信息中总积分加1
+//        BigDecimal oldIntergral = loginUser.getIntergral();
+//        BigDecimal oneIntergral = new BigDecimal("1");
+//        loginUser.setIntergral(oldIntergral.add(oneIntergral));
+//        userService.update(loginUser);
+
         return toResponsSuccess(successInt);
     }
 
@@ -496,10 +502,13 @@ public class ApiGongduController extends ApiBaseAction {
         Integer newsId = cnnNewsVo.getId();
         params = new HashMap();
         params.put("userid",loginUser.getUserId());
-        params.put("id",newsId);
+        params.put("newsid",newsId);
         Integer haveReaded = apiUserReadNewsService.queryTotalByUserIdAndNewsId(params);
 
-        return toResponsSuccess(cnnNewsVo);
+        Map result = new HashMap<>();
+        result.put("haveReaded",haveReaded);
+        result.put("todayNews",cnnNewsVo);
+        return toResponsSuccess(result);
     }
 
 

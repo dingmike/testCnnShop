@@ -113,7 +113,7 @@
             <if test="register_ip != null">`register_ip` = #{register_ip},</if>
             <if test="avatar != null">`avatar` = #{avatar},</if>
             <if test="weixin_openid != null">`weixin_openid` = #{weixin_openid},</if>
-            <if test="intergral==10">`intergral` = `intergral` + #{intergral}, </if>
+            <if test="intergral==1">`intergral` = `intergral` + #{intergral}, </if>
             <if test="balance != null">`balance` = #{balance}</if>
         </set>
         where id = #{userId}

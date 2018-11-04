@@ -109,7 +109,7 @@
 
 	<select id="queryTotalByUserIdAndNewsId" resultType="int">
 		select count(*) from user_read_news
-		where id = #{id}
+		where newsid = #{newsid}
 		<if test="userid != null">
 			AND userid = #{userid}
 		</if>
