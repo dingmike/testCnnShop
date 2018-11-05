@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.platform.dao.CnnUserFormidMapper">
+
+    <resultMap type="com.platform.entity.CnnUserFormidEntity" id="cnnUserFormidMap">
+        <result property="id" column="id"/>
+        <result property="formid" column="formId"/>
+        <result property="userid" column="userid"/>
+        <result property="addTime" column="add_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="com.platform.entity.CnnUserFormidEntity">
+		select
+			`id`,
+			`formId`,
+			`userid`,
+			`add_time`,
+			`update_time`
+		from cnn_user_formid
+		where id = #{id}
+	</select>
+
+	<select id="queryList" resultType="com.platform.entity.CnnUserFormidEntity">
+		select
+    		`id`,
+    		`formId`,
+    		`userid`,
+    		`add_time`,
+    		`update_time`
+		from cnn_user_formid
+		WHERE 1=1
+		<if test="name != null and name.trim() != ''">
+			AND name LIKE concat('%',#{name},'%')
+		</if>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from cnn_user_formid
+		WHERE 1=1
+        <if test="name != null and name.trim() != ''">
+            AND name LIKE concat('%',#{name},'%')
+        </if>
+	</select>
+	 
+	<insert id="save" parameterType="com.platform.entity.CnnUserFormidEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into cnn_user_formid(
+			`formId`,
+			`userid`,
+			`add_time`,
+			`update_time`)
+		values(
+			#{formid},
+			#{userid},
+			now(),
+			now())
+	</insert>
+	 
+	<update id="update" parameterType="com.platform.entity.CnnUserFormidEntity">
+		update cnn_user_formid 
+		<set>
+			<if test="formid != null">`formId` = #{formid}, </if>
+			<if test="userid != null">`userid` = #{userid}, </if>
+			<if test="updateTime != null">`update_time` = now()</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from cnn_user_formid where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from cnn_user_formid where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

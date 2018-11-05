@@ -68,7 +68,8 @@ public class ApiGongduController extends ApiBaseAction {
     private ApiUserReadNewsService apiUserReadNewsService;
     @Autowired
     private ApiCnnNewsService apiCnnNewsService;
-
+    @Autowired
+    private CnnUserFormidService cnnUserFormidService;
     /**
      * 获取共读内容/api/gongdu/getContent
      */
@@ -529,6 +530,28 @@ public class ApiGongduController extends ApiBaseAction {
             params.put("id",jsonParams.getInteger("id"));
             Integer haveReaded = apiUserReadNewsService.queryTotalByUserIdAndNewsId(params);
             return toResponsSuccess(haveReaded);
+        }else{
+            return toResponsFail("用户未授权");
+        }
+    }
+
+
+    /**
+     *
+     * 是否已打卡当天文章
+     * @params uid, formId
+     * */
+    @ApiOperation(value = "添加formId", response = Map.class)
+    @PostMapping(value = "addFormId")
+    public Object addFormId(@LoginUser UserVo loginUser) {
+        JSONObject jsonParams = getJsonRequest();
+        String openid = loginUser.getWeixin_openid();
+        if(null != jsonParams&& openid.equals(jsonParams.getString("uid"))){
+            CnnUserFormidEntity userFormidEntity =  new CnnUserFormidEntity();
+            userFormidEntity.setFormid(jsonParams.getString("formId"));
+            userFormidEntity.setUserid(loginUser.getUserId().intValue());
+            Integer haveSaved = cnnUserFormidService.save(userFormidEntity);
+            return toResponsSuccess(haveSaved);
         }else{
             return toResponsFail("用户未授权");
         }
