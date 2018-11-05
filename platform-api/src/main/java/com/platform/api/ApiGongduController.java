@@ -538,7 +538,7 @@ public class ApiGongduController extends ApiBaseAction {
 
     /**
      *
-     * 是否已打卡当天文章
+     * 给用户添加formId
      * @params uid, formId
      * */
     @ApiOperation(value = "添加formId", response = Map.class)
