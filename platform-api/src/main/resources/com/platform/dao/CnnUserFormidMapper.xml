@@ -22,6 +22,18 @@
 		where id = #{id}
 	</select>
 
+	<select id="queryObjectByUserid" resultType="com.platform.entity.CnnUserFormidEntity">
+		select
+		`id`,
+		`formId`,
+		`userid`,
+		`add_time`
+		from cnn_user_formid
+		where userid = #{userid}
+		ORDER BY `add_time` ASC limit 1
+	</select>
+
+
 	<select id="queryList" resultType="com.platform.entity.CnnUserFormidEntity">
 		select
     		`id`,

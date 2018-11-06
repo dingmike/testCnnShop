@@ -345,6 +345,61 @@ public class WechatUtil {
         String sendData = JsonUtil.toJsonString(template);
         return sendData;
     }
+
+
+    /**
+     * 创建模板消息2 每日阅读计划
+     * @param openId
+     * @param template_id
+     * @param url
+     * @param topcolor
+     * @param carrierName
+     * @param waybillCode
+     * @param waybillDesc
+     * @return
+     */
+    public static String makeTemplateMessage(String openId,String template_id, String page, String form_id, String url,String topcolor,String carrierName, String waybillCode, String waybillDesc,String wayContent, String wayCount){
+        WxTemplate template = new WxTemplate();
+        template.setTouser(openId);
+        template.setTemplate_id(template_id);
+        template.setPage(page);
+        template.setForm_id(form_id);
+        template.setUrl(url);
+        template.setTopcolor(topcolor);
+        Map<String, TemplateData> data = new HashMap<String, TemplateData>();
+
+        TemplateData templateData1 = new TemplateData();
+        templateData1.setValue(carrierName);
+        templateData1.setColor("#ff6600");
+        TemplateData templateData2 = new TemplateData();
+        templateData2.setValue(waybillCode);
+        templateData2.setColor("#ff6600");
+
+        TemplateData templateData3 = new TemplateData();
+        templateData3.setValue(waybillDesc);
+        templateData3.setColor("#ff6600");
+
+        TemplateData templateData4 = new TemplateData();
+        templateData4.setValue(wayContent);
+        templateData4.setColor("#ff6600");
+
+        TemplateData templateData5 = new TemplateData();
+        templateData5.setValue(wayCount);
+        templateData5.setColor("#ff6600");
+
+        // 消息模板对应字段
+        data.put("keyword1", templateData1);
+        data.put("keyword2", templateData2);
+        data.put("keyword3", templateData3);
+        data.put("keyword4", templateData4);
+        data.put("keyword5", templateData5);
+        template.setData(data);
+        System.out.println(template);
+        String sendData = JsonUtil.toJsonString(template);
+        return sendData;
+    }
+
+
     /**
      * 发送消息
      * @param accessToken

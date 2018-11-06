@@ -51,6 +51,9 @@
             limit #{offset}, #{limit}
         </if>
     </select>
+    <select id="queryListAll" resultMap="userMap">
+        select id, weixin_openid from nideshop_user
+    </select>
 
     <select id="queryTotal" resultType="int">
 		select count(*) from nideshop_user 

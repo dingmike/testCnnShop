@@ -364,7 +364,7 @@ public class ApiGongduController extends ApiBaseAction {
 //            Integer result = userLearnService.update(userLearnVo);
             Integer result = userLearnService.updateByUserIdAndLearnTypeId(userLearnVo);
             // 启动定时器执行定时任务
-            userRemindTask.test(userId, setupTime);
+            userRemindTask.setupRemindTask(userId, setupTime);
 
             // ----------------测试发送模板消息
            /* String templateId = "aR2vBrOkQipCeAB1tcQ2-jXHJket3CjhpGjYiYdGaOY";

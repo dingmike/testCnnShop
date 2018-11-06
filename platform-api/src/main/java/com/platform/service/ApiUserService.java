@@ -34,6 +34,9 @@ public class ApiUserService {
     public List<UserVo> queryList(Map<String, Object> map) {
         return userDao.queryList(map);
     }
+    public List<UserVo> queryListAll() {
+        return userDao.queryListAll();
+    }
 
     public int queryTotal(Map<String, Object> map) {
         return userDao.queryTotal(map);

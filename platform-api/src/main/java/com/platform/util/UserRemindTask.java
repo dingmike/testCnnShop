@@ -96,7 +96,7 @@ public class UserRemindTask {
         }
     }
 
-    public void test(Long userId, String setupTime) {
+    public void setupRemindTask(Long userId, String setupTime) {
         logger.info("我是带参数的UserRemindTask的test方法，正在被执行，参数为用户：" + userId + "提醒时间：" + setupTime);
 
        // 转换时间为cron //08:02

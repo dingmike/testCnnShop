@@ -1,6 +1,7 @@
 package com.platform.dao;
 
 import com.platform.entity.CnnUserFormidEntity;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * Dao
@@ -10,5 +11,5 @@ import com.platform.entity.CnnUserFormidEntity;
  * @date 2018-11-05 14:46:55
  */
 public interface CnnUserFormidMapper extends BaseDao<CnnUserFormidEntity> {
-
+    CnnUserFormidEntity queryObjectByUserid(@Param("userid") Integer userid);
 }

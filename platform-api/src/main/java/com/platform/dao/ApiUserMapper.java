@@ -4,6 +4,8 @@ import com.platform.entity.SmsLogVo;
 import com.platform.entity.UserVo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 用户
  *
@@ -14,6 +16,8 @@ import org.apache.ibatis.annotations.Param;
 public interface ApiUserMapper extends BaseDao<UserVo> {
 
     UserVo queryByMobile(String mobile);
+
+    List<UserVo> queryListAll(); //查询所有userid
 
     UserVo queryByOpenId(@Param("openId") String openId);
 

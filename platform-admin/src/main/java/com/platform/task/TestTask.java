@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import cn.binarywang.wx.miniapp.api.*;
 /**
  * 测试定时任务(演示Demo，可删除)
  * <p>

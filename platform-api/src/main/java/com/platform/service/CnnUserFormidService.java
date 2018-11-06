@@ -24,6 +24,9 @@ public class CnnUserFormidService{
     public CnnUserFormidEntity queryObject(Integer id) {
         return cnnUserFormidDao.queryObject(id);
     }
+    public CnnUserFormidEntity queryObjectByUserid(Integer userid) {
+        return cnnUserFormidDao.queryObjectByUserid(userid);
+    }
 
     public List<CnnUserFormidEntity> queryList(Map<String, Object> map) {
         return cnnUserFormidDao.queryList(map);
