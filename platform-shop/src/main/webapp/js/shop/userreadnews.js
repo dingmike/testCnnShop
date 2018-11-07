@@ -3,15 +3,15 @@ $(function () {
         url: '../userreadnews/list',
         colModel: [
 			{label: 'id', name: 'id', index: 'id', key: true, hidden: true},
-			{label: '用户ID', name: 'userid', index: 'userid', width:40},
-			{label: '用户名称', name: 'username', index: 'username', width: 80},
+			{label: '用户ID', name: 'userid', index: 'userid', width:20},
+			{label: '用户名称', name: 'username', index: 'username', width: 60},
 			{label: '微信昵称', name: 'nickname', index: 'nickname', width: 80},
 			{label: '阅读文章标题', name: 'title', index: 'title', width: 80},
 			{label: '阅读用时(s)',  align : "center",name: 'useTime', index: 'useTime', width: 80},
             {
-                label: '状态（>30s）',align : "center", name: 'isToday', index: 'isToday', width: 40,
+                label: '状态（阅读时间>30s）',align : "center", name: 'isValid', index: 'isValid', width: 40,
                 formatter: function (value) {
-                    return transIsNot(value);
+                    return transStatus(value);
                 }
             },
 			{label: '打卡时间', align : "center", name: 'addTime', index: 'add_time', width: 80, formatter: function (value) {

@@ -392,15 +392,28 @@ public class ApiIndexController extends ApiBaseAction {
         String openid = loginUser.getWeixin_openid();
         //可以进行
         if(null != jsonParams&& openid.equals(jsonParams.getString("uid"))){
-            UserLearnVo userLearnVo = new UserLearnVo();
-            userLearnVo.setLearnTypeId(2); // learnTypeId=2 每日阅读计划ID固定
-            userLearnVo.setUserid(loginUser.getUserId().intValue());
-            userLearnVo.setStartStatus(1);// 开启共读
-            // 新加入微信名称等
-            userLearnVo.setUserName(loginUser.getUsername());
-            userLearnVo.setNickname(loginUser.getNickname());
-            apiUserLearnService.save(userLearnVo);
-            return toResponsSuccess(userLearnVo);
+            //判断是否已经有参与
+            UserLearnVo oldUserLearnVo = userLearnService.queryObjectByUserIdAndLearnTypeId(loginUser.getUserId().intValue(),2);
+            if(null!=oldUserLearnVo){ //有且参与状态为0
+                if(oldUserLearnVo.getStartStatus()==0){
+                    oldUserLearnVo.setStartStatus(1);// 开启共读
+                    apiUserLearnService.updateByUserIdAndLearnTypeId(oldUserLearnVo);
+                    return toResponsSuccess(oldUserLearnVo);
+                }else{
+                    return toResponsFail("你已经加入每日阅读计划");
+                }
+
+            }else{
+                UserLearnVo userLearnVo = new UserLearnVo();
+                userLearnVo.setLearnTypeId(2); // learnTypeId=2 每日阅读计划ID固定
+                userLearnVo.setUserid(loginUser.getUserId().intValue());
+                userLearnVo.setStartStatus(1);// 开启共读
+                // 新加入微信名称等
+                userLearnVo.setUserName(loginUser.getUsername());
+                userLearnVo.setNickname(loginUser.getNickname());
+                apiUserLearnService.save(userLearnVo);
+                return toResponsSuccess(userLearnVo);
+            }
         }else{
             return toResponsFail("用户未授权");
         }

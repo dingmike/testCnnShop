@@ -53,6 +53,9 @@
 		<if test="nickname != null and nickname.trim() != ''">
 			and u.nickname like concat('%',#{nickname},'%')
 		</if>
+		<if test="learnTypeId != null">
+			and o.learn_type_id = #{learnTypeId}
+		</if>
 		<choose>
 			<when test="sidx != null and sidx.trim() != ''">
 				order by ${sidx} ${order}

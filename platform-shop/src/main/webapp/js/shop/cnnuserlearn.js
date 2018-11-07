@@ -41,10 +41,15 @@ let vm = new Vue({
 		},
         q: {
             username: '',
-            nickname: ''
+            nickname: '',
+            learnTypeId:''
         },
 		learnTypes: []
 	},
+    mounted() {
+	    debugger
+        this.getLearnTypes();
+    },
 	methods: {
 		query: function () {
 			vm.reload();
@@ -125,7 +130,7 @@ let vm = new Vue({
 			vm.showList = true;
             let page = $("#jqGrid").jqGrid('getGridParam', 'page');
 			$("#jqGrid").jqGrid('setGridParam', {
-                postData: {'username': vm.q.username, 'nickname': vm.q.nickname},
+                postData: {'username': vm.q.username, 'nickname': vm.q.nickname,'learnTypeId':vm.q.learnTypeId},
                 page: page
             }).trigger("reloadGrid");
             vm.handleReset('formValidate');

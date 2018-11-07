@@ -778,7 +778,7 @@ public class ApiPayController extends ApiBaseAction {
         if (return_code.equals("SUCCESS")) {
             String trade_state = MapUtils.getString("trade_state", resultUn);
             if (trade_state.equals("SUCCESS")) {
-                // 更改订单状态
+                // 确认成功后更改订单状态
                 // 业务处理
 //                OrderVo orderInfo = orderService.queryObject(Integer.valueOf(out_trade_no));
                 GongDuOrderVo gongDuOrderVo = apiGongduOrderService.queryObject(String.valueOf(orderId));
@@ -787,20 +787,32 @@ public class ApiPayController extends ApiBaseAction {
                 gongDuOrderVo.setPayTime(new Date());
                 apiGongduOrderService.update(gongDuOrderVo);
                 // 支付成功可以进行共读
-//                UserLearnVo userLearnVo = apiUserLearnService.queryObject(gongDuOrderVo.getUserId().intValue());
-                UserLearnVo userLearnVo = new UserLearnVo();
-                userLearnVo.setLearnTypeId(gongDuOrderVo.getLearnTypeId());
-                userLearnVo.setUserid(gongDuOrderVo.getUserId().intValue());
-                userLearnVo.setStartStatus(1);// 开启共读
-                userLearnVo.setMiss(0);
-                userLearnVo.setSetupTime(" "); // 默认7点提醒
-                userLearnVo.setUnlocks(1); // 支付成功后默认开启第一天课程
+                UserLearnVo oldUserLearnVo = apiUserLearnService.queryObjectByUserIdAndLearnTypeId(gongDuOrderVo.getUserId().intValue(),gongDuOrderVo.getLearnTypeId());
+                // 后台修改了阅读状态为0 用户又必须重新支付开启阅读
+                if(null!=oldUserLearnVo){//存在该 用户学习 信息
+                    if(oldUserLearnVo.getStartStatus()==0){ // 学习状态=0
+                        oldUserLearnVo.setStartStatus(1);// 开启共读
+                        oldUserLearnVo.setUnlocks(1); // 默认开启第一天课程
+                        // 新加入微信名称等
+                        oldUserLearnVo.setUserName(loginUser.getUsername());
+                        oldUserLearnVo.setNickname(loginUser.getNickname());
+                        apiUserLearnService.updateByUserIdAndLearnTypeId(oldUserLearnVo);
+                    }
+                }else{
+                    UserLearnVo userLearnVo = new UserLearnVo();
+                    userLearnVo.setLearnTypeId(gongDuOrderVo.getLearnTypeId());
+                    userLearnVo.setUserid(gongDuOrderVo.getUserId().intValue());
+                    userLearnVo.setStartStatus(1);// 开启共读
+                    userLearnVo.setMiss(0);
+                    userLearnVo.setSetupTime(" "); // 默认7点提醒
+                    userLearnVo.setUnlocks(1); // 支付成功后默认开启第一天课程
+                    // 新加入微信名称等
+                    userLearnVo.setUserName(loginUser.getUsername());
+                    userLearnVo.setNickname(loginUser.getNickname());
+                    apiUserLearnService.save(userLearnVo);
+                }
 
-                // 新加入微信名称等
-                userLearnVo.setUserName(loginUser.getUsername());
-                userLearnVo.setNickname(loginUser.getNickname());
 
-                apiUserLearnService.save(userLearnVo);
                 return toResponsMsgSuccess("支付成功");
             } else if (trade_state.equals("USERPAYING")) {
                 // 重新查询 正在支付中
