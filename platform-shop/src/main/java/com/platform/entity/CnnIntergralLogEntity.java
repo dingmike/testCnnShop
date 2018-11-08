@@ -27,6 +27,8 @@ public class CnnIntergralLogEntity implements Serializable {
         private String nickname;
             //积分记录
         private BigDecimal points;
+        // 目前总积分
+        private BigDecimal nowPoints;
             //打卡记录Id
         private Integer cardId;
             //加减积分1加,0减
@@ -115,6 +117,19 @@ public class CnnIntergralLogEntity implements Serializable {
          */
         public BigDecimal getPoints() {
             return points;
+        }
+            /**
+         * 设置：总积分记录
+         */
+        public void setNowPoints(BigDecimal nowPoints) {
+            this.nowPoints = nowPoints;
+        }
+
+        /**
+         * 获取：总积分记录
+         */
+        public BigDecimal getNowPoints() {
+            return nowPoints;
         }
             /**
          * 设置：打卡记录Id

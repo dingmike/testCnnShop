@@ -7,12 +7,13 @@ $(function () {
 			{label: '用户ID', align : "center", name: 'userid', index: 'userid', width: 80, hidden: true},
 			{label: '用户名', align : "center", name: 'username', index: 'username', width: 80},
 			{label: '微信昵称', align : "center", name: 'nickname', index: 'nickname', width: 80},
-			{label: '积分记录', align : "center", name: 'points', index: 'points', width: 80},
+			{label: '积分变化', align : "center", name: 'points', index: 'points', width: 80},
 			{label: '打卡记录Id', align : "center", name: 'cardId', index: 'card_id', width: 40, hidden: true},
-			{label: '积分状态（加减）', align : "center",name: 'plusMins', index: 'plus_mins', width: 40,
+			{label: '积分（加减）', align : "center",name: 'plusMins', index: 'plus_mins', width: 40,
                 formatter: function (value) {
                     return toPlusMins(value);
                 }},
+            {label: '总积分', align : "center", name: 'nowPoints', index: 'nowPoints', width: 60},
 			{label: '记录说明', align : "center", name: 'memo', index: 'memo', width: 100},
 			{label: '生成时间', align : "center", name: 'addTime', index: 'add_time', width: 60, formatter: function (value) {
                 return transDate(value, 'yyyy-MM-dd hh:mm:ss');
@@ -35,7 +36,8 @@ let vm = new Vue({
 			]
 		},
 		q: {
-		    name: ''
+            username: '',
+            nickname: ''
 		}
 	},
 	methods: {
@@ -104,14 +106,15 @@ let vm = new Vue({
 			vm.showList = true;
             let page = $("#jqGrid").jqGrid('getGridParam', 'page');
 			$("#jqGrid").jqGrid('setGridParam', {
-                postData: {'name': vm.q.name},
+                postData: {'username': vm.q.username, 'nickname':vm.q.nickname},
                 page: page
             }).trigger("reloadGrid");
             vm.handleReset('formValidate');
 		},
         reloadSearch: function() {
             vm.q = {
-                name: ''
+                username: '',
+                nickname: ''
             }
             vm.reload();
         },

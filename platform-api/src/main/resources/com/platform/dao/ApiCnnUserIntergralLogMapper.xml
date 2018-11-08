@@ -10,6 +10,7 @@
 		<result property="username" column="username"/>
 		<result property="nickname" column="nickname"/>
 		<result property="points" column="points"/>
+		<result property="nowPoints" column="nowPoints"/>
 		<result property="cardId" column="card_id"/>
 		<result property="plusMins" column="plus_mins"/>
 		<result property="memo" column="memo"/>
@@ -25,6 +26,7 @@
 		`username`,
 		`nickname`,
 		`points`,
+		`nowPoints`,
 		`card_id`,
 		`plus_mins`,
 		`memo`,
@@ -42,6 +44,7 @@
 		`username`,
 		`nickname`,
 		`points`,
+		`nowPoints`,
 		`card_id`,
 		`plus_mins`,
 		`memo`,
@@ -80,6 +83,7 @@
 		`username`,
 		`nickname`,
 		`points`,
+		`nowPoints`,
 		`card_id`,
 		`plus_mins`,
 		`memo`,
@@ -91,6 +95,7 @@
 		#{username},
 		#{nickname},
 		#{points},
+		#{nowPoints},
 		#{cardId},
 		#{plusMins},
 		#{memo},
@@ -106,6 +111,7 @@
 			<if test="username != null">`username` = #{username}, </if>
 			<if test="nickname != null">`nickname` = #{nickname}, </if>
 			<if test="points != null">`points` = #{points}, </if>
+			<if test="nowPoints != null">`nowPoints` = #{nowPoints}, </if>
 			<if test="cardId != null">`card_id` = #{cardId}, </if>
 			<if test="plusMins != null">`plus_mins` = #{plusMins}, </if>
 			<if test="memo != null">`memo` = #{memo}, </if>

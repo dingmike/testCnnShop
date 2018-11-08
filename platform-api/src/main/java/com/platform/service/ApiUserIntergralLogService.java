@@ -44,15 +44,20 @@ public class ApiUserIntergralLogService {
   /*  public int save(UserIntergralLogVo cnnIntergralLog) {
         return cnnIntergralLogDao.save(cnnIntergralLog);
     }*/
-    public void save(UserIntergralLogVo cnnIntergralLog, UserVo loginUser) {
+    public void save(UserIntergralLogVo cnnIntergralLog, UserVo loginUser,Integer symbolMethod, BigDecimal intergrals) {
 
-        BigDecimal increased = new BigDecimal(1);
-        loginUser.setIntergral(increased);
-        userService.update(loginUser);
-        cnnIntergralLog.setPlusMins(1); // 1加 0减
+        cnnIntergralLog.setPlusMins(symbolMethod); // 1加 0减
 //        cnnIntergralLog.setMemo("每日阅读打卡获得");
-        cnnIntergralLog.setPoints(increased);
+        cnnIntergralLog.setPoints(intergrals);
+        if(symbolMethod==1){
+            cnnIntergralLog.setNowPoints(loginUser.getIntergral().add(intergrals));
+        }else{
+            cnnIntergralLog.setNowPoints(loginUser.getIntergral().subtract(intergrals));
+        }
+
         cnnIntergralLogDao.save(cnnIntergralLog);
+        loginUser.setIntergral(intergrals);
+        userService.update(loginUser);
     }
 
 

@@ -9,6 +9,7 @@
         <result property="userid" column="userid"/>
         <result property="username" column="username"/>
         <result property="nickname" column="nickname"/>
+        <result property="nowPoints" column="nowPoints"/>
         <result property="points" column="points"/>
         <result property="cardId" column="card_id"/>
         <result property="plusMins" column="plus_mins"/>
@@ -25,6 +26,7 @@
 			`username`,
 			`nickname`,
 			`points`,
+			`nowPoints`,
 			`card_id`,
 			`plus_mins`,
 			`memo`,
@@ -41,10 +43,10 @@
 		left join cnn_learn_type lt on il.learn_type_id = lt.id
 		WHERE 1=1
 		<if test="username != null and username.trim() != ''">
-			and ud.username like concat('%',#{username},'%')
+			and il.username like concat('%',#{username},'%')
 		</if>
 		<if test="nickname != null and nickname.trim() != ''">
-			and ud.nickname like concat('%',#{nickname},'%')
+			and il.nickname like concat('%',#{nickname},'%')
 		</if>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
@@ -74,6 +76,7 @@
 			`username`,
 			`nickname`,
 			`points`,
+			`nowPoints`,
 			`card_id`,
 			`plus_mins`,
 			`memo`,
@@ -85,6 +88,7 @@
 			#{username},
 			#{nickname},
 			#{points},
+			#{nowPoints},
 			#{cardId},
 			#{plusMins},
 			#{memo},
@@ -100,6 +104,7 @@
 			<if test="username != null">`username` = #{username}, </if>
 			<if test="nickname != null">`nickname` = #{nickname}, </if>
 			<if test="points != null">`points` = #{points}, </if>
+			<if test="nowPoints != null">`nowPoints` = #{nowPoints}, </if>
 			<if test="cardId != null">`card_id` = #{cardId}, </if>
 			<if test="plusMins != null">`plus_mins` = #{plusMins}, </if>
 			<if test="memo != null">`memo` = #{memo}, </if>

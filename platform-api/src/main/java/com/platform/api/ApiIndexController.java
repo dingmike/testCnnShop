@@ -400,7 +400,7 @@ public class ApiIndexController extends ApiBaseAction {
                     apiUserLearnService.updateByUserIdAndLearnTypeId(oldUserLearnVo);
                     return toResponsSuccess(oldUserLearnVo);
                 }else{
-                    return toResponsFail("你已经加入每日阅读计划");
+                    return toResponsFail("你已经加入每日阅读计划，退出重试");
                 }
 
             }else{
@@ -415,7 +415,7 @@ public class ApiIndexController extends ApiBaseAction {
                 return toResponsSuccess(userLearnVo);
             }
         }else{
-            return toResponsFail("用户未授权");
+            return toResponsFail("用户未授权，退出重试");
         }
 
     }

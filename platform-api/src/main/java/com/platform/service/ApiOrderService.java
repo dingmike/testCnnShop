@@ -142,9 +142,15 @@ public class ApiOrderService {
             }
         }
 
-
         //订单价格计算
         BigDecimal orderTotalPrice = goodsTotalPrice.add(new BigDecimal(freightPrice)); //订单的总价
+
+        BigDecimal percentNum = new BigDecimal(0.2); //打八折 使用积分不能超过总价格的20%
+        if (intergrals.compareTo(orderTotalPrice.multiply(percentNum))==1) {
+            resultObj.put("errno", 1);
+            resultObj.put("errmsg", "使用的积分券不能超过限定额度");
+            return resultObj;
+        }
 
         BigDecimal orderTotalPriceReally = orderTotalPrice.subtract(intergrals); //积分抵扣
 

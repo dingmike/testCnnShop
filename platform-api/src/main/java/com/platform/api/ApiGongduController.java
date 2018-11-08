@@ -91,7 +91,6 @@ public class ApiGongduController extends ApiBaseAction {
         return toResponsFail("执行失败");
     }
 
-
     /**
      * 获取共读内容/api/gongdu/getContent
      */
@@ -173,7 +172,6 @@ public class ApiGongduController extends ApiBaseAction {
      *类型21天打卡
      *
     * */
-
     @RequestMapping("setCardById")
     @ApiOperation(value = "类型21天打卡", response = Map.class)
     public Object setCardById(@LoginUser UserVo loginUser) {
@@ -252,7 +250,8 @@ public class ApiGongduController extends ApiBaseAction {
 //                userIntergralLogVo.setPlusMins(1); // 1加 0减
                 userIntergralLogVo.setMemo("21天计划打卡获得");
 //                userIntergralLogVo.setPoints(increased);
-                userIntergralLogService.save(userIntergralLogVo, loginUser);
+                BigDecimal intergrals = new BigDecimal(2);//改变的 打卡成功获得2积分
+                userIntergralLogService.save(userIntergralLogVo, loginUser, 1, intergrals);
 
 
                 // 打卡完后更新微信表单formID 多个formId是个字符串用“，”隔开
@@ -274,7 +273,6 @@ public class ApiGongduController extends ApiBaseAction {
 //                Integer successResult = userLearnService.update(userLearnVo);
                 Integer successResult = userLearnService.updateByUserIdAndLearnTypeId(userLearnVo);
                 System.out.println("更新formId成功-----------");
-                System.out.println(successResult);
 
                 // 每次打卡完成判断是否是第二十一天最后一次打卡，记录该用户是否按规定打完21天的卡完成学习任务。
                 // 打的21天最后一天卡 就终止打卡行为
@@ -366,28 +364,10 @@ public class ApiGongduController extends ApiBaseAction {
             // 启动定时器执行定时任务
             userRemindTask.setupRemindTask(userId, setupTime);
 
-            // ----------------测试发送模板消息
-           /* String templateId = "aR2vBrOkQipCeAB1tcQ2-jXHJket3CjhpGjYiYdGaOY";
-            UserLearnVo newUserLearnObj = userLearnService.queryObjectByUserId(userId.intValue());
-            String formId = newUserLearnObj.getFormId(); // 表单formId // 可存为数组
-            String templateUrl = "pages/gongDu/gongDu";
-            String page = "pages/gongDu/gongDu";
-            String topcolor = "ff6600";
-            String carrierName = "测试模板消息1";
-            String waybillCode = "测试模板消息2";
-            String waybillDesc = "测试模板消息3";
-            String jsonObj = WechatUtil.makeRouteMessage(openid,templateId,page,formId,templateUrl,topcolor,carrierName,waybillCode,waybillDesc);
-
-            // 发送消息
-            AccessTokenEntity accessTokenEntity = accessTokenService.queryByFirst();
-            Boolean sendSuccess = WechatUtil.sendTemplateMessage(accessTokenEntity.getAccessToken(),jsonObj);*/
-
-
             return toResponsSuccess(result);
             }
         return toResponsFail("执行失败");
     }
-
 
     /**
      *
@@ -406,15 +386,12 @@ public class ApiGongduController extends ApiBaseAction {
         params.put("limit", size);
         params.put("sidx", "add_time"); // 按添加时间倒序
         params.put("order", "desc");  // asc正序 desc倒序
-
             Query query = new Query(params);
             List<UserReadNewsVo> userReadNewsVos = apiUserReadNewsService.queryListByUserId(query);
             int total = apiUserReadNewsService.queryTotalByUserId(query);
             //查询列表数据
             ApiPageUtils pageUtil = new ApiPageUtils(userReadNewsVos, total, query.getLimit(), query.getPage());
             return toResponsSuccess(pageUtil);
-
-
     }
 
     /**
@@ -430,8 +407,6 @@ public class ApiGongduController extends ApiBaseAction {
         CnnNewsVo cnnNewsVo = apiCnnNewsService.queryObject(pageId);
         return toResponsSuccess(cnnNewsVo);
     }
-
-
 
     /**
      *
@@ -454,7 +429,7 @@ public class ApiGongduController extends ApiBaseAction {
         userReadNewsVo.setUsername(loginUser.getUsername());
         userReadNewsVo.setNickname(loginUser.getNickname());
         userReadNewsVo.setUseTime(useTime);
-        if(useTime>30){// 大于30s
+        if(useTime>30){// 大于30s才合格
             userReadNewsVo.setIsValid(1);
         }else{
             userReadNewsVo.setIsValid(0);
@@ -462,12 +437,6 @@ public class ApiGongduController extends ApiBaseAction {
         userReadNewsVo.setNewsid(newsId);
 
         Integer successInt = apiUserReadNewsService.save(userReadNewsVo);
-
-        // 打卡信息保存后都可以获得积分1
-//        BigDecimal increased  =  new BigDecimal(1);
-//        loginUser.setIntergral(increased);
-//        userService.update(loginUser);
-
         UserIntergralLogVo userIntergralLogVo = new UserIntergralLogVo();
         userIntergralLogVo.setUserid(userId.intValue());
         userIntergralLogVo.setLearnTypeId(learnTypeId);
@@ -475,16 +444,8 @@ public class ApiGongduController extends ApiBaseAction {
         userIntergralLogVo.setUsername(username);
         userIntergralLogVo.setMemo("每日阅读打卡获得");
 //        userIntergralLogVo.setPlusMins(1); // 1加 0减
-//        userIntergralLogVo.setMemo("每日阅读打卡获得");
-//        userIntergralLogVo.setPoints(increased);
-        userIntergralLogService.save(userIntergralLogVo, loginUser);
-
-        //用户信息中总积分加1
-//        BigDecimal oldIntergral = loginUser.getIntergral();
-//        BigDecimal oneIntergral = new BigDecimal("1");
-//        loginUser.setIntergral(oldIntergral.add(oneIntergral));
-//        userService.update(loginUser);
-
+        BigDecimal intergrals = new BigDecimal(2);//改变的 成功打卡获得2积分
+        userIntergralLogService.save(userIntergralLogVo, loginUser, 1, intergrals);
         return toResponsSuccess(successInt);
     }
 
@@ -512,8 +473,6 @@ public class ApiGongduController extends ApiBaseAction {
         return toResponsSuccess(result);
     }
 
-
-
     /**
      *
      * 是否已打卡当天文章
@@ -534,7 +493,6 @@ public class ApiGongduController extends ApiBaseAction {
             return toResponsFail("用户未授权");
         }
     }
-
 
     /**
      *
