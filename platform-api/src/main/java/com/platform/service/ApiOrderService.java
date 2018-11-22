@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.platform.entity.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,14 +20,6 @@ import com.platform.dao.ApiCartMapper;
 import com.platform.dao.ApiCouponMapper;
 import com.platform.dao.ApiOrderGoodsMapper;
 import com.platform.dao.ApiOrderMapper;
-import com.platform.entity.AddressVo;
-import com.platform.entity.BuyGoodsVo;
-import com.platform.entity.CartVo;
-import com.platform.entity.CouponVo;
-import com.platform.entity.OrderGoodsVo;
-import com.platform.entity.OrderVo;
-import com.platform.entity.ProductVo;
-import com.platform.entity.UserVo;
 import com.platform.util.CommonUtil;
 
 
@@ -46,7 +39,8 @@ public class ApiOrderService {
     private ApiOrderGoodsMapper apiOrderGoodsMapper;
     @Autowired
     private ApiProductService productService;
-
+    @Autowired
+    private CnnSysParamsService cnnSysParamsService;
 
     public OrderVo queryObject(Integer id) {
         return orderDao.queryObject(id);
@@ -145,7 +139,10 @@ public class ApiOrderService {
         //订单价格计算
         BigDecimal orderTotalPrice = goodsTotalPrice.add(new BigDecimal(freightPrice)); //订单的总价
 
-        BigDecimal percentNum = new BigDecimal(0.2); //打八折 使用积分不能超过总价格的20%
+//        BigDecimal percentNum = new BigDecimal(0.2); //打八折 使用积分不能超过总价格的20%
+        // 获取抵扣率参数
+        CnnSysParamsVo deduction = cnnSysParamsService.queryObject(2);
+        BigDecimal percentNum = deduction.getIncreaseparams();
         if (intergrals.compareTo(orderTotalPrice.multiply(percentNum))==1) {
             resultObj.put("errno", 1);
             resultObj.put("errmsg", "使用的积分券不能超过限定额度");

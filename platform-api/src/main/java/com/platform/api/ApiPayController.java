@@ -2,13 +2,9 @@ package com.platform.api;
 
 import com.platform.annotation.LoginUser;
 import com.platform.cache.J2CacheUtils;
-import com.platform.entity.UserLearnVo;
-import com.platform.entity.GongDuOrderVo;
-import com.platform.entity.OrderGoodsVo;
-import com.platform.entity.OrderVo;
+import com.platform.entity.*;
 import com.platform.entity.wxPayReq.UnifiedOrderParams;
 import com.platform.entity.wxPayResp.UnifiedOrderResult;
-import com.platform.entity.UserVo;
 import com.platform.service.*;
 import com.platform.util.ApiBaseAction;
 import com.platform.util.CommonUtil;
@@ -69,7 +65,8 @@ public class ApiPayController extends ApiBaseAction {
 
     @Autowired
     private ApiUserService apiUserService;
-
+    @Autowired
+    private ApiUserIntergralLogService userIntergralLogService;
 
     /**
      * 跳转
@@ -293,7 +290,7 @@ public class ApiPayController extends ApiBaseAction {
     @ApiOperation(value = "微信订单回调接口")
     @RequestMapping(value = "/notify", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     @ResponseBody
-    public void notify(HttpServletRequest request, HttpServletResponse response) {
+    public void notify(HttpServletRequest request, HttpServletResponse response, @LoginUser UserVo loginUser) {
         try {
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");
@@ -325,6 +322,27 @@ public class ApiPayController extends ApiBaseAction {
                 System.out.println("订单sss" + out_trade_no + "支付成功");
                 // 业务处理
                 OrderVo orderInfo = orderService.queryObject(Integer.valueOf(out_trade_no));
+
+
+
+                UserIntergralLogVo userIntergralLogVo = new UserIntergralLogVo();
+                Long userId=  loginUser.getUserId();
+                String username = loginUser.getUsername();
+                String nickname = loginUser.getNickname();
+                userIntergralLogVo.setUserid(userId.intValue());
+                userIntergralLogVo.setLearnTypeId(2);
+                userIntergralLogVo.setNickname(nickname);
+                userIntergralLogVo.setUsername(username);
+//                userIntergralLogVo.setPlusMins(1); // 1加 0减
+                userIntergralLogVo.setMemo("每日阅读打卡获得");
+
+                //  支付成功减去使用的能力券
+                BigDecimal usedIntegral = orderInfo.getIntegral_money();
+                userIntergralLogService.save(userIntergralLogVo, loginUser, 0, usedIntegral);
+
+
+
+
                 orderInfo.setPay_status(2);
 //                orderInfo.setOrder_status(201);
                 orderInfo.setShipping_status(0);

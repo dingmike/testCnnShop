@@ -1,6 +1,7 @@
 package com.platform.api;
 
 import com.alibaba.fastjson.JSONObject;
+import com.platform.annotation.IgnoreAuth;
 import com.platform.annotation.LoginUser;
 import com.platform.entity.*;
 //import com.platform.entity.SmsConfig;
@@ -70,6 +71,9 @@ public class ApiGongduController extends ApiBaseAction {
     private ApiCnnNewsService apiCnnNewsService;
     @Autowired
     private CnnUserFormidService cnnUserFormidService;
+    @Autowired
+    private CnnSysParamsService cnnSysParamsService;
+
     /**
      * 获取共读内容/api/gongdu/getContent
      */
@@ -250,7 +254,10 @@ public class ApiGongduController extends ApiBaseAction {
 //                userIntergralLogVo.setPlusMins(1); // 1加 0减
                 userIntergralLogVo.setMemo("21天计划打卡获得");
 //                userIntergralLogVo.setPoints(increased);
-                BigDecimal intergrals = new BigDecimal(2);//改变的 打卡成功获得2积分
+                // 获取阅读券额度参数
+                CnnSysParamsVo couponParams = cnnSysParamsService.queryObject(1);
+
+                BigDecimal intergrals = couponParams.getIncreaseparams();//改变的 打卡成功获得2积分  symbolMethod =1 加
                 userIntergralLogService.save(userIntergralLogVo, loginUser, 1, intergrals);
 
 
@@ -443,10 +450,23 @@ public class ApiGongduController extends ApiBaseAction {
         userIntergralLogVo.setNickname(nickname);
         userIntergralLogVo.setUsername(username);
         userIntergralLogVo.setMemo("每日阅读打卡获得");
+
+        // 获取阅读券额度参数
+        CnnSysParamsVo couponParams = cnnSysParamsService.queryObject(1);
 //        userIntergralLogVo.setPlusMins(1); // 1加 0减
-        BigDecimal intergrals = new BigDecimal(2);//改变的 成功打卡获得2积分
-        userIntergralLogService.save(userIntergralLogVo, loginUser, 1, intergrals);
-        return toResponsSuccess(successInt);
+        Map result = new HashMap<>();
+        BigDecimal intergrals = couponParams.getIncreaseparams();  //改变的 成功打卡获得2积分
+        if(useTime>30){ // 认真学习的人
+            userIntergralLogService.save(userIntergralLogVo, loginUser, 1, intergrals);
+            result.put("status", successInt); //打卡是否成功状态
+            result.put("intergrals", intergrals); //获得能力券多少
+//            return toResponsSuccess(result);
+        }else{// 不认真的不合格的
+            result.put("status", successInt); //打卡是否成功状态
+            result.put("intergrals", 0); //获得能力券多少
+        }
+        return toResponsSuccess(result);
+
     }
 
     /**
@@ -461,16 +481,22 @@ public class ApiGongduController extends ApiBaseAction {
         params.put("isToday",1);
         CnnNewsVo cnnNewsVo = apiCnnNewsService.queryObjectByToday(params);
         //判断用户是否已打卡今日文章
-        Integer newsId = cnnNewsVo.getId();
-        params = new HashMap();
-        params.put("userid",loginUser.getUserId());
-        params.put("newsid",newsId);
-        Integer haveReaded = apiUserReadNewsService.queryTotalByUserIdAndNewsId(params);
+        if(null!=cnnNewsVo){
+            Integer newsId = cnnNewsVo.getId();
+            params = new HashMap();
+            params.put("userid",loginUser.getUserId());
+            params.put("newsid",newsId);
+            Integer haveReaded = apiUserReadNewsService.queryTotalByUserIdAndNewsId(params);
 
+            Map result = new HashMap<>();
+            result.put("haveReaded",haveReaded);
+            result.put("todayNews",cnnNewsVo);
+            return toResponsSuccess(result);
+        }
         Map result = new HashMap<>();
-        result.put("haveReaded",haveReaded);
-        result.put("todayNews",cnnNewsVo);
+        result.put("haveReaded",-1);
         return toResponsSuccess(result);
+
     }
 
     /**
@@ -513,5 +539,19 @@ public class ApiGongduController extends ApiBaseAction {
         }else{
             return toResponsFail("用户未授权");
         }
+    }
+
+    /**
+     *
+     * 能力券抵扣率
+     * @params null
+     * */
+    @ApiOperation(value = "能力券抵扣率", response = Map.class)
+    @IgnoreAuth
+    @GetMapping(value = "deduction")
+    public Object deduction() {
+        // 获取阅读能力券抵扣率参数id=2
+            CnnSysParamsVo couponParams = cnnSysParamsService.queryObject(2);
+            return toResponsSuccess(couponParams.getIncreaseparams());
     }
 }

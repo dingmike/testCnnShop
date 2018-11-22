@@ -40,6 +40,7 @@ public class ApiUserReadNewsService {
     }
 
     public int queryTotalByUserIdAndNewsId(Map<String, Object> map) {
+
         return userReadNewsDao.queryTotalByUserIdAndNewsId(map);
     }
 
