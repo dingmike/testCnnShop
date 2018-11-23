@@ -7,6 +7,7 @@
 		<result property="id" column="id"/>
 		<result property="learnTypeId" column="learn_type_id"/>
 		<result property="userid" column="userid"/>
+		<result property="order_sn" column="order_sn"/>
 		<result property="username" column="username"/>
 		<result property="nickname" column="nickname"/>
 		<result property="points" column="points"/>
@@ -23,6 +24,7 @@
 		`id`,
 		`learn_type_id`,
 		`userid`,
+		`order_sn`,
 		`username`,
 		`nickname`,
 		`points`,
@@ -41,6 +43,7 @@
 		`id`,
 		`learn_type_id`,
 		`userid`,
+		`order_sn`,
 		`username`,
 		`nickname`,
 		`points`,
@@ -80,6 +83,7 @@
 		insert into cnn_intergral_log(
 		`learn_type_id`,
 		`userid`,
+		`order_sn`,
 		`username`,
 		`nickname`,
 		`points`,
@@ -92,6 +96,7 @@
 		values(
 		#{learnTypeId},
 		#{userid},
+		#{order_sn},
 		#{username},
 		#{nickname},
 		#{points},

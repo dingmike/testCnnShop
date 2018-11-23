@@ -21,6 +21,8 @@ public class UserIntergralLogVo implements Serializable {
     private Integer learnTypeId;
     //用户ID
     private Integer userid;
+    //支付订单编号
+    private String order_sn;
     //用户名
     private String username;
     //微信昵称
@@ -78,6 +80,19 @@ public class UserIntergralLogVo implements Serializable {
      */
     public Integer getUserid() {
         return userid;
+    }
+    /**
+     * 设置：订单编号
+     */
+    public void setOrder_sn(String order_sn) {
+        this.order_sn = order_sn;
+    }
+
+    /**
+     * 获取：订单编号
+     */
+    public String getOrder_sn() {
+        return order_sn;
     }
     /**
      * 设置：用户名

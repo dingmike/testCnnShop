@@ -332,7 +332,7 @@ public class ApiPayController extends ApiBaseAction {
 
             WechatRefundApiResult result = (WechatRefundApiResult) XmlUtil.xmlStrToBean(reponseXml, WechatRefundApiResult.class);
             String result_code = result.getResult_code();
-            if (result_code.equalsIgnoreCase("FAIL")) {
+            if (result_code.equalsIgnoreCase("FAIL")) {//https://blog.csdn.net/qq_37105358/article/details/81285779
                 //订单编号
                 String out_trade_no = result.getOut_trade_no();
                 logger.error("订单" + out_trade_no + "支付失败");
@@ -355,6 +355,7 @@ public class ApiPayController extends ApiBaseAction {
 //                userIntergralLogVo.setLearnTypeId(2);
                 userIntergralLogVo.setNickname(nickname);
                 userIntergralLogVo.setUsername(username);
+                userIntergralLogVo.setOrder_sn(out_trade_no);//
 //                userIntergralLogVo.setPlusMins(1); // 1加 0减
                 userIntergralLogVo.setMemo("兑换商品使用");
 
