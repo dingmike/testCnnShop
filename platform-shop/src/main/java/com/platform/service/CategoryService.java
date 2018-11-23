@@ -8,8 +8,8 @@ import java.util.Map;
 /**
  * Service接口
  *
- * @author lipengjun
- * @email 939961241@qq.com
+ * @author admin
+ * @email 2252277509@qq.com
  * @date 2017-08-21 15:32:31
  */
 public interface CategoryService {

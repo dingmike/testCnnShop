@@ -26,7 +26,7 @@ import java.util.TreeMap;
 /**
  * JS-SDK
  * 
- * @author phil
+ * @author admin
  * @date 2017年8月21日
  *
  */

@@ -19,9 +19,10 @@ import com.platform.utils.R;
 
 
 /**
- * @author lipengjun
- * @email 939961241@qq.com
- * @date 2017-08-13 10:41:10
+ *
+ * @author admin
+ * @email 2252277509@qq.com
+ * @date 2018-08-13 10:41:09
  */
 @RestController
 @RequestMapping("searchhistory")

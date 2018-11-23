@@ -7,7 +7,7 @@ import com.platform.entity.wxAuth.resp.*;
 
 
 /**
- * @author phil
+ * @author admin
  * @date  2017年8月5日
  *
  */

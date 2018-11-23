@@ -11,13 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-
 /**
- * Controller
  *
- * @author lipengjun
- * @email 939961241@qq.com
- * @date 2017-09-04 21:42:24
+ *
+ * @author admin
+ * @email 2252277509@qq.com
+ * @date 2018-08-13 10:41:09
  */
 @RestController
 @RequestMapping("shipping")

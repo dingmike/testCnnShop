@@ -17,9 +17,9 @@ import java.util.Map;
 /**
  * 优惠券Controller
  *
- * @author lipengjun
- * @email 939961241@qq.com
- * @date 2017-08-19 12:53:26
+ * @author admin
+ * @email 2252277509@qq.com
+ * @date 2018-08-19 12:53:26
  */
 @RestController
 @RequestMapping("coupon")

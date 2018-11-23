@@ -25,7 +25,7 @@ import java.util.TreeMap;
 /**
  * Wechat Auth Service
  * 
- * @author phil
+ * @author admin
  * @date 2017年7月9日
  */
 @Service

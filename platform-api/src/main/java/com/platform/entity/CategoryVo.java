@@ -5,8 +5,8 @@ import java.util.List;
 
 
 /**
- * @author lipengjun
- * @email 939961241@qq.com
+ * @author admin
+ * @email 2252277509@qq.com
  * @date 2017-08-15 08:03:39
  */
 public class CategoryVo implements Serializable {

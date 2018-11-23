@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 注册
  *
- * @author lipengjun
- * @email 939961241@qq.com
+ * @author admin
+ * @email 2252277509@qq.com
  * @date 2017-03-26 17:27
  */
 @Api(tags = "普通用户注册")

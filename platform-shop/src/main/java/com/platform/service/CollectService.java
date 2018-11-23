@@ -8,8 +8,8 @@ import java.util.Map;
 /**
  * 
  * 
- * @author lipengjun
- * @email 939961241@qq.com
+ * @author admin
+ * @email 2252277509@qq.com
  * @date 2017-08-13 10:41:06
  */
 public interface CollectService {

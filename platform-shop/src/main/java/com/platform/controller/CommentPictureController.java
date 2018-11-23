@@ -15,9 +15,9 @@ import java.util.Map;
 /**
  * 评价图片Controller
  *
- * @author lipengjun
- * @email 939961241@qq.com
- * @date 2017-08-29 14:45:55
+ * @author admin
+ * @email 2252277509@qq.com
+ * @date 2018-08-29 14:45:55
  */
 @RestController
 @RequestMapping("commentpicture")

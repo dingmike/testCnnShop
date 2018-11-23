@@ -1,7 +1,7 @@
 package com.platform.entity;
 
 /**
- * 作者: @author Harmon <br>
+ * 作者: @author admin <br>
  * 时间: 2017-09-28 11:13<br>
  * 描述: CouponInfoVo <br>
  */
