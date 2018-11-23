@@ -58,6 +58,9 @@ public class ApiUserService {
     public void update(UserVo user) {
         userDao.update(user);
     }
+    public void updateIntergral(Map<String, Object> map) {
+        userDao.updateIntergral(map);
+    }
 
     public void delete(Long userId) {
         userDao.delete(userId);

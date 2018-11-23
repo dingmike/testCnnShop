@@ -173,7 +173,7 @@ public class ApiOrderController extends ApiBaseAction {
             BigDecimal totalIntergrals = loginUser.getIntergral();
             BigDecimal intergrals = jsonParams.getBigDecimal("intergrals");
             if(intergrals.compareTo(totalIntergrals)==1){ // intergrals>totalInterfrals
-                return toResponsFail("积分不够了");
+                return toResponsFail("能力券不够了");
             }
 
             resultObj = orderService.submit(jsonParams, loginUser);

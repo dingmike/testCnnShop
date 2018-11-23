@@ -15,7 +15,7 @@ $(function () {
             {
                 label: '微信昵称',align : "center", name: 'nickname', index: 'nickname', width: 60
             },
-            {label: '积分',align : "center", name: 'intergral', index: 'intergral', width: 30},
+            {label: '能力券',align : "center", name: 'intergral', index: 'intergral', width: 30},
             {label: '余额',align : "center", name: 'balance', index: 'balance', width: 30},
             {
                 label: '状态',align : "center", name: 'freeze', index: 'freeze', width: 30, formatter: function (value) {

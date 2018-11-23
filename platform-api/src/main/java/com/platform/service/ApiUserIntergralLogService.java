@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,15 +50,22 @@ public class ApiUserIntergralLogService {
         cnnIntergralLog.setPlusMins(symbolMethod); // 1加 0减
 //        cnnIntergralLog.setMemo("每日阅读打卡获得");
         cnnIntergralLog.setPoints(intergrals);
+        BigDecimal newUsedInter;
         if(symbolMethod==1){
             cnnIntergralLog.setNowPoints(loginUser.getIntergral().add(intergrals));
+             newUsedInter = intergrals;
         }else{
             cnnIntergralLog.setNowPoints(loginUser.getIntergral().subtract(intergrals));
+             newUsedInter = intergrals.multiply(new BigDecimal(-1));
         }
-
+        System.out.println("--------------------------------------------------");
+        System.out.println(cnnIntergralLog);
         cnnIntergralLogDao.save(cnnIntergralLog);
-        loginUser.setIntergral(intergrals);
-        userService.update(loginUser);
+        loginUser.setIntergral(newUsedInter);
+        Map params = new HashMap<>();
+        params.put("userId",loginUser.getUserId());
+        params.put("intergral",newUsedInter);
+        userService.updateIntergral(params);
     }
 
 

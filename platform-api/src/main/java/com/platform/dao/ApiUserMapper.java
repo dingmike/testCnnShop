@@ -5,6 +5,7 @@ import com.platform.entity.UserVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户
@@ -36,4 +37,8 @@ public interface ApiUserMapper extends BaseDao<UserVo> {
      * @return
      */
     int saveSmsCodeLog(SmsLogVo smsLogVo);
+
+
+
+    int updateIntergral(Map<String, Object> map);
 }

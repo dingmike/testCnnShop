@@ -45,6 +45,9 @@ public class ApiOrderService {
     public OrderVo queryObject(Integer id) {
         return orderDao.queryObject(id);
     }
+    public OrderVo queryObjectByOrderSn(String orderSn) {
+        return orderDao.queryObjectByOrderSn(orderSn);
+    }
 
 
     public List<OrderVo> queryList(Map<String, Object> map) {

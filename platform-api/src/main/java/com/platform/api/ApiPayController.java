@@ -1,5 +1,6 @@
 package com.platform.api;
 
+import com.platform.annotation.IgnoreAuth;
 import com.platform.annotation.LoginUser;
 import com.platform.cache.J2CacheUtils;
 import com.platform.entity.*;
@@ -239,9 +240,12 @@ public class ApiPayController extends ApiBaseAction {
         if (return_code.equals("SUCCESS")) {
             String trade_state = MapUtils.getString("trade_state", resultUn);
             if (trade_state.equals("SUCCESS")) {
-                // 更改订单状态
+                // 更改订单状态 线下测试使用
                 // 业务处理
-                OrderVo orderInfo2 = new OrderVo();
+
+
+
+               /* OrderVo orderInfo2 = new OrderVo();
                 orderInfo2.setId(orderId);
                 orderInfo2.setPay_status(2);
                 orderInfo2.setOrder_status(201);
@@ -249,11 +253,28 @@ public class ApiPayController extends ApiBaseAction {
                 orderInfo2.setPay_time(new Date());
                 orderService.update(orderInfo2);
                 // 支付成功扣除用户积分
-                BigDecimal latestIntergral = (loginUser.getIntergral()).subtract(orderInfo.getIntegral_money());
-                UserVo userNew= new UserVo();
-                userNew.setUserId(loginUser.getUserId());
-                userNew.setIntergral(latestIntergral);
-                apiUserService.update(userNew);
+                //  支付成功减去使用的能力券
+                UserIntergralLogVo userIntergralLogVo = new UserIntergralLogVo();
+                Long userId=  loginUser.getUserId();
+                String username = loginUser.getUsername();
+                String nickname = loginUser.getNickname();
+                userIntergralLogVo.setUserid(userId.intValue());
+//                userIntergralLogVo.setLearnTypeId(2);
+                userIntergralLogVo.setNickname(nickname);
+                userIntergralLogVo.setUsername(username);
+//                userIntergralLogVo.setPlusMins(1); // 1加 0减
+                userIntergralLogVo.setMemo("兑换商品使用");
+                BigDecimal usedIntegral = orderInfo.getIntegral_money();
+                userIntergralLogService.save(userIntergralLogVo, loginUser, 0, usedIntegral); //0：减*/
+
+
+
+
+//                BigDecimal latestIntergral = (loginUser.getIntergral()).subtract(orderInfo.getIntegral_money());
+//                UserVo userNew= new UserVo();
+//                userNew.setUserId(loginUser.getUserId());
+//                userNew.setIntergral(latestIntergral);
+//                apiUserService.update(userNew);
 
                 return toResponsMsgSuccess("支付成功");
             } else if (trade_state.equals("USERPAYING")) {
@@ -288,9 +309,10 @@ public class ApiPayController extends ApiBaseAction {
      * @return
      */
     @ApiOperation(value = "微信订单回调接口")
+    @IgnoreAuth
     @RequestMapping(value = "/notify", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     @ResponseBody
-    public void notify(HttpServletRequest request, HttpServletResponse response, @LoginUser UserVo loginUser) {
+    public void notify(HttpServletRequest request, HttpServletResponse response) {
         try {
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");
@@ -318,34 +340,31 @@ public class ApiPayController extends ApiBaseAction {
             } else if (result_code.equalsIgnoreCase("SUCCESS")) {
                 //订单编号
                 String out_trade_no = result.getOut_trade_no();
-                logger.info("订单" + out_trade_no + "支付成功");
+                logger.info("订单号：" + out_trade_no + "支付成功");
                 System.out.println("订单sss" + out_trade_no + "支付成功");
                 // 业务处理
-                OrderVo orderInfo = orderService.queryObject(Integer.valueOf(out_trade_no));
-
-
-
+//                OrderVo orderInfo = orderService.queryObject(Integer.valueOf(out_trade_no));
+                OrderVo orderInfo = orderService.queryObjectByOrderSn(out_trade_no);
+                // 修改能力券
+                Long userId = orderInfo.getUser_id();
+                UserVo loginUser = apiUserService.queryObject(userId);
                 UserIntergralLogVo userIntergralLogVo = new UserIntergralLogVo();
-                Long userId=  loginUser.getUserId();
                 String username = loginUser.getUsername();
                 String nickname = loginUser.getNickname();
                 userIntergralLogVo.setUserid(userId.intValue());
-                userIntergralLogVo.setLearnTypeId(2);
+//                userIntergralLogVo.setLearnTypeId(2);
                 userIntergralLogVo.setNickname(nickname);
                 userIntergralLogVo.setUsername(username);
 //                userIntergralLogVo.setPlusMins(1); // 1加 0减
-                userIntergralLogVo.setMemo("每日阅读打卡获得");
+                userIntergralLogVo.setMemo("兑换商品使用");
 
                 //  支付成功减去使用的能力券
                 BigDecimal usedIntegral = orderInfo.getIntegral_money();
-                userIntergralLogService.save(userIntergralLogVo, loginUser, 0, usedIntegral);
+                userIntergralLogService.save(userIntergralLogVo, loginUser, 0, usedIntegral); //0：减
 
-
-
-
-                orderInfo.setPay_status(2);
-//                orderInfo.setOrder_status(201);
-                orderInfo.setShipping_status(0);
+                orderInfo.setPay_status(2); //已付款
+                orderInfo.setOrder_status(201); //订单已付款待发货
+                orderInfo.setShipping_status(0); //未发货
                 orderInfo.setPay_time(new Date());
                 orderService.update(orderInfo);
 //                XMLUtil.setXml
@@ -382,7 +401,7 @@ public class ApiPayController extends ApiBaseAction {
 //        WechatRefundApiResult result = WechatUtil.wxRefund(orderInfo.getId().toString(),
 //                orderInfo.getActual_price().doubleValue(), orderInfo.getActual_price().doubleValue());
         WechatRefundApiResult result = WechatUtil.wxRefund(orderInfo.getId().toString(),
-                10.01, 10.01);
+                0.00, 0.00);
         if (result.getResult_code().equals("SUCCESS")) {
             if (orderInfo.getOrder_status() == 201) {
                 orderInfo.setOrder_status(401);
@@ -690,6 +709,7 @@ public class ApiPayController extends ApiBaseAction {
      * @return
      */
     @RequestMapping(value = "/gongDuNotify", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    @IgnoreAuth
     @ResponseBody
     public void gongDuNotify(@LoginUser UserVo loginUser, HttpServletRequest request, HttpServletResponse response) {
         try {

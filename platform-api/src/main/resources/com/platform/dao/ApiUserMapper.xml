@@ -115,12 +115,19 @@
             <if test="mobile != null">`mobile` = #{mobile},</if>
             <if test="register_ip != null">`register_ip` = #{register_ip},</if>
             <if test="avatar != null">`avatar` = #{avatar},</if>
-            <if test="weixin_openid != null">`weixin_openid` = #{weixin_openid},</if>
-            <if test="intergral==2">`intergral` = `intergral` + #{intergral}, </if>
-            <if test="balance != null">`balance` = #{balance}</if>
+            <if test="weixin_openid != null">`weixin_openid` = #{weixin_openid}</if>
         </set>
         where id = #{userId}
     </update>
+
+    <update id="updateIntergral" parameterType="com.platform.entity.UserVo">
+        update nideshop_user
+        <set>
+            <if test="intergral!=null">`intergral` = `intergral` + #{intergral}, </if>
+        </set>
+        where id = #{userId}
+    </update>
+
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.platform.entity.SmsLogVo" id="smslogMap">
