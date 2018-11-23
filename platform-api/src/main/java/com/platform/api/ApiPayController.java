@@ -332,7 +332,7 @@ public class ApiPayController extends ApiBaseAction {
 
             WechatRefundApiResult result = (WechatRefundApiResult) XmlUtil.xmlStrToBean(reponseXml, WechatRefundApiResult.class);
             String result_code = result.getResult_code();
-            if (result_code.equalsIgnoreCase("FAIL")) {//https://blog.csdn.net/qq_37105358/article/details/81285779
+            if (result_code.equalsIgnoreCase("FAIL")) {
                 //订单编号
                 String out_trade_no = result.getOut_trade_no();
                 logger.error("订单" + out_trade_no + "支付失败");
@@ -341,36 +341,45 @@ public class ApiPayController extends ApiBaseAction {
                 //订单编号
                 String out_trade_no = result.getOut_trade_no();
                 logger.info("订单号：" + out_trade_no + "支付成功");
-                System.out.println("订单sss" + out_trade_no + "支付成功");
+                System.out.println("订单sss:" + out_trade_no + "支付成功");
                 // 业务处理
 //                OrderVo orderInfo = orderService.queryObject(Integer.valueOf(out_trade_no));
                 OrderVo orderInfo = orderService.queryObjectByOrderSn(out_trade_no);
-                // 修改能力券
-                Long userId = orderInfo.getUser_id();
-                UserVo loginUser = apiUserService.queryObject(userId);
-                UserIntergralLogVo userIntergralLogVo = new UserIntergralLogVo();
-                String username = loginUser.getUsername();
-                String nickname = loginUser.getNickname();
-                userIntergralLogVo.setUserid(userId.intValue());
-//                userIntergralLogVo.setLearnTypeId(2);
-                userIntergralLogVo.setNickname(nickname);
-                userIntergralLogVo.setUsername(username);
-                userIntergralLogVo.setOrder_sn(out_trade_no);//
-//                userIntergralLogVo.setPlusMins(1); // 1加 0减
-                userIntergralLogVo.setMemo("兑换商品使用");
 
-                //  支付成功减去使用的能力券
-                BigDecimal usedIntegral = orderInfo.getIntegral_money();
-                userIntergralLogService.save(userIntergralLogVo, loginUser, 0, usedIntegral); //0：减
 
-                orderInfo.setPay_status(2); //已付款
-                orderInfo.setOrder_status(201); //订单已付款待发货
-                orderInfo.setShipping_status(0); //未发货
-                orderInfo.setPay_time(new Date());
-                orderService.update(orderInfo);
+                //如果订单已支付重复回调
+                if(orderInfo.getPay_status()==2){// 已支付且回调成功了的
 //                XMLUtil.setXml
-                System.out.println(setXml("SUCCESS", "OK"));
-                response.getWriter().write(setXml("SUCCESS", "OK"));
+                  response.getWriter().write(setXml("SUCCESS", "OK"));
+                }else{//第一次回调来了
+                    // 修改能力券
+                    Long userId = orderInfo.getUser_id();
+                    UserVo loginUser = apiUserService.queryObject(userId);
+                    UserIntergralLogVo userIntergralLogVo = new UserIntergralLogVo();
+                    String username = loginUser.getUsername();
+                    String nickname = loginUser.getNickname();
+                    userIntergralLogVo.setUserid(userId.intValue());
+//                userIntergralLogVo.setLearnTypeId(2);
+                    userIntergralLogVo.setNickname(nickname);
+                    userIntergralLogVo.setUsername(username);
+                    userIntergralLogVo.setOrder_sn(out_trade_no);//
+//                userIntergralLogVo.setPlusMins(1); // 1加 0减
+                    userIntergralLogVo.setMemo("兑换商品使用");
+
+                    //  支付成功减去使用的能力券
+                    BigDecimal usedIntegral = orderInfo.getIntegral_money();
+                    userIntergralLogService.save(userIntergralLogVo, loginUser, 0, usedIntegral); //0：减
+
+                    orderInfo.setPay_status(2); //已付款
+                    orderInfo.setOrder_status(201); //订单已付款待发货
+                    orderInfo.setShipping_status(0); //未发货
+                    orderInfo.setPay_time(new Date());
+                    orderService.update(orderInfo);
+//                XMLUtil.setXml
+                    System.out.println(setXml("SUCCESS", "OK"));
+                    response.getWriter().write(setXml("SUCCESS", "OK"));
+                }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
