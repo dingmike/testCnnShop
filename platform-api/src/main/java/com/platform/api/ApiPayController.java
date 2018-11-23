@@ -369,6 +369,7 @@ public class ApiPayController extends ApiBaseAction {
                 orderInfo.setPay_time(new Date());
                 orderService.update(orderInfo);
 //                XMLUtil.setXml
+                System.out.println(setXml("SUCCESS", "OK"));
                 response.getWriter().write(setXml("SUCCESS", "OK"));
             }
         } catch (Exception e) {
