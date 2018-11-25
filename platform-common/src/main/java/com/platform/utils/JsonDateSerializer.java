@@ -13,7 +13,7 @@ import java.util.Date;
 /**
  * @ClassName JsonTimeSerializer
  * @Description Long时间格式化化为标准时间
- * @author zhuliyun
+ * @author admin
  * @Date 2016年10月10日 下午5:26:24
  * @version 1.0.0
  */

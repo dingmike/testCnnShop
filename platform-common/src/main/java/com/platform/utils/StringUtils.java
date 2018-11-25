@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * 名称：StringUtils <br>
  * 描述：String工具类<br>
  *
- * @author 李鹏军
+ * @author admin
  * @version 1.0
  * @since 1.0.0
  */

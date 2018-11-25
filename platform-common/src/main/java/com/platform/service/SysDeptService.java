@@ -10,8 +10,8 @@ import java.util.Map;
 /**
  * 部门管理
  *
- * @author liepngjun
- * @email 939961241@qq.com
+ * @author admin
+ * @email 2252277509@qq.com
  * @date 2017-09-17 23:58:47
  */
 public interface SysDeptService {

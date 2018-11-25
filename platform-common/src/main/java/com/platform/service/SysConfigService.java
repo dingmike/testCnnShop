@@ -8,9 +8,9 @@ import java.util.Map;
 /**
  * 系统配置信息
  *
- * @author lipengjun
- * @email 939961241@qq.com
- * @date 2016年12月4日 下午6:49:01
+ * @author admin
+ * @email 2252277509@qq.com
+ * @date 2017年12月4日 下午6:49:01
  */
 public interface SysConfigService {
 

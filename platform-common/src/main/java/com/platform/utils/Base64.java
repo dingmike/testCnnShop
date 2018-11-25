@@ -6,7 +6,7 @@ import sun.misc.BASE64Encoder;
 import java.io.UnsupportedEncodingException;
 
 /**
- * 作者: @author Harmon <br>
+ * 作者: @author admin <br>
  * 时间: 2017-08-11 16:17<br>
  * 描述: Base64 <br>
  */

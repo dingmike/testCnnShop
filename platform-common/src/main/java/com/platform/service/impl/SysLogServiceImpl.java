@@ -64,7 +64,7 @@ public class SysLogServiceImpl implements SysLogService {
     /**
      * 向指定URL发送GET方法的请求
      */
-    public  String getIpDetails(String ip) {
+    public String getIpDetails(String ip) {
     	String str=null;
     	
     	if(ip.startsWith("0:") ||ip.startsWith("0.") || ip.startsWith("127.") ){

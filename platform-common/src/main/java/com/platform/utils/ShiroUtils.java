@@ -8,9 +8,9 @@ import org.apache.shiro.subject.Subject;
 /**
  * Shiro工具类
  *
- * @author lipengjun
- * @email 939961241@qq.com
- * @date 2016年11月12日 上午9:49:19
+ * @author admin
+ * @email 2252277509@qq.com
+ * @date 2017年11月12日 上午9:49:19
  */
 public class ShiroUtils {
 

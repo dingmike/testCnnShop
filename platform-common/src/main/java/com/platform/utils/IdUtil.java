@@ -8,7 +8,7 @@ import java.util.UUID;
  * 名称：IdUtil <br>
  * 描述：ID 生成工具类<br>
  *
- * @author 李鹏军
+ * @author admin
  * @version 1.0
  * @since 1.0.0
  */
