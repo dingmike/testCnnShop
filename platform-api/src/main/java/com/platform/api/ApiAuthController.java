@@ -107,7 +107,7 @@ public class ApiAuthController extends ApiBaseAction {
         String sha1 = CommonUtil.getSha1(fullUserInfo.getRawData() + sessionData.getString("session_key"));
         if (!fullUserInfo.getSignature().equals(sha1)) {
             System.out.println("2-登录失败");
-            return toResponsFail("登录失败请重试");
+            return toResponsFail("登录失败请重试!");
         }
         Date nowTime = new Date();
         UserVo userVo = userService.queryByOpenId(sessionData.getString("openid"));

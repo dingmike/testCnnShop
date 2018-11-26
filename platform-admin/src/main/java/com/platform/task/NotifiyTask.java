@@ -83,7 +83,7 @@ public class NotifiyTask {
             String page = "pages/index/index";
             String topcolor = "#ff6600";
             String carrierName = "每日阅读英语"; // 学习计划名称
-            String waybillCode = "7:00-9:00"; // 学习时间段
+            String waybillCode = "7:00-10:00"; // 学习时间段
             String waybillDesc = "EveryDay English 10 minutes"; // 学习内容
 //            String wayContent = params; // 今日学习计划
 //            Integer wayCount = 2; // 已完成多少篇文章

@@ -36,6 +36,7 @@
     wx.notifyUrl
     sms.validIp
     启动后台项目（参照启动手册）
+    发布framwork 模块
     打开微信开发者工具
     导入 /wx-mall填写appId
     修改 /wx-mall/config/app.js里NewApiRootUrl的值
@@ -44,7 +45,12 @@
     使用idea启动项目后默认访问路径
     http://localhost:8080
    
+    问题
+    找到原因了，js中调用getUserInfo后在调用ogin代码中再次获取session_key，这时的session_key和getUserInfo的session_key不一样，导致后台代码中签名值不一致
+    
+    在bindgetuserinfo 等返回加密信息的回调中调用 wx.login 登录，可能会刷新登录态。此时服务器使用 code 换取的 sessionKey 不是加密时使用的 sessionKey，导致解密失败。建议开发者提前进行 login；或者在回调中先使用 checkSession 进行登录态检查，避免 login 刷新登录态。
    
+    配置环境（推荐jdk1.8、maven3.3、tomcat8、mysql5.7、redis4.0.1）
    
     ##提交 > git commit -a -m "zhushi"
     ##上传 >  git push

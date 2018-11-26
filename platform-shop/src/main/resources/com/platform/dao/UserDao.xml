@@ -136,7 +136,6 @@
         update nideshop_user
         <set>
             <if test="username != null">`username` = #{username},</if>
-            <if test="password != null">`password` = #{password},</if>
             <if test="gender != null">`gender` = #{gender},</if>
             <if test="birthday != null">`birthday` = #{birthday},</if>
             <if test="registerTime != null">`register_time` = #{registerTime},</if>
@@ -146,7 +145,6 @@
             <if test="nickname != null">`nickname` = #{nickname},</if>
             <if test="mobile != null">`mobile` = #{mobile},</if>
             <if test="registerIp != null">`register_ip` = #{registerIp},</if>
-            <if test="avatar != null">`avatar` = #{avatar},</if>
             <if test="weixinOpenid != null">`weixin_openid` = #{weixinOpenid},</if>
             <if test="intergral != null">`intergral` = #{intergral}, </if>
             <if test="balance != null">`balance` = #{balance}, </if>

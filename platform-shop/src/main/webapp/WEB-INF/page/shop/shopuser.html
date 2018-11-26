@@ -62,7 +62,7 @@
             <Form-item label="出生日期" prop="birthday">
                 <Date-picker v-model="user.birthday" placeholder="出生日期"></Date-picker>
             </Form-item>
-            <Form-item label="积分" prop="intergral">
+            <Form-item label="能力券" prop="intergral">
                 <Input-number :min="0" :step="1" v-model="user.intergral" placeholder="积分"
                               style="width: 188px;"/>
             </Form-item>
@@ -71,7 +71,7 @@
                               style="width: 188px;"/>
             </Form-item>
 
-            <Form-item label="余额和积分状态" prop="freeze">
+            <Form-item label="余额和能力券状态" prop="freeze">
                 <!--<i-input v-model="user.freeze" placeholder="是否冻结余额和积分"/>-->
                 <Radio-group v-model="user.freeze">
                     <Radio label="1">

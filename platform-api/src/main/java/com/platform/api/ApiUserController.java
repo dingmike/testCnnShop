@@ -150,6 +150,7 @@ public class ApiUserController extends ApiBaseAction {
             entity.setWeixin_openid(jsonParams.getString("uid"));
             entity.setNickname(jsonParams.getString("nickname"));
             entity.setGender(jsonParams.getInteger("gender"));
+            userService.update(entity);
         }
 
         return toResponsSuccess("更新成功");
