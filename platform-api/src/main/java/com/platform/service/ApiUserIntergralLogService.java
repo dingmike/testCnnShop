@@ -52,8 +52,12 @@ public class ApiUserIntergralLogService {
         cnnIntergralLog.setPoints(intergrals);
         BigDecimal newUsedInter;
         if(symbolMethod==1){
+            if(null==loginUser.getIntergral()){
+                BigDecimal newIntergral = new BigDecimal(0);
+                loginUser.setIntergral(newIntergral);
+            }
             cnnIntergralLog.setNowPoints(loginUser.getIntergral().add(intergrals));
-             newUsedInter = intergrals;
+            newUsedInter = intergrals;
         }else{
             cnnIntergralLog.setNowPoints(loginUser.getIntergral().subtract(intergrals));
              newUsedInter = intergrals.multiply(new BigDecimal(-1));

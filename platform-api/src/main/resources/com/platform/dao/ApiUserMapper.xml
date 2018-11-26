@@ -96,7 +96,7 @@
 			#{weixin_openid},
 			#{intergral},
 			#{balance},
-			#{freeze})
+			#{freeze}
 		)
 	</insert>
 
