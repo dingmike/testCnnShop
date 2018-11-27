@@ -1,5 +1,6 @@
 package com.platform.api;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -87,7 +88,9 @@ public class ApiAuthController extends ApiBaseAction {
         if (null != jsonParam.get("userInfo")) {
             fullUserInfo = jsonParam.getObject("userInfo", FullUserInfo.class);
         }
-
+        if (null == fullUserInfo) {
+            return toResponsFail("登录失败");
+        }
         Map<String, Object> resultObj = new HashMap<String, Object>();
         //
         UserInfo userInfo = fullUserInfo.getUserInfo();
@@ -95,14 +98,29 @@ public class ApiAuthController extends ApiBaseAction {
         //获取openid
         String requestUrl = ApiUserUtils.getWebAccess(code);//通过自定义工具类组合出小程序需要的登录凭证 code
         logger.info("》》》组合token为：" + requestUrl);
+        JSONObject sessionData = CommonUtil.httpsRequest(requestUrl, "GET", null);
+        if (null == sessionData || StringUtils.isNullOrEmpty(sessionData.getString("openid"))) {
+            return toResponsFail("登录失败");
+        }
+
+
+
+
+
+
+
         //获取openid和session_key
-        String res = restTemplate.getForObject(requestUrl, String.class);
+
+
+       /* String res = restTemplate.getForObject(requestUrl, String.class);
         JSONObject sessionData = JSON.parseObject(res);
 
         if (null == sessionData || StringUtils.isNullOrEmpty(sessionData.getString("openid"))) {
             System.out.println("1-登录失败");
             return toResponsFail("登录失败请重试");
-        }
+        }*/
+
+
         //验证用户信息完整性
         String sha1 = CommonUtil.getSha1(fullUserInfo.getRawData() + sessionData.getString("session_key"));
         if (!fullUserInfo.getSignature().equals(sha1)) {
@@ -123,6 +141,9 @@ public class ApiAuthController extends ApiBaseAction {
             userVo.setAvatar(userInfo.getAvatarUrl());
             userVo.setGender(userInfo.getGender()); // //性别 0：未知、1：男、2：女
             userVo.setNickname(userInfo.getNickName());
+            userVo.setIntergral(new BigDecimal(0));
+            userVo.setBalance(new BigDecimal(0));
+            userVo.setFreeze(0);
             userService.save(userVo);
             //新用户第一次登陆时，虽然user表数据已经新增成功，但是此时userId还是null，从数据库再查一次就能取到了
            // userVo = userService.queryByOpenId(sessionData.getString("openid"));
@@ -144,8 +165,8 @@ public class ApiAuthController extends ApiBaseAction {
 
         resultObj.put("token", token);
 //        resultObj.put("userInfo", userService.queryByOpenId(sessionData.getString("openid")));
-//        resultObj.put("userInfo", userVo);
-        resultObj.put("userInfo", userService.queryByOpenId(sessionData.getString("openid")));
+        resultObj.put("openId",sessionData.getString("openid") );
+        resultObj.put("userInfo", userInfo);
         resultObj.put("userId", userVo.getUserId());
 
         // 调用获取为您access_token定时器 需要启动项目完成后立即执行

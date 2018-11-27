@@ -722,7 +722,7 @@ public class ApiPayController extends ApiBaseAction {
     @RequestMapping(value = "/gongDuNotify", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     @IgnoreAuth
     @ResponseBody
-    public void gongDuNotify(@LoginUser UserVo loginUser, HttpServletRequest request, HttpServletResponse response) {
+    public void gongDuNotify(HttpServletRequest request, HttpServletResponse response) {
         try {
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");
@@ -754,11 +754,73 @@ public class ApiPayController extends ApiBaseAction {
                 System.out.println("共读订单: " + out_trade_no + "支付成功");
                 // 业务处理
 //                OrderVo orderInfo = orderService.queryObject(Integer.valueOf(out_trade_no));
-                GongDuOrderVo gongDuOrderVo = apiGongduOrderService.queryObject(String.valueOf(out_trade_no));
+             /*   GongDuOrderVo gongDuOrderVo = apiGongduOrderService.queryObject(String.valueOf(out_trade_no));
                 gongDuOrderVo.setPayStatus(2);
                 gongDuOrderVo.setOrderStatus(201);
                 gongDuOrderVo.setPayTime(new Date());
-                apiGongduOrderService.update(gongDuOrderVo);
+                apiGongduOrderService.update(gongDuOrderVo);*/
+
+
+
+
+                //----------------------------------------
+
+
+                // 确认成功后更改订单状态
+                // 业务处理
+//                OrderVo orderInfo = orderService.queryObject(Integer.valueOf(out_trade_no));
+                GongDuOrderVo gongDuOrderVo = apiGongduOrderService.queryObject(String.valueOf(out_trade_no));
+                //如果订单已支付重复回调
+                if(gongDuOrderVo.getPayStatus()==2) {// 已支付且回调成功了的不在修改业务数据
+                    response.getWriter().write(setXml("SUCCESS", "OK"));
+                }else{
+                    // 修改能力券
+                    Long userId = gongDuOrderVo.getUserId();
+                    UserVo loginUser = apiUserService.queryObject(userId);
+                    gongDuOrderVo.setPayStatus(2);
+                    gongDuOrderVo.setOrderStatus(201);
+                    gongDuOrderVo.setPayTime(new Date());
+                    apiGongduOrderService.update(gongDuOrderVo);
+                    // 支付成功可以进行共读
+                    UserLearnVo oldUserLearnVo = apiUserLearnService.queryObjectByUserIdAndLearnTypeId(gongDuOrderVo.getUserId().intValue(),gongDuOrderVo.getLearnTypeId());
+                    // 后台修改了阅读状态为0 用户又必须重新支付开启阅读
+                    if(null!=oldUserLearnVo){//存在该 用户学习 信息
+                        if(oldUserLearnVo.getStartStatus()==0){ // 学习状态=0
+                            oldUserLearnVo.setStartStatus(1);// 开启共读
+                            oldUserLearnVo.setUnlocks(1); // 默认开启第一天课程
+                            oldUserLearnVo.setMiss(0);
+                            apiUserLearnService.updateByUserIdAndLearnTypeId(oldUserLearnVo);
+                            System.out.println("老用户重新加入21天计划");
+                        }
+                    }else{
+                        UserLearnVo userLearnVo = new UserLearnVo();
+                        userLearnVo.setLearnTypeId(gongDuOrderVo.getLearnTypeId());
+                        userLearnVo.setUserid(gongDuOrderVo.getUserId().intValue());
+                        userLearnVo.setStartStatus(1);// 开启共读
+                        userLearnVo.setMiss(0);
+                        userLearnVo.setSetupTime(" "); // 默认7点提醒
+                        userLearnVo.setUnlocks(1); // 支付成功后默认开启第一天课程
+                        // 新加入微信名称等
+                        userLearnVo.setUserName(loginUser.getUsername());
+                        userLearnVo.setNickname(loginUser.getNickname());
+                        apiUserLearnService.save(userLearnVo);
+                        System.out.println("新用户加入21天计划");
+                    }
+                    response.getWriter().write(setXml("SUCCESS", "OK"));
+                }
+
+
+                //--------------------------------------------
+
+
+
+
+
+
+
+
+
+
                 // 支付成功可以进行共读
 //                UserLearnVo userLearnVo = apiUserLearnService.queryObject(gongDuOrderVo.getUserId().intValue());
 
@@ -777,7 +839,7 @@ public class ApiPayController extends ApiBaseAction {
 
 
 //                XMLUtil.setXml
-                response.getWriter().write(setXml("SUCCESS", "OK"));
+//                response.getWriter().write(setXml("SUCCESS", "OK"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -830,15 +892,17 @@ public class ApiPayController extends ApiBaseAction {
                 // 确认成功后更改订单状态
                 // 业务处理
 //                OrderVo orderInfo = orderService.queryObject(Integer.valueOf(out_trade_no));
-                GongDuOrderVo gongDuOrderVo = apiGongduOrderService.queryObject(String.valueOf(orderId));
-                gongDuOrderVo.setPayStatus(2);
-                gongDuOrderVo.setOrderStatus(201);
-                gongDuOrderVo.setPayTime(new Date());
-                apiGongduOrderService.update(gongDuOrderVo);
+             //   GongDuOrderVo gongDuOrderVo = apiGongduOrderService.queryObject(String.valueOf(orderId));
+             //   gongDuOrderVo.setPayStatus(2);
+             //   gongDuOrderVo.setOrderStatus(201);
+              //  gongDuOrderVo.setPayTime(new Date());
+              //  apiGongduOrderService.update(gongDuOrderVo);
                 // 支付成功可以进行共读
-                UserLearnVo oldUserLearnVo = apiUserLearnService.queryObjectByUserIdAndLearnTypeId(gongDuOrderVo.getUserId().intValue(),gongDuOrderVo.getLearnTypeId());
+              //  UserLearnVo oldUserLearnVo = apiUserLearnService.queryObjectByUserIdAndLearnTypeId(gongDuOrderVo.getUserId().intValue(),gongDuOrderVo.getLearnTypeId());
                 // 后台修改了阅读状态为0 用户又必须重新支付开启阅读
-                if(null!=oldUserLearnVo){//存在该 用户学习 信息
+
+
+              /*  if(null!=oldUserLearnVo){//存在该 用户学习 信息
                     if(oldUserLearnVo.getStartStatus()==0){ // 学习状态=0
                         oldUserLearnVo.setStartStatus(1);// 开启共读
                         oldUserLearnVo.setUnlocks(1); // 默认开启第一天课程
@@ -860,7 +924,7 @@ public class ApiPayController extends ApiBaseAction {
                     userLearnVo.setNickname(loginUser.getNickname());
                     apiUserLearnService.save(userLearnVo);
                 }
-
+*/
 
                 return toResponsMsgSuccess("支付成功");
             } else if (trade_state.equals("USERPAYING")) {
