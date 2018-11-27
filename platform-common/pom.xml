@@ -148,5 +148,11 @@
             <artifactId>xstream</artifactId>
             <version>1.4.5</version>
         </dependency>
+        <!--new add email-->
+        <dependency>
+            <groupId>io.github.biezhi</groupId>
+            <artifactId>oh-my-email</artifactId>
+            <version>0.0.4</version>
+        </dependency>
     </dependencies>
 </project>
