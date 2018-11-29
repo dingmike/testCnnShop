@@ -400,6 +400,89 @@ public class WechatUtil {
     }
 
 
+
+
+
+    /**
+     * 创建模板消息3 新订单通知
+     * @param openId
+     * @param template_id
+     * @param url
+     * @param topcolor
+     * @param productName
+     * @param payTime
+     * @param orderStatus
+     * @param String openId,String template_id, String page, String form_id, String url,String topcolor,String productName, String payTime, String orderStatus,String payStatus, String receiver, String username,  String orderTime,String address,String orderMoney,String productNumber
+     * @return
+     */
+ /*   public static String makeNewOrderTemplateMessage(Map orderParams){
+        WxTemplate template = new WxTemplate();
+        template.setTouser(orderParams.getString("openId"));
+        template.setTemplate_id(template_id);
+        template.setPage(page);
+        template.setForm_id(form_id);
+        template.setUrl(url);
+        template.setTopcolor(topcolor);
+        Map<String, TemplateData> data = new HashMap<String, TemplateData>();
+
+        TemplateData templateData1 = new TemplateData();
+        templateData1.setValue(productName); //商品名称
+        templateData1.setColor("#ff6600");
+        TemplateData templateData2 = new TemplateData();
+        templateData2.setValue(payTime); //支付时间
+        templateData2.setColor("#ff6600");
+
+        TemplateData templateData3 = new TemplateData();
+        templateData3.setValue(orderStatus);  //订单状态
+        templateData3.setColor("#ff6600");
+
+        TemplateData templateData4 = new TemplateData();
+        templateData4.setValue(payStatus); //支付状态
+        templateData4.setColor("#ff6600");
+
+        TemplateData templateData5 = new TemplateData();
+        templateData5.setValue(receiver); // 收货人
+        templateData5.setColor("#ff6600");
+
+        TemplateData templateData6 = new TemplateData();
+        templateData5.setValue(username); //用户名
+        templateData5.setColor("#ff6600");
+
+        TemplateData templateData7 = new TemplateData();
+        templateData5.setValue(orderTime); //下单时间
+        templateData5.setColor("#ff6600");
+
+        TemplateData templateData8 = new TemplateData();
+        templateData5.setValue(address); //收货地址
+        templateData5.setColor("#ff6600");
+
+        TemplateData templateData9 = new TemplateData();
+        templateData5.setValue(orderMoney); //订单金额
+        templateData5.setColor("#ff6600");
+
+        TemplateData templateData10 = new TemplateData();
+        templateData5.setValue(productNumber); //数量
+        templateData5.setColor("#ff6600");
+        // 消息模板对应字段
+        data.put("keyword1", templateData1);
+        data.put("keyword2", templateData2);
+        data.put("keyword3", templateData3);
+        data.put("keyword4", templateData4);
+        data.put("keyword5", templateData5);
+        data.put("keyword6", templateData6);
+        data.put("keyword7", templateData7);
+        data.put("keyword8", templateData8);
+        data.put("keyword9", templateData9);
+        data.put("keyword10", templateData10);
+        template.setData(data);
+        System.out.println(template);
+        String sendData = JsonUtil.toJsonString(template);
+        return sendData;
+    }
+
+*/
+
+
     /**
      * 发送消息
      * @param accessToken

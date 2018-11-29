@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.platform.entity.*;
+import com.platform.util.wechat.WechatUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,14 @@ public class ApiOrderService {
     private ApiProductService productService;
     @Autowired
     private CnnSysParamsService cnnSysParamsService;
+    @Autowired
+    private CnnUserFormidService cnnUserFormidService;
+    @Autowired
+    private ApiUserService userService;
+    @Autowired
+    private AccessTokenService accessTokenService;
+    @Autowired
+    private ApiGoodsSpecificationService apiGoodsSpecificationService;
 
     public OrderVo queryObject(Integer id) {
         return orderDao.queryObject(id);
@@ -116,13 +125,13 @@ public class ApiOrderService {
         } else {
 //            BuyGoodsVo goodsVo = (BuyGoodsVo) J2CacheUtils.get("goods" + loginUser.getUserId());
             BuyGoodsVo goodsVo = (BuyGoodsVo) J2CacheUtils.get(J2CacheUtils.SHOP_CACHE_NAME, "goods" + loginUser.getUserId());
-            ProductVo productInfo = productService.queryObject(goodsVo.getProductId());
+            ProductVo productInfo = productService.queryObject(goodsVo.getProductId()); //带有规格的商品信息
             //计算订单的费用
             //商品总价
             goodsTotalPrice = productInfo.getRetail_price().multiply(new BigDecimal(goodsVo.getNumber()));
 
             CartVo cartVo = new CartVo();
-            BeanUtils.copyProperties(productInfo, cartVo);
+            BeanUtils.copyProperties(productInfo, cartVo);//copy属性
             cartVo.setNumber(goodsVo.getNumber());
             cartVo.setProduct_id(goodsVo.getProductId());
             checkedGoodsList.add(cartVo);
@@ -217,8 +226,19 @@ public class ApiOrderService {
             orderGoodsVo.setMarket_price(goodsItem.getMarket_price());
             orderGoodsVo.setRetail_price(goodsItem.getRetail_price());
             orderGoodsVo.setNumber(goodsItem.getNumber());
-            orderGoodsVo.setGoods_specifition_name_value(goodsItem.getGoods_specifition_name_value());
-            orderGoodsVo.setGoods_specifition_ids(goodsItem.getGoods_specifition_ids());
+
+
+            String specIds = goodsItem.getGoods_specification_name_value();
+            String[] specIdsArr = specIds.split("_");
+            String lastSpecStr;
+            for (String idStr : specIdsArr) {
+                GoodsSpecificationVo specObj = apiGoodsSpecificationService.queryObject(Integer.valueOf(idStr));
+                lastSpecStr=specObj.getValue();
+            }
+
+            orderGoodsVo.setGoods_specifition_name_value(goodsItem.getGoods_specification_name_value());
+            orderGoodsVo.setGoods_specifition_ids(goodsItem.getGoods_specification_ids());
+//            orderGoodsVo.setGoods_specifition_ids(goodsItem.getGoods_specifition_ids());
             orderGoodsData.add(orderGoodsVo);
             apiOrderGoodsMapper.save(orderGoodsVo);
         }
@@ -237,6 +257,41 @@ public class ApiOrderService {
             couponVo.setCoupon_status(2);
             apiCouponMapper.updateUserCoupon(couponVo);
         }
+
+        // 订单提交成功给管理员发送模板消息
+
+        // ----------------发送模板消息
+/*        String templateId = "6BzUy8qLwuWJrX90R3telLkIzkxII9XbQUS7IZmipYs"; // 新订单提醒
+        // 获取 formID
+        CnnUserFormidEntity cnnUserFormidEntity = cnnUserFormidService.queryObjectByUserid(34); //管理员34
+        UserVo adminUser = userService.queryObject(new Long(34));
+        Map<String, Object> orderParams = new HashMap<String, Object>();
+        String templateUrl = "pages/index/index";
+        String page = "pages/index/index";
+        String topcolor = "#ff6600";
+        orderParams.put("openId",adminUser.getWeixin_openid());
+        orderParams.put("templateId",templateId);
+        orderParams.put("page",page);
+        orderParams.put("formId",cnnUserFormidEntity.getFormid());
+        orderParams.put("templateUrl",templateUrl);
+        orderParams.put("topcolor",topcolor);
+//        orderParams.put("productName",orderInfo.get());
+
+//        String jsonObj = WechatUtil.makeTemplateMessage(openid,templateId,page,formId,templateUrl,topcolor,productName,payTime,orderStatus,payStatus,receiver,username,orderTime,address,orderMoney,productNumber);
+        String jsonObj = WechatUtil.makeNewOrderTemplateMessage(orderParams);
+        // 发送消息
+        AccessTokenEntity accessTokenEntity = accessTokenService.queryByFirst();
+        Boolean sendSuccess = WechatUtil.sendTemplateMessage(accessTokenEntity.getAccessToken(),jsonObj);
+        // 如果发送成功就删除用过的formId
+        if(sendSuccess) {
+            if(sendSuccess) {
+                cnnUserFormidService.delete(formID);
+            }
+
+        }*/
+
+
+
 
         return resultObj;
     }

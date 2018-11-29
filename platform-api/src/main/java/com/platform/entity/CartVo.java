@@ -36,9 +36,11 @@ public class CartVo implements Serializable {
     //数量
     private Integer number;
     //规格属性组成的字符串，用来显示用
-    private String goods_specifition_name_value;
+//    private String goods_specifition_name_value;
+    private String goods_specification_name_value;
     //product表对应的goods_specifition_ids
-    private String goods_specifition_ids;
+//    private String goods_specifition_ids;
+    private String goods_specification_ids;
     //
     private Integer checked;
     // 节省金额
@@ -127,20 +129,20 @@ public class CartVo implements Serializable {
         this.number = number;
     }
 
-    public String getGoods_specifition_name_value() {
-        return goods_specifition_name_value;
+    public String getGoods_specification_name_value() {
+        return goods_specification_name_value;
     }
 
-    public void setGoods_specifition_name_value(String goods_specifition_name_value) {
-        this.goods_specifition_name_value = goods_specifition_name_value;
+    public void setGoods_specification_name_value(String goods_specification_name_value) {
+        this.goods_specification_name_value = goods_specification_name_value;
     }
 
-    public String getGoods_specifition_ids() {
-        return goods_specifition_ids;
+    public String getGoods_specification_ids() {
+        return goods_specification_ids;
     }
 
-    public void setGoods_specifition_ids(String goods_specifition_ids) {
-        this.goods_specifition_ids = goods_specifition_ids;
+    public void setGoods_specification_ids(String goods_specification_ids) {
+        this.goods_specification_ids = goods_specification_ids;
     }
 
     public Integer getChecked() {

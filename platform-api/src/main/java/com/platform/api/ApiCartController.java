@@ -201,9 +201,11 @@ public class ApiCartController extends ApiBaseAction {
             cartInfo.setRetail_price(productInfo.getRetail_price());
             cartInfo.setMarket_price(productInfo.getMarket_price());
             if (null != goodsSepcifitionValue) {
-                cartInfo.setGoods_specifition_name_value(StringUtils.join(goodsSepcifitionValue, ";"));
+//                cartInfo.setGoods_specifition_name_value(StringUtils.join(goodsSepcifitionValue, ";"));
+                cartInfo.setGoods_specification_name_value(StringUtils.join(goodsSepcifitionValue, ";"));
             }
-            cartInfo.setGoods_specifition_ids(productInfo.getGoods_specification_ids());
+//            cartInfo.setGoods_specifition_ids(productInfo.getGoods_specification_ids());
+            cartInfo.setGoods_specification_ids(productInfo.getGoods_specification_ids());
             cartInfo.setChecked(1);
             cartService.save(cartInfo);
         } else {
@@ -300,9 +302,11 @@ public class ApiCartController extends ApiBaseAction {
             cartInfo.setRetail_price(productInfo.getRetail_price());
             cartInfo.setMarket_price(productInfo.getRetail_price());
             if (null != goodsSepcifitionValue) {
-                cartInfo.setGoods_specifition_name_value(StringUtils.join(goodsSepcifitionValue, ";"));
+//                cartInfo.setGoods_specifition_name_value(StringUtils.join(goodsSepcifitionValue, ";"));
+                cartInfo.setGoods_specification_name_value(StringUtils.join(goodsSepcifitionValue, ";"));
             }
-            cartInfo.setGoods_specifition_ids(productInfo.getGoods_specification_ids());
+//            cartInfo.setGoods_specifition_ids(productInfo.getGoods_specification_ids());
+            cartInfo.setGoods_specification_ids(productInfo.getGoods_specification_ids());
             cartService.update(cartInfo);
         } else {
             //合并购物车已有的product信息，删除已有的数据
@@ -329,9 +333,11 @@ public class ApiCartController extends ApiBaseAction {
             cartInfo.setRetail_price(productInfo.getRetail_price());
             cartInfo.setMarket_price(productInfo.getRetail_price());
             if (null != goodsSepcifitionValue) {
-                cartInfo.setGoods_specifition_name_value(StringUtils.join(goodsSepcifitionValue, ";"));
+//                cartInfo.setGoods_specifition_name_value(StringUtils.join(goodsSepcifitionValue, ";"));
+                cartInfo.setGoods_specification_name_value(StringUtils.join(goodsSepcifitionValue, ";"));
             }
-            cartInfo.setGoods_specifition_ids(productInfo.getGoods_specification_ids());
+//            cartInfo.setGoods_specifition_ids(productInfo.getGoods_specification_ids());
+            cartInfo.setGoods_specification_ids(productInfo.getGoods_specification_ids());
             cartService.update(cartInfo);
         }
         return toResponsSuccess(getCart(loginUser));
