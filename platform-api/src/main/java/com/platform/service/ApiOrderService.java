@@ -230,13 +230,13 @@ public class ApiOrderService {
 
             String specIds = goodsItem.getGoods_specification_name_value();
             String[] specIdsArr = specIds.split("_");
-            String lastSpecStr;
+            String lastSpecStr="";
             for (String idStr : specIdsArr) {
                 GoodsSpecificationVo specObj = apiGoodsSpecificationService.queryObject(Integer.valueOf(idStr));
-                lastSpecStr=specObj.getValue();
+                lastSpecStr = specObj.getValue()+",";
             }
+            orderGoodsVo.setGoods_specifition_name_value(lastSpecStr);
 
-            orderGoodsVo.setGoods_specifition_name_value(goodsItem.getGoods_specification_name_value());
             orderGoodsVo.setGoods_specifition_ids(goodsItem.getGoods_specification_ids());
 //            orderGoodsVo.setGoods_specifition_ids(goodsItem.getGoods_specifition_ids());
             orderGoodsData.add(orderGoodsVo);
