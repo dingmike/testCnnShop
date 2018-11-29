@@ -228,7 +228,7 @@ public class ApiOrderService {
             orderGoodsVo.setNumber(goodsItem.getNumber());
 
 
-            String specIds = goodsItem.getGoods_specification_name_value();
+            String specIds = goodsItem.getGoods_specification_ids();
             String[] specIdsArr = specIds.split("_");
             String lastSpecStr="";
             for (String idStr : specIdsArr) {
