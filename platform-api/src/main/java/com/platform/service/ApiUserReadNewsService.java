@@ -26,6 +26,10 @@ public class ApiUserReadNewsService {
         return userReadNewsDao.queryList(map);
     }
 
+    public List<Integer> queryTotalNewsIdByUserId(Map<String, Object> map) {
+        return userReadNewsDao.queryTotalNewsIdByUserId(map);
+    }
+
     public List<UserReadNewsVo> queryListByUserId(Map<String, Object> map) {
         return userReadNewsDao.queryListByUserId(map);
     }

@@ -401,10 +401,28 @@ public class ApiGongduController extends ApiBaseAction {
             return toResponsSuccess(pageUtil);
     }
 
+
     /**
      *
-     * 获取用户已阅读文章
+     * 获取用户已阅读文章的ID
      * @params userId
+     * */
+    @ApiOperation(value = "获取用户已阅读文章ID", response = Map.class)
+    @GetMapping(value = "getAllReadNewsId")
+    public Object getAllReadNewsId(@LoginUser UserVo loginUser) {
+
+        Map params = new HashMap();
+        params.put("userid", loginUser.getUserId());
+        List<Integer> userReadNewsVos = apiUserReadNewsService.queryTotalNewsIdByUserId(params);
+        return toResponsSuccess(userReadNewsVos);
+    }
+
+
+
+    /**
+     *
+     * 获取用户已阅读文章Id
+     * @params ID
      * */
     @ApiOperation(value = "根据文章ID获取文章详情", response = Map.class)
     @RequestMapping(value = "getNewsById")
@@ -414,6 +432,34 @@ public class ApiGongduController extends ApiBaseAction {
         CnnNewsVo cnnNewsVo = apiCnnNewsService.queryObject(pageId);
         return toResponsSuccess(cnnNewsVo);
     }
+
+
+
+    /**
+     *
+     * 获取全部文章
+     * @params ID
+     * */
+    @ApiOperation(value = "获取全部文章", response = Map.class)
+    @GetMapping(value = "getAllNews")
+    public Object getAllNews(@LoginUser UserVo loginUser,
+                                      @RequestParam(value ="page", defaultValue = "1") Integer page,
+                                      @RequestParam(value = "size", defaultValue = "10") Integer size) {
+
+        Map params = new HashMap();
+        params.put("userid", loginUser.getUserId());
+        params.put("page", page);
+        params.put("limit", size);
+        params.put("sidx", "add_time"); // 按添加时间倒序
+        params.put("order", "desc");  // asc正序 desc倒序
+        Query query = new Query(params);
+        List<CnnNewsVo> allCnnNewsVos = apiCnnNewsService.queryList(query);
+        int total = apiCnnNewsService.queryTotal(query);
+        //查询列表数据
+        ApiPageUtils pageUtil = new ApiPageUtils(allCnnNewsVos, total, query.getLimit(), query.getPage());
+        return toResponsSuccess(pageUtil);
+    }
+
 
     /**
      *
