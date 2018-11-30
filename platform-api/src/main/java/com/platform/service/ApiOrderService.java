@@ -233,7 +233,7 @@ public class ApiOrderService {
             String lastSpecStr="";
             for (String idStr : specIdsArr) {
                 GoodsSpecificationVo specObj = apiGoodsSpecificationService.queryObject(Integer.valueOf(idStr));
-                lastSpecStr = specObj.getValue()+",";
+                lastSpecStr = lastSpecStr + specObj.getValue()+",";
             }
             orderGoodsVo.setGoods_specifition_name_value(lastSpecStr);
 

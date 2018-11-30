@@ -77,7 +77,7 @@ public class NotifiyTask {
             searchparams.put("userid",userid);
             Integer counts = apiUserReadNewsService.queryTotalByUserId(searchparams);
             //转换为String
-            String countTotal = counts+"";
+            String countTotal = counts+"篇文章";
             String formId = cnnUserFormidEntity.getFormid();
             String templateUrl = "pages/index/index";
             String page = "pages/index/index";

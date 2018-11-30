@@ -200,6 +200,7 @@ let vm = new Vue({
                 url: "../order/info/" + rowId,
                 async: true,
                 successCallback: function (r) {
+                    r.order.address = r.order.province+r.order.city+r.order.district+r.order.address+'';
                     vm.order = r.order;
                 }
             });
