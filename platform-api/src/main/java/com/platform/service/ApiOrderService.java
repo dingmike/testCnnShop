@@ -238,7 +238,6 @@ public class ApiOrderService {
             orderGoodsVo.setGoods_specifition_name_value(lastSpecStr);
 
             orderGoodsVo.setGoods_specifition_ids(goodsItem.getGoods_specification_ids());
-//            orderGoodsVo.setGoods_specifition_ids(goodsItem.getGoods_specifition_ids());
             orderGoodsData.add(orderGoodsVo);
             apiOrderGoodsMapper.save(orderGoodsVo);
         }
@@ -261,37 +260,90 @@ public class ApiOrderService {
         // 订单提交成功给管理员发送模板消息
 
         // ----------------发送模板消息
-/*        String templateId = "6BzUy8qLwuWJrX90R3telLkIzkxII9XbQUS7IZmipYs"; // 新订单提醒
+        String templateId = "6BzUy8qLwuWJrX90R3telLkIzkxII9XbQUS7IZmipYs"; // 新订单提醒
+
         // 获取 formID
         CnnUserFormidEntity cnnUserFormidEntity = cnnUserFormidService.queryObjectByUserid(34); //管理员34
+        Integer formIDId = cnnUserFormidEntity.getId();
         UserVo adminUser = userService.queryObject(new Long(34));
         Map<String, Object> orderParams = new HashMap<String, Object>();
         String templateUrl = "pages/index/index";
         String page = "pages/index/index";
         String topcolor = "#ff6600";
-        orderParams.put("openId",adminUser.getWeixin_openid());
-        orderParams.put("templateId",templateId);
-        orderParams.put("page",page);
-        orderParams.put("formId",cnnUserFormidEntity.getFormid());
-        orderParams.put("templateUrl",templateUrl);
-        orderParams.put("topcolor",topcolor);
-//        orderParams.put("productName",orderInfo.get());
 
-//        String jsonObj = WechatUtil.makeTemplateMessage(openid,templateId,page,formId,templateUrl,topcolor,productName,payTime,orderStatus,payStatus,receiver,username,orderTime,address,orderMoney,productNumber);
-        String jsonObj = WechatUtil.makeNewOrderTemplateMessage(orderParams);
+        String openid = adminUser.getWeixin_openid();
+
+
+        orderParams.put("page",page);
+
+        String formId = cnnUserFormidEntity.getFormid();
+
+        String productName = "";
+        Integer goodNumbers =0;
+        for (OrderGoodsVo goodsItem : orderGoodsData) {
+             productName = productName + goodsItem.getGoods_name()+",";
+             goodNumbers = goodNumbers + goodsItem.getNumber();
+        }
+
+        String payTime = "无";
+        if(null!=orderInfo.getPay_time()){
+             payTime = orderInfo.getPay_time().toString();
+        }
+        Integer orderStatusNum = orderInfo.getOrder_status();
+        String orderStatus="";
+        switch(orderStatusNum){
+            case 0:
+                orderStatus="未发货";
+                break;
+            case 1:
+                orderStatus="已发货";
+                break;
+            case 2:
+                orderStatus="已收货";
+                break;
+            case 4:
+                orderStatus="退货";
+                break;
+           default:
+                break;
+        }
+
+        Integer payStatusNum = orderInfo.getPay_status();
+        String payStatus="";
+        switch(payStatusNum){
+            case 0:
+                payStatus="未付款";
+                break;
+            case 1:
+                payStatus="付款中";
+                break;
+            case 2:
+                payStatus="已付款";
+                break;
+            case 4:
+                payStatus="退款";
+                break;
+            default:
+                break;
+        }
+        String receiver = orderInfo.getConsignee();//收件人
+        String username = adminUser.getUsername();//用户名
+        String orderTime = orderInfo.getAdd_time().toString();//下单时间
+        String address = orderInfo.getProvince()+orderInfo.getCity()+orderInfo.getDistrict()+orderInfo.getAddress()+"";
+        String orderMoney = orderInfo.getOrder_price().toString();
+        String productNumber = goodNumbers.toString();
+      String jsonObj = WechatUtil.makeNewOrderTemplateMessage(openid,templateId,page,formId,templateUrl,topcolor,productName,payTime,orderStatus,payStatus,receiver,username,orderTime,address,orderMoney,productNumber);
+//        String jsonObj = WechatUtil.makeNewOrderTemplateMessage(orderParams);
         // 发送消息
         AccessTokenEntity accessTokenEntity = accessTokenService.queryByFirst();
         Boolean sendSuccess = WechatUtil.sendTemplateMessage(accessTokenEntity.getAccessToken(),jsonObj);
         // 如果发送成功就删除用过的formId
         if(sendSuccess) {
             if(sendSuccess) {
-                cnnUserFormidService.delete(formID);
+                cnnUserFormidService.delete(formIDId);
             }
-
-        }*/
-
-
-
+        }
+        // 订单提交成功给管理员发送模板消息-end
 
         return resultObj;
     }

@@ -10,6 +10,7 @@ import com.platform.util.JsonUtil;
 import com.platform.entity.TemplateData;
 import com.platform.entity.WxTemplate;
 import com.platform.utils.*;
+import com.sun.javafx.collections.MappingChange;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -405,23 +406,23 @@ public class WechatUtil {
 
     /**
      * 创建模板消息3 新订单通知
-     * @param openId
-     * @param template_id
-     * @param url
+     * @param openid
+     * @param templateId
+     * @param templateUrl
      * @param topcolor
      * @param productName
      * @param payTime
      * @param orderStatus
-     * @param String openId,String template_id, String page, String form_id, String url,String topcolor,String productName, String payTime, String orderStatus,String payStatus, String receiver, String username,  String orderTime,String address,String orderMoney,String productNumber
+     * @param  openid,String template_id, String page, String form_id, String url,String topcolor,String productName, String payTime, String orderStatus,String payStatus, String receiver, String username,  String orderTime,String address,String orderMoney,String productNumber
      * @return
      */
- /*   public static String makeNewOrderTemplateMessage(Map orderParams){
+    public static String makeNewOrderTemplateMessage(String openid, String templateId,String page,String formId,String templateUrl,String topcolor,String productName,String payTime,String orderStatus,String payStatus,String receiver,String username,String orderTime,String address,String orderMoney,String productNumber){
         WxTemplate template = new WxTemplate();
-        template.setTouser(orderParams.getString("openId"));
-        template.setTemplate_id(template_id);
+        template.setTouser(openid);
+        template.setTemplate_id(templateId);
         template.setPage(page);
-        template.setForm_id(form_id);
-        template.setUrl(url);
+        template.setForm_id(formId);
+        template.setUrl(templateUrl);
         template.setTopcolor(topcolor);
         Map<String, TemplateData> data = new HashMap<String, TemplateData>();
 
@@ -445,24 +446,24 @@ public class WechatUtil {
         templateData5.setColor("#ff6600");
 
         TemplateData templateData6 = new TemplateData();
-        templateData5.setValue(username); //用户名
-        templateData5.setColor("#ff6600");
+        templateData6.setValue(username); //用户名
+        templateData6.setColor("#ff6600");
 
         TemplateData templateData7 = new TemplateData();
-        templateData5.setValue(orderTime); //下单时间
-        templateData5.setColor("#ff6600");
+        templateData7.setValue(orderTime); //下单时间
+        templateData7.setColor("#ff6600");
 
         TemplateData templateData8 = new TemplateData();
-        templateData5.setValue(address); //收货地址
-        templateData5.setColor("#ff6600");
+        templateData8.setValue(address); //收货地址
+        templateData8.setColor("#ff6600");
 
         TemplateData templateData9 = new TemplateData();
-        templateData5.setValue(orderMoney); //订单金额
-        templateData5.setColor("#ff6600");
+        templateData9.setValue(orderMoney); //订单金额
+        templateData9.setColor("#ff6600");
 
         TemplateData templateData10 = new TemplateData();
-        templateData5.setValue(productNumber); //数量
-        templateData5.setColor("#ff6600");
+        templateData10.setValue(productNumber); //数量
+        templateData10.setColor("#ff6600");
         // 消息模板对应字段
         data.put("keyword1", templateData1);
         data.put("keyword2", templateData2);
@@ -480,7 +481,6 @@ public class WechatUtil {
         return sendData;
     }
 
-*/
 
 
     /**
