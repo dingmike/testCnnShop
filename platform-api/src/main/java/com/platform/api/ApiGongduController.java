@@ -280,7 +280,7 @@ public class ApiGongduController extends ApiBaseAction {
 
                 userLearnVo.setFormId(newFormIds);
                 userLearnVo.setUserid(userId.intValue());
-//                Integer successResult = userLearnService.update(userLearnVo);
+//              Integer successResult = userLearnService.update(userLearnVo);
                 Integer successResult = userLearnService.updateByUserIdAndLearnTypeId(userLearnVo);
                 System.out.println("更新formId成功-----------");
 
