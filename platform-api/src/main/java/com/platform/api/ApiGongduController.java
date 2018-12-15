@@ -234,13 +234,12 @@ public class ApiGongduController extends ApiBaseAction {
                 userCard.setLearnTypeId(learnTypeId);
                 // 规定时间5-10点
 
-                //全天有效
-                userCard.setReasonable(1);
-              /*  if(hour>2&&hour<10){
+                //2：00-23：59小时有效打卡
+                if(hour>=2&&hour<=23){
                     userCard.setReasonable(1);
                 }else{
                     userCard.setReasonable(0);
-                }*/
+                }
                 // 打卡信息保存
                 Integer saveSuccess = cnnUserCardService.save(userCard);
                 // 打卡信息保存后都可以获得积分1
