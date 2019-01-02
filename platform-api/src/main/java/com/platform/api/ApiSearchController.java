@@ -1,7 +1,5 @@
 package com.platform.api;
 
-import com.platform.annotation.IgnoreAuth;
-import com.platform.annotation.LoginUser;
 import com.platform.entity.KeywordsVo;
 import com.platform.entity.SearchHistoryVo;
 import com.platform.entity.UserVo;
@@ -45,7 +43,7 @@ public class ApiSearchController extends ApiBaseAction {
     @ApiOperation(value = "搜索商品列表")
 //    @RequestMapping("index")
     @GetMapping("index")
-    public Object index(@LoginUser UserVo loginUser) {
+    public Object index(UserVo loginUser) {
         Map<String, Object> resultObj = new HashMap();
         Map param = new HashMap();
         param.put("is_default", 1);
@@ -94,9 +92,8 @@ public class ApiSearchController extends ApiBaseAction {
      */
     @ApiOperation(value = "搜索商品")
     @ApiImplicitParams({@ApiImplicitParam(name = "keyword", value = "关键字", paramType = "path", required = true)})
-    @IgnoreAuth
     @GetMapping("helper")
-    public Object helper(@LoginUser UserVo loginUser, String keyword) {
+    public Object helper(UserVo loginUser, String keyword) {
         Map param = new HashMap();
         param.put("fields", "distinct keyword");
         param.put("keyword", keyword);
@@ -120,7 +117,7 @@ public class ApiSearchController extends ApiBaseAction {
      */
 //    @RequestMapping("clearhistory")
     @PostMapping("clearhistory")
-    public Object clearhistory(@LoginUser UserVo loginUser) {
+    public Object clearhistory(UserVo loginUser) {
         searchHistoryService.deleteByUserId(loginUser.getUserId());
         //
         return toResponsSuccess("");

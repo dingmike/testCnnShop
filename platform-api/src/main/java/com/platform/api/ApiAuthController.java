@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.platform.annotation.IgnoreAuth;
 import com.platform.entity.FullUserInfo;
 import com.platform.entity.UserInfo;
 import com.platform.entity.UserVo;
@@ -56,7 +54,6 @@ public class ApiAuthController extends ApiBaseAction {
     /**
      * 登录
      */
-    @IgnoreAuth
     @RequestMapping("login")
     @ApiOperation(value = "登录接口")
     public R login(String mobile, String password) {
@@ -76,7 +73,6 @@ public class ApiAuthController extends ApiBaseAction {
      * 登录
      */
     @ApiOperation(value = "登录")
-    @IgnoreAuth
     @RequestMapping("login_by_weixin")
     public Object loginByWeixin() {
         JSONObject jsonParam = this.getJsonRequest();

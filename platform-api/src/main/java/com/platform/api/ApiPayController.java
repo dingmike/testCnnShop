@@ -1,7 +1,5 @@
 package com.platform.api;
 
-import com.platform.annotation.IgnoreAuth;
-import com.platform.annotation.LoginUser;
 import com.platform.cache.J2CacheUtils;
 import com.platform.entity.*;
 import com.platform.entity.wxPayReq.UnifiedOrderParams;
@@ -85,7 +83,7 @@ public class ApiPayController extends ApiBaseAction {
     @ApiOperation(value = "获取支付的请求参数")
     @GetMapping("prepay")
 //    @RequestMapping("prepay")
-    public Object payPrepay(@LoginUser UserVo loginUser, Integer orderId, Integer repay) {
+    public Object payPrepay(UserVo loginUser, Integer orderId, Integer repay) {
         //
         OrderVo orderInfo = orderService.queryObject(orderId);
 
@@ -201,7 +199,7 @@ public class ApiPayController extends ApiBaseAction {
     @ApiOperation(value = "查询订单状态")
     @GetMapping("query")
 //    @RequestMapping("query")
-    public Object orderQuery(@LoginUser UserVo loginUser, Integer orderId) {
+    public Object orderQuery(UserVo loginUser, Integer orderId) {
 
         OrderVo orderInfo = orderService.queryObject(orderId);
         String  order_sn = orderInfo.getOrder_sn();
@@ -309,7 +307,6 @@ public class ApiPayController extends ApiBaseAction {
      * @return
      */
     @ApiOperation(value = "微信订单回调接口")
-    @IgnoreAuth
     @RequestMapping(value = "/notify", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     @ResponseBody
     public void notify(HttpServletRequest request, HttpServletResponse response) {
@@ -456,7 +453,7 @@ public class ApiPayController extends ApiBaseAction {
      * @throws Exception
      */
     @PostMapping("jspay")
-    public Map<String, Object> jsPay(@LoginUser UserVo loginUser, @ModelAttribute(value = "params") UnifiedOrderParams params) {
+    public Map<String, Object> jsPay(UserVo loginUser, @ModelAttribute(value = "params") UnifiedOrderParams params) {
         Map<String, Object> data = new HashMap<>();
         JsPayResult result = null;
         if (org.springframework.util.StringUtils.isEmpty(params) || org.springframework.util.StringUtils.isEmpty(params.getOpenid())) {
@@ -630,7 +627,7 @@ public class ApiPayController extends ApiBaseAction {
      * 共读支付获取支付的请求参数
      */
     @RequestMapping("gongDuPrepay")
-    public Object gongDuPrepay(@LoginUser UserVo loginUser, String orderId) {
+    public Object gongDuPrepay(UserVo loginUser, String orderId) {
         //查询学习类型价格
 //        CnnLearnTypeVo cnnLearnTypeVo = cnnLearnTypeService.queryObject(learnTypeId);
 
@@ -720,7 +717,6 @@ public class ApiPayController extends ApiBaseAction {
      * @return
      */
     @RequestMapping(value = "/gongDuNotify", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-    @IgnoreAuth
     @ResponseBody
     public void gongDuNotify(HttpServletRequest request, HttpServletResponse response) {
         try {
@@ -854,7 +850,7 @@ public class ApiPayController extends ApiBaseAction {
      */
 //    @RequestMapping("gongDuQuery")
     @GetMapping("gongDuQuery")
-    public Object gongDuQuery(@LoginUser UserVo loginUser, String orderId) {
+    public Object gongDuQuery(UserVo loginUser, String orderId) {
         if (orderId == null) {
             return toResponsFail("订单不存在");
         }

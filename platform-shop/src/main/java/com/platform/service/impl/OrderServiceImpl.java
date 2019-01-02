@@ -86,6 +86,9 @@ public class OrderServiceImpl implements OrderService {
         }
         order.setOrderStatus(300);//订单已发货
         order.setShippingStatus(1);//已发货
+        // 给用户发消息-发货了
+//        sendShipInfo
+
         return orderDao.update(order);
     }
 }

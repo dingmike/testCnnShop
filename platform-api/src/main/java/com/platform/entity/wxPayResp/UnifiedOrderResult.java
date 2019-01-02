@@ -1,7 +1,5 @@
 package com.platform.entity.wxPayResp;
 
-import com.platform.annotation.NotRequire;
-
 /**
  * 统一下单返回结果
  * @author admin
@@ -19,15 +17,12 @@ public class UnifiedOrderResult extends AbstractPayResult {
 	// 以下字段在return_code为SUCCESS的时候有返回(包括父类)
 	private String device_info; // 设备号
 	private String result_code; // 业务结果 SUCCESS/FAIL
-	@NotRequire
 	private String err_code; // 错误代码
-	@NotRequire
 	private String err_code_des; // 错误代码描述
 
 	// 以下字段在return_code 和result_code都为SUCCESS的时候有返回
 	private String trade_type; // 交易类型
 	private String prepay_id; // 预支付交易会话标识，有效期为2小时
-	@NotRequire
 	private String code_url; // 二维码链接
 
 	public String getReturn_code() {

@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.github.pagehelper.PageHelper;
-import com.platform.annotation.LoginUser;
 import com.platform.entity.FootprintVo;
 import com.platform.entity.UserVo;
 import com.platform.service.ApiFootprintService;
@@ -41,7 +40,7 @@ public class ApiFootprintController extends ApiBaseAction {
     @ApiOperation(value = "删除足迹")
     @ApiImplicitParams({@ApiImplicitParam(name = "footprintId", value = "足迹id", paramType = "path", required = true)})
     @GetMapping("delete")
-    public Object delete(@LoginUser UserVo loginUser, Integer footprintId) {
+    public Object delete(UserVo loginUser, Integer footprintId) {
         if (footprintId == null) {
             return toResponsFail("删除出错");
         }
@@ -64,7 +63,7 @@ public class ApiFootprintController extends ApiBaseAction {
      */
     @ApiOperation(value = "获取足迹列表")
     @GetMapping("list")
-    public Object list(@LoginUser UserVo loginUser,
+    public Object list(UserVo loginUser,
                        @RequestParam(value = "page", defaultValue = "1") Integer page,
                        @RequestParam(value = "size", defaultValue = "10") Integer size) {
         Map<String, Object> resultObj = new HashMap<String, Object>();
@@ -120,7 +119,7 @@ public class ApiFootprintController extends ApiBaseAction {
     @ApiOperation(value = "分享足迹")
 //    @RequestMapping("sharelist")
     @PostMapping("sharelist")
-    public Object sharelist(@LoginUser UserVo loginUser,
+    public Object sharelist(UserVo loginUser,
                             @RequestParam(value = "page", defaultValue = "1") Integer page,
                             @RequestParam(value = "size", defaultValue = "10") Integer size) {
         Map<String, List<FootprintVo>> resultObj = new HashMap<String, List<FootprintVo>>();

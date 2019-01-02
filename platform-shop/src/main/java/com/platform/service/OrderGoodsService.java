@@ -15,7 +15,8 @@ import java.util.Map;
 public interface OrderGoodsService {
 	
 	OrderGoodsEntity queryObject(Integer id);
-	
+	OrderGoodsEntity queryObjectByOrderId(Integer id);
+
 	List<OrderGoodsEntity> queryList(Map<String, Object> map);
 	
 	int queryTotal(Map<String, Object> map);

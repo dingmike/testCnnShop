@@ -24,6 +24,11 @@
 		select * from nideshop_order_goods where id = #{value}
 	</select>
 
+
+	<select id="queryObjectByOrderId" resultType="com.platform.entity.OrderGoodsEntity">
+		select * from nideshop_order_goods where order_id = #{value}
+	</select>
+
 	<select id="queryList" resultType="com.platform.entity.OrderGoodsEntity">
 		select * from nideshop_order_goods
 		WHERE 1=1

@@ -1,7 +1,5 @@
 package com.platform.api;
 
-import com.platform.annotation.LoginUser;
-
 import com.platform.entity.UserVo;
 import com.platform.service.*;
 import com.platform.util.ApiBaseAction;
@@ -32,7 +30,7 @@ public class ApiCnnGongduOrder extends ApiBaseAction {
      * 提交共读支付订单生成订单号
      */
     @RequestMapping("submit")
-    public Object submit(@LoginUser UserVo loginUser) {
+    public Object submit(UserVo loginUser) {
         Map resultObj = null;
         // 传入学习类型ID
         try {

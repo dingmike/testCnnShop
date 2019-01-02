@@ -3,8 +3,6 @@ package com.platform.api;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 
-import com.platform.annotation.IgnoreAuth;
-import com.platform.annotation.LoginUser;
 import com.platform.entity.*;
 import com.platform.service.*;
 import com.platform.util.ApiBaseAction;
@@ -54,8 +52,7 @@ public class ApiIndexController extends ApiBaseAction {
     /**
      * 测试
      */
-    @IgnoreAuth
-//    @RequestMapping(value = "test", method = RequestMethod.GET)
+    //    @RequestMapping(value = "test", method = RequestMethod.GET)
     @GetMapping(value = "test")
     public Object test() {
         return toResponsMsgSuccess("请求成功yyy");
@@ -65,8 +62,7 @@ public class ApiIndexController extends ApiBaseAction {
      *  cnn首页数据
      */
     @ApiOperation(value = "cnn首页")
-    @IgnoreAuth
-//    @RequestMapping(value = "cnnIndex", method = RequestMethod.GET)
+    //    @RequestMapping(value = "cnnIndex", method = RequestMethod.GET)
     @GetMapping(value = "cnnIndex")
     public Object cnnIndex() {
         String learnTypeId = request.getParameter("learnTypeId"); // 只获取一种学习类型的用户学习情况
@@ -97,8 +93,7 @@ public class ApiIndexController extends ApiBaseAction {
      *  cnn首页学习类型2
      */
     @ApiOperation(value = "cnn首页学习类型2")
-    @IgnoreAuth
-//    @RequestMapping(value = "cnnIndex", method = RequestMethod.GET)
+    //    @RequestMapping(value = "cnnIndex", method = RequestMethod.GET)
     @GetMapping(value = "cnnIndexTypeTwo")
     public Object cnnIndexTypeTwo() {
         String learnTypeId = request.getParameter("learnTypeId"); // 只获取一种学习类型的用户学习情况
@@ -119,8 +114,7 @@ public class ApiIndexController extends ApiBaseAction {
      * app商城首页
      */
     @ApiOperation(value = "商城首页")
-    @IgnoreAuth
-//    @RequestMapping(value = "index", method = RequestMethod.GET)
+    //    @RequestMapping(value = "index", method = RequestMethod.GET)
     @GetMapping(value = "index")
     public Object index() {
         Map<String, Object> resultObj = new HashMap();
@@ -229,8 +223,7 @@ public class ApiIndexController extends ApiBaseAction {
      * app首页new
      */
     @ApiOperation(value = "新商品信息")
-    @IgnoreAuth
-//    @RequestMapping(value = "newGoods", method = RequestMethod.GET)
+    //    @RequestMapping(value = "newGoods", method = RequestMethod.GET)
     @GetMapping(value = "newGoods")
     public Object newGoods() {
         Map<String, Object> resultObj = new HashMap<String, Object>();
@@ -247,8 +240,7 @@ public class ApiIndexController extends ApiBaseAction {
         return toResponsSuccess(resultObj);
     }
     @ApiOperation(value = "新热门商品信息")
-    @IgnoreAuth
-//    @RequestMapping(value = "hotGoods", method = RequestMethod.GET)
+    //    @RequestMapping(value = "hotGoods", method = RequestMethod.GET)
     @GetMapping(value = "hotGoods")
     public Object hotGoods() {
         Map<String, Object> resultObj = new HashMap<String, Object>();
@@ -264,8 +256,7 @@ public class ApiIndexController extends ApiBaseAction {
         return toResponsSuccess(resultObj);
     }
     @ApiOperation(value = "topic")
-    @IgnoreAuth
-//    @RequestMapping(value = "topic", method = RequestMethod.GET)
+    //    @RequestMapping(value = "topic", method = RequestMethod.GET)
     @GetMapping(value = "topic")
     public Object topic() {
         Map<String, Object> resultObj = new HashMap<String, Object>();
@@ -280,8 +271,7 @@ public class ApiIndexController extends ApiBaseAction {
         return toResponsSuccess(resultObj);
     }
     @ApiOperation(value = "brand")
-    @IgnoreAuth
-//    @RequestMapping(value = "brand", method = RequestMethod.GET)
+    //    @RequestMapping(value = "brand", method = RequestMethod.GET)
     @GetMapping(value = "brand")
     public Object brand() {
         Map<String, Object> resultObj = new HashMap<String, Object>();
@@ -299,8 +289,7 @@ public class ApiIndexController extends ApiBaseAction {
         return toResponsSuccess(resultObj);
     }
     @ApiOperation(value = "category")
-    @IgnoreAuth
-//    @RequestMapping(value = "category", method = RequestMethod.GET)
+    //    @RequestMapping(value = "category", method = RequestMethod.GET)
     @GetMapping(value = "category")
     public Object category() {
         Map<String, Object> resultObj = new HashMap<String, Object>();
@@ -342,8 +331,7 @@ public class ApiIndexController extends ApiBaseAction {
         return toResponsSuccess(resultObj);
     }
     @ApiOperation(value = "banner")
-    @IgnoreAuth
-//    @RequestMapping(value = "banner", method = RequestMethod.GET)
+    //    @RequestMapping(value = "banner", method = RequestMethod.GET)
     @GetMapping(value = "banner")
     public Object banner() {
         Map<String, Object> resultObj = new HashMap<String, Object>();
@@ -357,8 +345,7 @@ public class ApiIndexController extends ApiBaseAction {
         return toResponsSuccess(resultObj);
     }
     @ApiOperation(value = "channel")
-    @IgnoreAuth
-//    @RequestMapping(value = "channel", method = RequestMethod.GET)
+    //    @RequestMapping(value = "channel", method = RequestMethod.GET)
     @GetMapping(value = "channel")
     public Object channel() {
         Map<String, Object> resultObj = new HashMap<String, Object>();
@@ -387,7 +374,7 @@ public class ApiIndexController extends ApiBaseAction {
 
     @ApiOperation(value = "参与每日阅读计划")
     @PostMapping(value = "enterLearnClass")
-    public Object enterLearnClass(@LoginUser UserVo loginUser){
+    public Object enterLearnClass(UserVo loginUser){
         JSONObject jsonParams = getJsonRequest();
         String openid = loginUser.getWeixin_openid();
         //可以进行

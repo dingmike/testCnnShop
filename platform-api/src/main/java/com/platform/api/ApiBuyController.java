@@ -1,7 +1,6 @@
 package com.platform.api;
 
 import com.alibaba.fastjson.JSONObject;
-import com.platform.annotation.LoginUser;
 import com.platform.cache.J2CacheUtils;
 import com.platform.entity.BuyGoodsVo;
 import com.platform.entity.UserVo;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiBuyController extends ApiBaseAction {
     @ApiOperation(value = "商品添加")
     @RequestMapping("/add")
-    public Object addBuy(@LoginUser UserVo loginUser) {
+    public Object addBuy(UserVo loginUser) {
         JSONObject jsonParam = getJsonRequest();
         Integer goodsId = jsonParam.getInteger("goodsId");
         Integer productId = jsonParam.getInteger("productId");

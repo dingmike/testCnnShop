@@ -1,6 +1,5 @@
 package com.platform.api;
 
-import com.platform.annotation.IgnoreAuth;
 import com.platform.cache.RegionCacheUtil;
 import com.platform.entity.RegionVo;
 import com.platform.entity.SysRegionEntity;
@@ -24,7 +23,6 @@ public class ApiRegionController extends ApiBaseAction {
 
 
     @ApiOperation(value = "地区列表")
-    @IgnoreAuth
     @GetMapping("list")
 //    @RequestMapping("list")
     public Object list(Integer parentId) {
@@ -38,8 +36,7 @@ public class ApiRegionController extends ApiBaseAction {
         return toResponsSuccess(regionVoList);
     }
 
-    @IgnoreAuth
-//    @RequestMapping("provinceList")
+    //    @RequestMapping("provinceList")
     @GetMapping("provinceList")
     public Object provinceList() {
         List<SysRegionEntity> regionEntityList = RegionCacheUtil.getAllProvice();
@@ -52,8 +49,7 @@ public class ApiRegionController extends ApiBaseAction {
         return toResponsSuccess(regionVoList);
     }
 
-    @IgnoreAuth
-//    @RequestMapping("cityList")
+    //    @RequestMapping("cityList")
     @GetMapping("cityList")
     public Object provinceList(String proviceName) {
         List<SysRegionEntity> regionEntityList = RegionCacheUtil.getChildrenCity(proviceName);
@@ -66,8 +62,7 @@ public class ApiRegionController extends ApiBaseAction {
         return toResponsSuccess(regionVoList);
     }
 
-    @IgnoreAuth
-//    @RequestMapping("distinctList")
+    //    @RequestMapping("distinctList")
     @GetMapping("distinctList")
     public Object distinctList(String proviceName, String cityName) {
         List<SysRegionEntity> regionEntityList = RegionCacheUtil.getChildrenDistrict(proviceName, cityName);
@@ -80,16 +75,14 @@ public class ApiRegionController extends ApiBaseAction {
         return toResponsSuccess(regionVoList);
     }
 
-    @IgnoreAuth
-//    @RequestMapping("info")
+    //    @RequestMapping("info")
     @GetMapping("info")
     public Object info(Integer regionId) {
         SysRegionEntity regionEntity = RegionCacheUtil.getAreaByAreaId(regionId);
         return toResponsSuccess(new RegionVo(regionEntity));
     }
 
-    @IgnoreAuth
-//    @RequestMapping("regionIdsByNames")
+    //    @RequestMapping("regionIdsByNames")
     @GetMapping("regionIdsByNames")
     public Object regionIdsByNames(String provinceName, String cityName, String districtName) {
         Map<String, Integer> resultObj = new HashMap<String, Integer>();

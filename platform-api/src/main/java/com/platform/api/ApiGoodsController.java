@@ -3,8 +3,6 @@ package com.platform.api;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.qiniu.util.StringUtils;
-import com.platform.annotation.IgnoreAuth;
-import com.platform.annotation.LoginUser;
 import com.platform.entity.*;
 import com.platform.service.*;
 import com.platform.util.ApiBaseAction;
@@ -71,9 +69,8 @@ public class ApiGoodsController extends ApiBaseAction {
     /**
      */
     @ApiOperation(value = "商品首页")
-    @IgnoreAuth
     @RequestMapping(value = "index", method = RequestMethod.GET)
-    public Object index(@LoginUser UserVo loginUser) {
+    public Object index(UserVo loginUser) {
         //
         Map param = new HashMap();
         param.put("is_delete", 0);
@@ -88,9 +85,8 @@ public class ApiGoodsController extends ApiBaseAction {
      */
     @ApiOperation(value = " 获取商品规格信息")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "商品id", paramType = "path", required = true)})
-    @IgnoreAuth
     @RequestMapping(value = "sku", method = RequestMethod.GET)
-    public Object sku(@LoginUser UserVo loginUser, Integer id) {
+    public Object sku(UserVo loginUser, Integer id) {
         Map<String, Object> resultObj = new HashMap();
         //
         Map param = new HashMap();
@@ -274,10 +270,9 @@ public class ApiGoodsController extends ApiBaseAction {
      */
     @ApiOperation(value = " 获取分类下的商品")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "分类id", paramType = "path", required = true)})
-    @IgnoreAuth
     @GetMapping(value = "category")
 //    @RequestMapping(value = "category", method = RequestMethod.GET)
-    public Object category(@LoginUser UserVo loginUser, Integer id) {
+    public Object category(UserVo loginUser, Integer id) {
         Map<String, Object> resultObj = new HashMap();
         //
         CategoryVo currentCategory = categoryService.queryObject(id);
@@ -301,10 +296,9 @@ public class ApiGoodsController extends ApiBaseAction {
             @ApiImplicitParam(name = "brandId", value = "品牌Id", paramType = "path", required = true),
             @ApiImplicitParam(name = "isNew", value = "新商品", paramType = "path", required = true),
             @ApiImplicitParam(name = "isHot", value = "热卖商品", paramType = "path", required = true)})
-    @IgnoreAuth
     @GetMapping(value = "list")
 //    @RequestMapping(value = "list", method = RequestMethod.GET)
-    public Object list(@LoginUser UserVo loginUser, Integer categoryId,
+    public Object list(UserVo loginUser, Integer categoryId,
                        Integer brandId, String keyword, Integer isNew, Integer isHot,
                        @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "size", defaultValue = "10") Integer size,
                        String sort, String order) {
@@ -412,10 +406,9 @@ public class ApiGoodsController extends ApiBaseAction {
     /**
      * 　　商品列表筛选的分类列表
      */
-    @IgnoreAuth
     @GetMapping(value = "filter")
 //    @RequestMapping(value = "filter", method = RequestMethod.GET)
-    public Object filter(@LoginUser UserVo loginUser, Integer categoryId,
+    public Object filter(UserVo loginUser, Integer categoryId,
                          String keyword, Integer isNew, Integer isHot) {
         Map params = new HashMap();
         params.put("is_delete", 0);
@@ -471,10 +464,9 @@ public class ApiGoodsController extends ApiBaseAction {
     /**
      * 　　新品首发
      */
-    @IgnoreAuth
     @GetMapping(value = "new")
 //    @RequestMapping(value = "new", method = RequestMethod.GET)
-    public Object newAction(@LoginUser UserVo loginUser) {
+    public Object newAction(UserVo loginUser) {
         Map<String, Object> resultObj = new HashMap();
         Map bannerInfo = new HashMap();
         bannerInfo.put("url", "");
@@ -487,10 +479,9 @@ public class ApiGoodsController extends ApiBaseAction {
     /**
      * 　　人气推荐
      */
-    @IgnoreAuth
     @GetMapping(value = "hot")
 //    @RequestMapping(value = "hot", method = RequestMethod.GET)
-    public Object hot(@LoginUser UserVo loginUser) {
+    public Object hot(UserVo loginUser) {
         Map<String, Object> resultObj = new HashMap();
         Map bannerInfo = new HashMap();
         bannerInfo.put("url", "");
@@ -503,10 +494,9 @@ public class ApiGoodsController extends ApiBaseAction {
     /**
      * 　　商品详情页的大家都在看的商品
      */
-    @IgnoreAuth
     @GetMapping(value = "related")
 //    @RequestMapping(value = "related", method = RequestMethod.GET)
-    public Object related(@LoginUser UserVo loginUser, Integer id) {
+    public Object related(UserVo loginUser, Integer id) {
         Map<String, Object> resultObj = new HashMap();
         Map param = new HashMap();
         param.put("goods_id", id);
@@ -544,10 +534,9 @@ public class ApiGoodsController extends ApiBaseAction {
     /**
      * 　　在售的商品总数
      */
-    @IgnoreAuth
     @GetMapping(value = "count")
 //    @RequestMapping(value = "count", method = RequestMethod.GET)
-    public Object count(@LoginUser UserVo loginUser) {
+    public Object count(UserVo loginUser) {
         Map<String, Object> resultObj = new HashMap();
         Map param = new HashMap();
         param.put("is_delete", 0);
@@ -560,10 +549,9 @@ public class ApiGoodsController extends ApiBaseAction {
     /**
      * 　　获取商品列表
      */
-    @IgnoreAuth
     @GetMapping(value = "productlist")
 //    @RequestMapping(value = "productlist", method = RequestMethod.GET)
-    public Object productlist(@LoginUser UserVo loginUser, Integer categoryId,
+    public Object productlist(UserVo loginUser, Integer categoryId,
                               Integer isNew, Integer discount,
                               @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "size", defaultValue = "10") Integer size,
                               String sort, String order) {

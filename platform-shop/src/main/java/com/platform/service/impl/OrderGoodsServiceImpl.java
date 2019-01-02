@@ -20,7 +20,13 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
 	public OrderGoodsEntity queryObject(Integer id){
 		return orderGoodsDao.queryObject(id);
 	}
-	
+
+	@Override
+	public OrderGoodsEntity queryObjectByOrderId(Integer id){
+		return orderGoodsDao.queryObjectByOrderId(id);
+	}
+
+
 	@Override
 	public List<OrderGoodsEntity> queryList(Map<String, Object> map){
 		return orderGoodsDao.queryList(map);

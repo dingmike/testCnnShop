@@ -1,7 +1,6 @@
 package com.platform.api;
 
 import com.alibaba.fastjson.JSONObject;
-import com.platform.annotation.LoginUser;
 import com.platform.entity.CollectVo;
 import com.platform.entity.UserVo;
 import com.platform.service.ApiCollectService;
@@ -33,7 +32,7 @@ public class ApiCollectController extends ApiBaseAction {
      */
     @ApiOperation(value = "获取用户收藏")
     @RequestMapping("list")
-    public Object list(@LoginUser UserVo loginUser, Integer typeId) {
+    public Object list(UserVo loginUser, Integer typeId) {
 
         Map param = new HashMap();
         param.put("user_id", loginUser.getUserId());
@@ -51,7 +50,7 @@ public class ApiCollectController extends ApiBaseAction {
      */
     @ApiOperation(value = "添加取消收藏")
     @RequestMapping("addordelete")
-    public Object addordelete(@LoginUser UserVo loginUser) {
+    public Object addordelete(UserVo loginUser) {
         JSONObject jsonParam = getJsonRequest();
         Integer typeId = jsonParam.getInteger("typeId");
         Integer valueId = jsonParam.getInteger("valueId");

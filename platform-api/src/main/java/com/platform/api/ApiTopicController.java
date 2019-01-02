@@ -1,7 +1,5 @@
 package com.platform.api;
 
-import com.platform.annotation.IgnoreAuth;
-import com.platform.annotation.LoginUser;
 import com.platform.entity.TopicVo;
 import com.platform.entity.UserVo;
 import com.platform.service.ApiTopicService;
@@ -36,10 +34,9 @@ public class ApiTopicController extends ApiBaseAction {
      * 主题列表
      */
     @ApiOperation(value = "主题列表")
-    @IgnoreAuth
-//    @RequestMapping("list")
+    //    @RequestMapping("list")
     @GetMapping("list")
-    public Object list(@LoginUser UserVo loginUser, @RequestParam(value = "page", defaultValue = "1") Integer page,
+    public Object list(UserVo loginUser, @RequestParam(value = "page", defaultValue = "1") Integer page,
                        @RequestParam(value = "size", defaultValue = "10") Integer size) {
         Map param = new HashMap();
         param.put("page", page);
@@ -59,10 +56,9 @@ public class ApiTopicController extends ApiBaseAction {
      * 主题详情
      */
     @ApiOperation(value = "主题详情")
-    @IgnoreAuth
-//    @RequestMapping("detail")
+    //    @RequestMapping("detail")
     @GetMapping("detail")
-    public Object detail(@LoginUser UserVo loginUser, Integer id) {
+    public Object detail(UserVo loginUser, Integer id) {
         TopicVo topicEntity = topicService.queryObject(id);
         return toResponsSuccess(topicEntity);
     }
@@ -71,10 +67,9 @@ public class ApiTopicController extends ApiBaseAction {
      * 主题相关
      */
     @ApiOperation(value = "主题相关")
-    @IgnoreAuth
-//    @RequestMapping("related")
+    //    @RequestMapping("related")
     @GetMapping("related")
-    public Object related(@LoginUser UserVo loginUser, Integer id) {
+    public Object related(UserVo loginUser, Integer id) {
         Map param = new HashMap();
         param.put("limit", 4);
         List<TopicVo> topicEntities = topicService.queryList(param);

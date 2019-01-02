@@ -1,7 +1,5 @@
 package com.platform.api;
 
-import com.platform.annotation.IgnoreAuth;
-import com.platform.annotation.LoginUser;
 import com.platform.entity.UserVo;
 import com.platform.service.ApiUserService;
 import com.platform.utils.R;
@@ -28,14 +26,13 @@ public class ApiTestController {
      * 获取用户信息
      */
     @GetMapping("userInfo")
-    public R userInfo(@LoginUser UserVo user) {
+    public R userInfo(UserVo user) {
         return R.ok().put("user", user);
     }
 
     /**
      * 忽略Token验证测试
      */
-    @IgnoreAuth
     @GetMapping("notToken")
     public R notToken() {
         return R.ok().put("msg", "无需token也能访问。。。");
@@ -47,7 +44,6 @@ public class ApiTestController {
      * @param mobile
      * @return
      */
-    @IgnoreAuth
     @GetMapping("userListByMobile")
     public R userList(String mobile) {
         UserVo userEntity = userService.queryByMobile(mobile);

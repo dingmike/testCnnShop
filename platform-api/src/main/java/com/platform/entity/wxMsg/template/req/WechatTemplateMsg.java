@@ -1,7 +1,5 @@
 package com.platform.entity.wxMsg.template.req;
 
-import com.platform.annotation.NotRequire;
-
 import java.util.TreeMap;
 
 /**
@@ -16,7 +14,7 @@ public class WechatTemplateMsg {
 
 	private String template_id; //模板ID
 
-	@NotRequire//只是个标识
+	//只是个标识
 	private String url; //模板跳转链接
 
 	// "miniprogram":{ 未加入

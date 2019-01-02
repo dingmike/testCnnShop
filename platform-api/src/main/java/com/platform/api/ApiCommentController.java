@@ -3,8 +3,6 @@ package com.platform.api;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.platform.utils.StringUtils;
-import com.platform.annotation.IgnoreAuth;
-import com.platform.annotation.LoginUser;
 import com.platform.entity.*;
 import com.platform.service.*;
 import com.platform.util.ApiBaseAction;
@@ -47,7 +45,7 @@ public class ApiCommentController extends ApiBaseAction {
      */
     @ApiOperation(value = "发表评论")
     @RequestMapping("post")
-    public Object post(@LoginUser UserVo loginUser) {
+    public Object post(UserVo loginUser) {
         Map resultObj = new HashMap();
         //
         JSONObject jsonParam = getJsonRequest();
@@ -143,8 +141,7 @@ public class ApiCommentController extends ApiBaseAction {
      * @return
      */
     @ApiOperation(value = "选择评论类型")
-    @IgnoreAuth
-//    @RequestMapping("list")
+    //    @RequestMapping("list")
     @GetMapping("list")
     public Object list(Integer typeId, Integer valueId, Integer showType,
                        @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "size", defaultValue = "10") Integer size,

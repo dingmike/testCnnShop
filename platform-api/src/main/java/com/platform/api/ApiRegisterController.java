@@ -1,6 +1,5 @@
 package com.platform.api;
 
-import com.platform.annotation.IgnoreAuth;
 import com.platform.service.ApiUserService;
 import com.platform.utils.R;
 import com.platform.validator.Assert;
@@ -31,7 +30,6 @@ public class ApiRegisterController {
 
 //    @RequestMapping("register")
     @ApiOperation(value = "注册")
-    @IgnoreAuth
     @PostMapping("register")
     public R register(String mobile, String password) {
         Assert.isBlank(mobile, "手机号不能为空");

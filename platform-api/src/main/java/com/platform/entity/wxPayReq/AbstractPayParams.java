@@ -1,8 +1,6 @@
 package com.platform.entity.wxPayReq;
 
 
-import com.platform.annotation.NotRequire;
-
 import java.io.Serializable;
 
 /**
@@ -18,7 +16,6 @@ public abstract class AbstractPayParams implements Serializable{
 	private String mch_id; // 商户号
 	private String nonce_str; // 随机字符串
 	private String sign; // 签名
-	@NotRequire
 	private String sign_type; // 签名类型
 
 	public String getAppid() {

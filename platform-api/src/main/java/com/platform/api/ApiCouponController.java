@@ -1,7 +1,6 @@
 package com.platform.api;
 
 import com.alibaba.fastjson.JSONObject;
-import com.platform.annotation.LoginUser;
 import com.platform.cache.J2CacheUtils;
 import com.platform.entity.BuyGoodsVo;
 import com.platform.entity.*;
@@ -45,7 +44,7 @@ public class ApiCouponController extends ApiBaseAction {
     @ApiOperation(value = "获取优惠券列表")
 //    @RequestMapping("/list")
     @GetMapping("/list")
-    public Object list(@LoginUser UserVo loginUser) {
+    public Object list(UserVo loginUser) {
         Map param = new HashMap();
         param.put("user_id", loginUser.getUserId());
         List<CouponVo> couponVos = apiCouponService.queryUserCoupons(param);
@@ -58,7 +57,7 @@ public class ApiCouponController extends ApiBaseAction {
     @ApiOperation(value = "根据商品获取可用优惠券列表")
 //    @RequestMapping("/listByGoods")
     @GetMapping("/listByGoods")
-    public Object listByGoods(@RequestParam(defaultValue = "cart") String type, @LoginUser UserVo loginUser) {
+    public Object listByGoods(@RequestParam(defaultValue = "cart") String type, UserVo loginUser) {
         //  获取要购买的商品和总价
 //        ArrayList checkedGoodsList = new ArrayList();
         BigDecimal goodsTotalPrice = new BigDecimal(0.00);
@@ -106,7 +105,7 @@ public class ApiCouponController extends ApiBaseAction {
     @ApiOperation(value = "领券优惠券")
 //    @RequestMapping("exchange")
     @PostMapping("exchange")
-    public Object exchange(@LoginUser UserVo loginUser) {
+    public Object exchange(UserVo loginUser) {
         JSONObject jsonParam = getJsonRequest();
         String coupon_number = jsonParam.getString("coupon_number");
         if (StringUtils.isNullOrEmpty(coupon_number)) {
@@ -140,7 +139,7 @@ public class ApiCouponController extends ApiBaseAction {
     @ApiOperation(value = "领券优惠券")
 //    @RequestMapping("newuser")
     @PostMapping("newuser")
-    public Object newuser(@LoginUser UserVo loginUser) {
+    public Object newuser(UserVo loginUser) {
         JSONObject jsonParam = getJsonRequest();
         //
         String phone = jsonParam.getString("phone");
@@ -192,7 +191,7 @@ public class ApiCouponController extends ApiBaseAction {
     @ApiOperation(value = "转发领取红包")
 //    @RequestMapping("transActivit")
     @PostMapping("transActivit")
-    public Object transActivit(@LoginUser UserVo loginUser, String sourceKey, Long referrer) {
+    public Object transActivit(UserVo loginUser, String sourceKey, Long referrer) {
         JSONObject jsonParam = getJsonRequest();
         // 是否领取过了
         Map params = new HashMap();
