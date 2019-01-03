@@ -11,7 +11,7 @@
     <description>API接口模块</description>
     <properties>
     <!-- lib versions -->
-       <weixin-java-tools.version>3.1.0</weixin-java-tools.version>
+       <weixin-java-tools.version>3.3.0</weixin-java-tools.version>
         <google.zxing.version>3.3.2</google.zxing.version>
     </properties>
 
