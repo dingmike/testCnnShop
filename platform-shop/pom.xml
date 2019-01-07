@@ -10,7 +10,11 @@
     <packaging>war</packaging>
     <name>platform-shop Maven Webapp</name>
     <version>1.0.0</version>
-
+    <properties>
+        <!-- lib versions -->
+        <weixin-java-tools.version>3.3.0</weixin-java-tools.version>
+        <google.zxing.version>3.3.2</google.zxing.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>com.platform</groupId>
@@ -21,6 +25,22 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.5</version>
+        </dependency>
+        <!--https://github.com/DarLiner/weixin-java-tools 微信开发sdk-->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-miniapp</artifactId>
+            <version>${weixin-java-tools.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-mp</artifactId>
+            <version>${weixin-java-tools.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-pay</artifactId>
+            <version>${weixin-java-tools.version}</version>
         </dependency>
     </dependencies>
 

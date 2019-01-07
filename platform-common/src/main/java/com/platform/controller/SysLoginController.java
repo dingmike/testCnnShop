@@ -40,6 +40,7 @@ public class SysLoginController {
 
         //生成文字验证码
         String text = producer.createText();
+        System.out.println("yanzhengma:"+ text);
         //生成图片验证码
         BufferedImage image = producer.createImage(text);
         //保存到shiro session

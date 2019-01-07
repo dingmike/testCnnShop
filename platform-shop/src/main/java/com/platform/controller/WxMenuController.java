@@ -1,7 +1,6 @@
 package com.platform.controller;
 
-import com.platform.entity.SysSmsLogEntity;
-import com.platform.utils.*;
+import com.platform.utils.R;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.bean.menu.WxMenuButton;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -47,13 +46,6 @@ public class WxMenuController implements WxMpMenuService {
   @PostMapping("/create")
   public String menuCreate(@RequestBody WxMenu menu) throws WxErrorException {
     return this.wxService.getMenuService().menuCreate(menu);
-  }
-
-
-  @RequestMapping("/sendSms")
-  public R sendSms(HttpServletRequest request, @RequestParam Map<String, String> params) {
-    SysSmsLogEntity smsLog = new SysSmsLogEntity();
-    return R.ok().put("result", smsLog);
   }
 
   @GetMapping("/create")
