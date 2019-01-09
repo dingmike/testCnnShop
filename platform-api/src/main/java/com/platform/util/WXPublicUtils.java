@@ -1,5 +1,7 @@
-package com.platform.utils;
+package com.platform.util;
 
+
+import com.platform.utils.ResourceUtil;
 
 /**
  * Created by admin on 2019/1/7.

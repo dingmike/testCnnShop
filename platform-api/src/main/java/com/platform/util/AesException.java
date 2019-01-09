@@ -1,4 +1,4 @@
-package com.platform.utils;
+package com.platform.util;
 
 /**
  * 自定义异常
