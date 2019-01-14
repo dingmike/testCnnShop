@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    #parse("sys/header.html")
+</head>
+<body>
+<!--<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <Row :gutter="16">
+            <div class="search-group">
+                <i-col span="4">
+                    <i-input v-model="q.name" @on-enter="query" placeholder="名称"/>
+                </i-col>
+                <i-button @click="query">查询</i-button>
+            </div>
+            <div class="buttons-group">
+                #if($shiro.hasPermission("ad:save"))
+                <i-button type="info" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</i-button>
+                #end
+                #if($shiro.hasPermission("ad:update"))
+                <i-button type="warning" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</i-button>
+                #end
+                #if($shiro.hasPermission("ad:delete"))
+                <i-button type="error" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</i-button>
+                #end
+            </div>
+        </Row>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <Card v-show="!showList">
+        <p slot="title">{{title}}</p>
+        <i-form ref="formValidate" :model="ad" :rules="ruleValidate" :label-width="80">
+            <Form-item label="广告位置" prop="adPositionId">
+                <i-select v-model="ad.adPositionId" filterable>
+                    <i-option v-for="adPosition in adPositions" :value="adPosition.id" :key="adPosition.id">{{adPosition.name}}</i-option>
+                </i-select>
+            </Form-item>
+            <Form-item label="形式" prop="mediaType">
+                <Radio-group v-model="ad.mediaType">
+                    <Radio label="0">
+                        <span>0</span>
+                    </Radio>
+                    <Radio label="1">
+                        <span>1</span>
+                    </Radio>
+                    <Radio label="2">
+                        <span>2</span>
+                    </Radio>
+                    <Radio label="3">
+                        <span>3</span>
+                    </Radio>
+                </Radio-group>
+            </Form-item>
+            <Form-item label="广告名称" prop="name">
+                <i-input v-model="ad.name" placeholder="广告名称"/>
+            </Form-item>
+            <Form-item label="链接" prop="link">
+                <i-input v-model="ad.link" placeholder="链接"/>
+            </Form-item>
+            <Row>
+                <i-col span="16">
+                    <Form-item label="图片" prop="imageUrl">
+                        <i-input v-model="ad.imageUrl" placeholder="图片" readonly/>
+                    </Form-item>
+                </i-col>
+                <i-col span="3">
+                    <Form-item :label-width="1">
+                        <Upload style="width: 300px;" action="../sys/oss/upload" :format="['jpg','jpeg','png']"
+                                max-size="2048"
+                                :on-success="handleSuccess" :on-format-error="handleFormatError"
+                                :show-upload-list="false"
+                                :on-exceeded-size="handleMaxSize">
+                            <i-button icon="ios-cloud-upload-outline">上传图片</i-button>
+                        </Upload>
+                    </Form-item>
+                </i-col>
+                <i-col span="3">
+                    <Form-item :label-width="1">
+                        <i-button icon="eye" @click="eyeImage">预览图片</i-button>
+                    </Form-item>
+                </i-col>
+            </Row>
+            <Form-item label="内容" prop="content">
+                <i-input type="textarea" v-model="ad.content" placeholder="内容"/>
+            </Form-item>
+            <Form-item label="结束时间" prop="endTime">
+                <Date-picker v-model="ad.endTime" placeholder="结束时间"></Date-picker>
+            </Form-item>
+            <Form-item label="状态" prop="enabled">
+                <Radio-group v-model="ad.enabled">
+                    <Radio label="0">
+                        <span>禁用</span>
+                    </Radio>
+                    <Radio label="1">
+                        <span>启用</span>
+                    </Radio>
+                </Radio-group>
+            </Form-item>
+            <Form-item>
+                <i-button type="primary" @click="handleSubmit('formValidate')">提交</i-button>
+                <i-button type="warning" @click="reload" style="margin-left: 8px"/>
+                返回</i-button>
+                <i-button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">重置</i-button>
+            </Form-item>
+        </i-form>
+    </Card>
+</div>-->
+
+
+<div id="rrapp" v-cloak>
+    <el-row class="header navbar bg-white shadow">
+        <div class="btn-group tool-button mt5">
+            <span>微信公众号：</span>
+            <el-select size="medium" v-model="pageForm.wxid" placeholder="请选择" @change="change">
+                <el-option
+                        v-for="item in wxConfigs"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                </el-option>
+            </el-select>
+        </div>
+        <div class="btn-group tool-button mt5">
+            <el-button size="medium" @click="openAdd">
+                <i class="ti-plus"></i>
+                新建菜单
+            </el-button>
+        </div>
+        <div class="pull-right offscreen-right mt5">
+            <el-button size="medium" @click="pushMenu">
+                <i class="el-icon-upload"></i>
+                推送菜单
+            </el-button>
+            <el-button size="medium" @click="openSort">
+                排序
+            </el-button>
+        </div>
+    </el-row>
+    <el-row class="el-table-container">
+        <el-table :data="treeData" style="width: 100%" :row-style="treeTableShowTr" size="small"
+                  :highlight-current-row="true">
+            <el-table-column label="菜单名称" header-align="center" prop="name"
+                             width="200" :show-overflow-tooltip="true" align="left">
+                <template slot-scope="scope">
+                    <span v-for="(space, levelIndex) in treeTablePath(scope.row.path)" class="ms-tree-space"></span>
+                    <span v-if="treeTableIconShow(scope.row)" @click="treeTableChild(scope.row.id)"
+                          style="cursor: pointer">
+                        <span v-if="!scope.row.expanded"
+                              class="el-tree-node__expand-icon el-icon-caret-right" title="展开"></span>
+
+                        <span v-if="scope.row.expanded"
+                              class="el-tree-node__expand-icon el-icon-caret-right expanded" title="关闭"></span>
+                        {{ scope.row.menuName }}
+                    </span>
+                    <span v-if="!treeTableIconShow(scope.row)">
+                        <span class="ms-tree-space"></span>
+                        {{ scope.row.menuName }}
+                    </span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="菜单类型" header-align="center" align="center" prop="menuType"
+                             :show-overflow-tooltip="true" width="120">
+                <template slot-scope="scope">
+                    <span v-if="scope.row.menuType==''">菜单</span>
+                    <span v-if="scope.row.menuType=='view'">链接</span>
+                    <span v-if="scope.row.menuType=='click'">点击事件</span>
+                    <span v-if="scope.row.menuType=='miniprogram'">小程序</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="配置内容" header-align="left"
+                             :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                    <span v-if="scope.row.menuType==''">-</span>
+                    <span v-if="scope.row.menuType=='view'">{{scope.row.url}}</span>
+                    <span v-if="scope.row.menuType=='click'">绑定关键词: {{scope.row.menuKey}}</span>
+                    <span v-if="scope.row.menuType=='miniprogram'">小程序appid: {{scope.row.appid}}</span>
+                </template>
+            </el-table-column>
+
+
+            <el-table-column label="操作" header-align="center"
+                             :show-overflow-tooltip="true" align="center" width="120">
+                <template slot-scope="scope">
+                    <el-dropdown @command="dropdownCommand">
+                        <el-button size="mini">
+                            <i class="ti-settings"></i>
+                            <span class="ti-angle-down"></span>
+                        </el-button>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item
+                                    :command="{type:'add',id:scope.row.id,name:scope.row.menuName}">
+                                添加子菜单
+                            </el-dropdown-item>
+                            <el-dropdown-item divided
+                                              :command="{type:'edit',id:scope.row.id,name:scope.row.menuName}">
+                                修改
+                            </el-dropdown-item>
+                            <el-dropdown-item :command="{type:'delete',id:scope.row.id,name:scope.row.menuName}">
+                                删除
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </template>
+            </el-table-column>
+        </el-table>
+
+    </el-row>
+
+    <el-dialog
+            title="新建菜单"
+            :visible.sync="addDialogVisible"
+            width="50%">
+        <el-form :model="formData" ref="addForm" :rules="formRules" size="small" label-width="80px">
+            <el-form-item prop="parentId" label="上级菜单" label-width="80px">
+                <el-cascader v-if="!isAddFromSub"
+                             style="width: 100%"
+                             tabindex="1"
+                             :options="menuOptions"
+                             :show-all-levels="false"
+                             v-model="parentMenu"
+                             :fetch-suggestions="menuQuery"
+                             @active-item-change="menuChange"
+                             @change="menuChange2"
+                             @select="menuSelect"
+                             placeholder="不选择则为顶级"
+                ></el-cascader>
+                <el-input v-if="isAddFromSub" type="text" v-model="formData.parentName" :disabled="true"></el-input>
+            </el-form-item>
+            <el-form-item prop="menuName" label="菜单名称">
+                <el-input maxlength="100" placeholder="菜单名称"
+                          v-model="formData.menuName"
+                          auto-complete="off" tabindex="1" type="text"></el-input>
+                <el-alert style="height: 30px;margin-top: 3px;"
+                          title="一级菜单最多4个汉字，二级菜单最多7个汉字，多出来的部分将会以“...”代替"
+                          type="warning">
+                </el-alert>
+                <el-alert style="height: 30px;margin-top: 3px;"
+                          title="只可设置3个一级菜单，只可设置5个二级菜单"
+                          type="warning">
+                </el-alert>
+            </el-form-item>
+            <el-form-item class="is-required" prop="menuType" label="菜单类型">
+                <el-radio-group v-model="formData.menuType" size="medium">
+                    <el-radio label="">菜单</el-radio>
+                    <el-radio label="view">链接</el-radio>
+                    <el-radio label="click">点击事件</el-radio>
+                    <el-radio label="miniprogram">小程序</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item v-if="formData.menuType=='view'">
+
+                <el-autocomplete
+                        style="width: 250px;"
+                        :fetch-suggestions="queryChannel"
+                        placeholder="请输入标题"
+                        @select="handleChannelSelect"
+                >
+                    <span slot="prepend">搜索栏目</span>
+                </el-autocomplete>
+                <el-autocomplete
+                        style="width: 250px;"
+                        :fetch-suggestions="queryArticle"
+                        placeholder="请输入标题"
+                        @select="handleArticleSelect"
+                >
+                    <span slot="prepend">搜索文章</span>
+                </el-autocomplete>
+            </el-form-item>
+            <el-form-item class="is-required" v-if="formData.menuType=='view'" prop="url" label="跳转链接">
+                <el-input placeholder="网址"
+                          v-model="formData.url"
+                          auto-complete="off" tabindex="3" type="text"></el-input>
+                <el-checkbox v-model="checked1" @change="checkedChange1">网页oauth2.0</el-checkbox>
+                <el-checkbox v-model="checked2" @change="checkedChange2">应用oauth2.0</el-checkbox>
+            </el-form-item>
+            <el-form-item class="is-required" v-if="formData.menuType=='miniprogram'" prop="url" label="url">
+                <el-input placeholder="小程序URL"
+                          v-model="formData.url"
+                          auto-complete="off" tabindex="3" type="text"></el-input>
+            </el-form-item>
+            <el-form-item class="is-required" v-if="formData.menuType=='miniprogram'" prop="appid" label="appid">
+                <el-input placeholder="小程序appid"
+                          v-model="formData.appid"
+                          auto-complete="off" tabindex="4" type="text"></el-input>
+            </el-form-item>
+            <el-form-item class="is-required" v-if="formData.menuType=='miniprogram'" prop="pagepath" label="pagepath">
+                <el-input placeholder="小程序的页面路径"
+                          v-model="formData.pagepath"
+                          auto-complete="off" tabindex="5" type="text"></el-input>
+            </el-form-item>
+            <el-form-item v-if="formData.menuType=='click'" class="is-required" label="绑定事件" prop="menuKey">
+                <el-select v-model="formData.menuKey" placeholder="请选择关键词回复">
+                    <el-option
+                            v-for="item in keyList"
+                            :key="item.id"
+                            :label="item.value"
+                            :value="item.id">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="addDialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="doAdd">确 定</el-button>
+        </span>
+    </el-dialog>
+
+    <el-dialog
+            title="修改菜单"
+            :visible.sync="editDialogVisible"
+            width="50%">
+        <el-form :model="formData" ref="editForm" :rules="formRules" size="small" label-width="80px">
+            <el-form-item prop="parentId" label="上级菜单" label-width="80px">
+                <el-cascader v-if="!isAddFromSub"
+                             style="width: 100%"
+                             tabindex="1"
+                             :options="menuOptions"
+                             :show-all-levels="false"
+                             v-model="parentMenu"
+                             :fetch-suggestions="menuQuery"
+                             @active-item-change="menuChange"
+                             @change="menuChange2"
+                             @select="menuSelect"
+                             placeholder="不选择则为顶级"
+                ></el-cascader>
+                <el-input v-if="isAddFromSub" type="text" v-model="formData.parentName" :disabled="true"></el-input>
+            </el-form-item>
+            <el-form-item prop="menuName" label="菜单名称">
+                <el-input maxlength="100" placeholder="菜单名称"
+                          v-model="formData.menuName"
+                          auto-complete="off" tabindex="1" type="text"></el-input>
+                <el-alert style="height: 30px;margin-top: 3px;"
+                          title="一级菜单最多4个汉字，二级菜单最多7个汉字，多出来的部分将会以“...”代替"
+                          type="warning">
+                </el-alert>
+                <el-alert style="height: 30px;margin-top: 3px;"
+                          title="只可设置3个一级菜单，只可设置5个二级菜单"
+                          type="warning">
+                </el-alert>
+            </el-form-item>
+            <el-form-item class="is-required" prop="menuType" label="菜单类型">
+                <el-radio-group v-model="formData.menuType" size="medium">
+                    <el-radio label="">菜单</el-radio>
+                    <el-radio label="view">链接</el-radio>
+                    <el-radio label="click">点击事件</el-radio>
+                    <el-radio label="miniprogram">小程序</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item v-if="formData.menuType=='view'">
+
+                <el-autocomplete
+                        style="width: 250px;"
+                        :fetch-suggestions="queryChannel"
+                        placeholder="请输入标题"
+                        @select="handleChannelSelect"
+                >
+                    <span slot="prepend">搜索栏目</span>
+                </el-autocomplete>
+                <el-autocomplete
+                        style="width: 250px;"
+                        :fetch-suggestions="queryArticle"
+                        placeholder="请输入标题"
+                        @select="handleArticleSelect"
+                >
+                    <span slot="prepend">搜索文章</span>
+                </el-autocomplete>
+            </el-form-item>
+            <el-form-item class="is-required" v-if="formData.menuType=='view'" prop="url" label="跳转链接">
+                <el-input placeholder="网址"
+                          v-model="formData.url"
+                          auto-complete="off" tabindex="3" type="text"></el-input>
+                <el-checkbox v-model="checked1" @change="checkedChange1">网页oauth2.0</el-checkbox>
+                <el-checkbox v-model="checked2" @change="checkedChange2">应用oauth2.0</el-checkbox>
+            </el-form-item>
+            <el-form-item class="is-required" v-if="formData.menuType=='miniprogram'" prop="url" label="url">
+                <el-input placeholder="小程序URL"
+                          v-model="formData.url"
+                          auto-complete="off" tabindex="3" type="text"></el-input>
+            </el-form-item>
+            <el-form-item class="is-required" v-if="formData.menuType=='miniprogram'" prop="appid" label="appid">
+                <el-input placeholder="小程序appid"
+                          v-model="formData.appid"
+                          auto-complete="off" tabindex="4" type="text"></el-input>
+            </el-form-item>
+            <el-form-item class="is-required" v-if="formData.menuType=='miniprogram'" prop="pagepath" label="pagepath">
+                <el-input placeholder="小程序的页面路径"
+                          v-model="formData.pagepath"
+                          auto-complete="off" tabindex="5" type="text"></el-input>
+            </el-form-item>
+            <el-form-item v-if="formData.menuType=='click'" class="is-required" label="绑定事件" prop="menuKey">
+                <el-select v-model="formData.menuKey" placeholder="请选择关键词回复">
+                    <el-option
+                            v-for="item in keyList"
+                            :key="item.id"
+                            :label="item.value"
+                            :value="item.id">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="editDialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="doEdit">确 定</el-button>
+        </span>
+    </el-dialog>
+
+    <el-dialog
+            title="菜单排序"
+            :visible.sync="sortDialogVisible"
+            width="50%">
+        <el-tree
+                ref="sortMenuTree"
+                :data="sortMenuData"
+                draggable
+                :allow-drop="sortAllowDrop"
+                node-key="id"
+                :props="defaultProps"
+        >
+            <span class="custom-tree-node" slot-scope="scope">
+                <span>{{ scope.node.label }}</span>
+            </span>
+        </el-tree>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="sortDialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="doSort">确 定</el-button>
+        </span>
+    </el-dialog>
+</div>
+
+
+<script src="${rc.contextPath}/js/shop/wxmenu.js?_${date.systemTime}"></script>
+</body>
+</html>
