@@ -1,4 +1,4 @@
-/*$(function () {
+$(function () {
     $("#jqGrid").Grid({
         url: '../ad/list',
         colModel: [
@@ -26,7 +26,7 @@
             }
             }]
     });
-});*/
+});
 
 
 
@@ -147,22 +147,46 @@ var vm = new Vue({
         // 展开下级
         treeTableChild: function (pid) {
             var self = this;
-            var url = "../platform/wx/conf/menu/child";
+            var url = "../wxmenu/child";
             $.post(url, {pid: pid}, function (data) {
                 if (data.code == 0) {
+                    debugger
                     if (pid != undefined && pid != "") {
                         self.treeDataChildren(self.tableData, data.data, pid);
                     } else {
                         self.tableData = data.data;
                     }
-                    self.treeData = sublime.treeToArray(self.tableData);
+                    self.treeData = self.treeToArray(self.tableData);
                 }
             }, "json");
 
         },
+        treeToArray: function (data, parent, level, expandedAll) {
+            var tmp = [];
+            var self = this;
+            Array.from(data).forEach(function (record) {
+                if (record._expanded === undefined) {
+                    Vue.set(record, '_expanded', expandedAll);
+                }
+                if (parent) {
+                    Vue.set(record, '_parent', parent);
+                }
+                var _level = 0;
+                if (level !== undefined && level !== null) {
+                    _level = level + 1;
+                }
+                Vue.set(record, '_level', _level);
+                tmp.push(record);
+                if (record.children && record.children.length > 0) {
+                    var children = self.treeToArray(record.children, record, _level, expandedAll);
+                    tmp = tmp.concat(children);
+                }
+            });
+            return tmp;
+        },
         // 点击展开和关闭的时候，图标的切换
         treeTableIconShow: function (record) {
-            return record.hasChildren;
+            return record.haschildren;
         },
         formatAt: function (val) {
             if (val > 0)

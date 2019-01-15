@@ -1,184 +1,169 @@
 package com.platform.controller;
 
-import com.platform.utils.R;
-import me.chanjar.weixin.common.bean.menu.WxMenu;
-import me.chanjar.weixin.common.bean.menu.WxMenuButton;
-import me.chanjar.weixin.common.error.WxErrorException;
-import me.chanjar.weixin.mp.api.WxMpMenuService;
-import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.menu.WxMpGetSelfMenuInfoResult;
-import me.chanjar.weixin.mp.bean.menu.WxMpMenu;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+        import java.util.ArrayList;
+        import java.util.List;
+        import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+        import com.platform.utils.MapUtils;
+        import org.apache.shiro.authz.annotation.RequiresPermissions;
+        import org.springframework.beans.factory.annotation.Autowired;
+        import org.springframework.web.bind.annotation.PathVariable;
+        import org.springframework.web.bind.annotation.RequestBody;
+        import org.springframework.web.bind.annotation.RequestMapping;
+        import org.springframework.web.bind.annotation.RequestParam;
+        import org.springframework.web.bind.annotation.RestController;
 
-import static me.chanjar.weixin.common.api.WxConsts.MenuButtonType;
-
+        import com.platform.entity.WxMenuEntity;
+        import com.platform.service.WxMenuService;
+        import com.platform.utils.PageUtils;
+        import com.platform.utils.Query;
+        import com.platform.utils.R;
+        import org.apache.commons.lang.StringUtils;
 /**
- * <pre>
- *  注意：此contorller 实现WxMpMenuService接口，仅是为了演示如何调用所有菜单相关操作接口，
- *      实际项目中无需这样，根据自己需要添加对应接口即可
- * </pre>
+ * Controller
  *
- * @author Binary Wang(https://github.com/binarywang)
+ * @author admin
+ * @email 2252277509@qq.com
+ * @date 2019-01-15 15:06:35
  */
 @RestController
-@RequestMapping("wechat/menu")
-public class WxMenuController implements WxMpMenuService {
+@RequestMapping("wxmenu")
+public class WxMenuController {
+    @Autowired
+    private WxMenuService wxMenuService;
 
-  @Autowired
-  private WxMpService wxService;
 
-  /**
-   * <pre>
-   * 自定义菜单创建接口
-   * 详情请见：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141013&token=&lang=zh_CN
-   * 如果要创建个性化菜单，请设置matchrule属性
-   * 详情请见：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1455782296&token=&lang=zh_CN
-   * </pre>
-   *
-   * @param menu 菜单
-   * @return 如果是个性化菜单，则返回menuid，否则返回null
-   */
-  @Override
-  @PostMapping("/create")
-  public String menuCreate(@RequestBody WxMenu menu) throws WxErrorException {
-    return this.wxService.getMenuService().menuCreate(menu);
-  }
 
-  @GetMapping("/create")
-  public String menuCreateSample() throws WxErrorException {
-    WxMenu menu = new WxMenu();
-    WxMenuButton button1 = new WxMenuButton();
-    button1.setType(MenuButtonType.CLICK);
-    button1.setName("今日歌曲");
-    button1.setKey("V1001_TODAY_MUSIC");
+    @RequestMapping("/child")
+    @RequiresPermissions("wxmenu:list")
+    public R child(@RequestParam Map<String, Object> params) {
+        //查询列表数据
+//        Query query = new Query(params);
+//
+//        List<WxMenuEntity> wxMenuList = wxMenuService.queryList(query);
+//        int total = wxMenuService.queryTotal(query);
+//
+//        PageUtils pageUtil = new PageUtils(wxMenuList, total, query.getLimit(), query.getPage());
+//
+//        return R.ok().put("page", pageUtil);
+        List<WxMenuEntity> list = new ArrayList<>();
+        List<Map> treeList = new ArrayList<>();
 
-//        WxMenuButton button2 = new WxMenuButton();
-//        button2.setType(WxConsts.BUTTON_MINIPROGRAM);
-//        button2.setName("小程序");
-//        button2.setAppId("wx286b93c14bbf93aa");
-//        button2.setPagePath("pages/lunar/index.html");
-//        button2.setUrl("http://mp.weixin.qq.com");
+//        if(params.get("pid")!=null)
 
-    WxMenuButton button3 = new WxMenuButton();
-    button3.setName("菜单");
+//        String pid = params.get("pid");
+        System.out.println(params);
+//        if(StringUtils.isBlank(params.get("pid"))){
+//            wxMenuService
+//            return
+//        }
+        List<WxMenuEntity> menulist = wxMenuService.queryListByParentId(params);
 
-    menu.getButtons().add(button1);
-//        menu.getButtons().add(button2);
-    menu.getButtons().add(button3);
 
-    WxMenuButton button31 = new WxMenuButton();
-    button31.setType(MenuButtonType.VIEW);
-    button31.setName("搜索");
-    button31.setUrl("http://www.soso.com/");
+        for (WxMenuEntity menu : menulist) {
+            if (wxMenuService.queryCountByPid(menu.getParentid()) > 0) {
+                menu.setHaschildren(1);
+            }
+            Map map = MapUtils.beanToMap(menu);
+//            NutMap map = Lang.obj2nutmap(menu);
+            map.put("expanded", false);
+            map.put("children", new ArrayList<>());
+            treeList.add(map);
+        }
+        return R.ok().put("data", treeList);
+        /*List<WxMenuEntity> list = new ArrayList<>();
+        List<Map> treeList = new ArrayList<>();
+        Cnd cnd = Cnd.NEW();
+        if (Strings.isBlank(pid)) {
+            cnd.and(Cnd.exps("parentId", "=", "").or("parentId", "is", null));
+        } else {
+            cnd.and("parentId", "=", pid);
+        }
+        cnd.asc("location").asc("path");
+        list = wxMenuService.query(cnd);
+        for (Wx_menu menu : list) {
+            if (wxMenuService.count(Cnd.where("parentId", "=", menu.getId())) > 0) {
+                menu.setHasChildren(true);
+            }
+            NutMap map = Lang.obj2nutmap(menu);
+            map.addv("expanded", false);
+            map.addv("children", new ArrayList<>());
+            treeList.add(map);
+        }
+        return Result.success().addData(treeList);*/
 
-    WxMenuButton button32 = new WxMenuButton();
-    button32.setType(MenuButtonType.VIEW);
-    button32.setName("视频");
-    button32.setUrl("http://v.qq.com/");
+    }
 
-    WxMenuButton button33 = new WxMenuButton();
-    button33.setType(MenuButtonType.CLICK);
-    button33.setName("赞一下我们");
-    button33.setKey("V1001_GOOD");
 
-    button3.getSubButtons().add(button31);
-    button3.getSubButtons().add(button32);
-    button3.getSubButtons().add(button33);
+    /**
+     * 查看列表
+     */
+    @RequestMapping("/list")
+    @RequiresPermissions("wxmenu:list")
+    public R list(@RequestParam Map<String, Object> params) {
+        //查询列表数据
+        Query query = new Query(params);
 
-    return this.wxService.getMenuService().menuCreate(menu);
-  }
+        List<WxMenuEntity> wxMenuList = wxMenuService.queryList(query);
+        int total = wxMenuService.queryTotal(query);
 
-  /**
-   * <pre>
-   * 自定义菜单创建接口
-   * 详情请见： https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141013&token=&lang=zh_CN
-   * 如果要创建个性化菜单，请设置matchrule属性
-   * 详情请见：https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1455782296&token=&lang=zh_CN
-   * </pre>
-   *
-   * @param json 菜单json字符串
-   * @return 如果是个性化菜单，则返回menuid，否则返回null
-   */
-  @Override
-  @PostMapping("/createByJson")
-  public String menuCreate(@RequestBody String json) throws WxErrorException {
-    return this.wxService.getMenuService().menuCreate(json);
-  }
+        PageUtils pageUtil = new PageUtils(wxMenuList, total, query.getLimit(), query.getPage());
 
-  /**
-   * <pre>
-   * 自定义菜单删除接口
-   * 详情请见: https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141015&token=&lang=zh_CN
-   * </pre>
-   */
-  @Override
-  @GetMapping("/delete")
-  public void menuDelete() throws WxErrorException {
-    this.wxService.getMenuService().menuDelete();
-  }
+        return R.ok().put("page", pageUtil);
+    }
 
-  /**
-   * <pre>
-   * 删除个性化菜单接口
-   * 详情请见: https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1455782296&token=&lang=zh_CN
-   * </pre>
-   *
-   * @param menuId 个性化菜单的menuid
-   */
-  @Override
-  @GetMapping("/delete/{menuId}")
-  public void menuDelete(@PathVariable String menuId) throws WxErrorException {
-    this.wxService.getMenuService().menuDelete(menuId);
-  }
+    /**
+     * 查看信息
+     */
+    @RequestMapping("/info/{id}")
+    @RequiresPermissions("wxmenu:info")
+    public R info(@PathVariable("id") String id) {
+            WxMenuEntity wxMenu = wxMenuService.queryObject(id);
 
-  /**
-   * <pre>
-   * 自定义菜单查询接口
-   * 详情请见： https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141014&token=&lang=zh_CN
-   * </pre>
-   */
-  @Override
-  @GetMapping("/get")
-  public WxMpMenu menuGet() throws WxErrorException {
-    return this.wxService.getMenuService().menuGet();
-  }
+        return R.ok().put("wxMenu", wxMenu);
+    }
 
-  /**
-   * <pre>
-   * 测试个性化菜单匹配结果
-   * 详情请见: http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
-   * </pre>
-   *
-   * @param userid 可以是粉丝的OpenID，也可以是粉丝的微信号。
-   */
-  @Override
-  @GetMapping("/menuTryMatch/{userid}")
-  public WxMenu menuTryMatch(@PathVariable String userid) throws WxErrorException {
-    return this.wxService.getMenuService().menuTryMatch(userid);
-  }
+    /**
+     * 保存
+     */
+    @RequestMapping("/save")
+    @RequiresPermissions("wxmenu:save")
+    public R save(@RequestBody WxMenuEntity wxMenu) {
+            wxMenuService.save(wxMenu);
 
-  /**
-   * <pre>
-   * 获取自定义菜单配置接口
-   * 本接口将会提供公众号当前使用的自定义菜单的配置，如果公众号是通过API调用设置的菜单，则返回菜单的开发配置，而如果公众号是在公众平台官网通过网站功能发布菜单，则本接口返回运营者设置的菜单配置。
-   * 请注意：
-   * 1、第三方平台开发者可以通过本接口，在旗下公众号将业务授权给你后，立即通过本接口检测公众号的自定义菜单配置，并通过接口再次给公众号设置好自动回复规则，以提升公众号运营者的业务体验。
-   * 2、本接口与自定义菜单查询接口的不同之处在于，本接口无论公众号的接口是如何设置的，都能查询到接口，而自定义菜单查询接口则仅能查询到使用API设置的菜单配置。
-   * 3、认证/未认证的服务号/订阅号，以及接口测试号，均拥有该接口权限。
-   * 4、从第三方平台的公众号登录授权机制上来说，该接口从属于消息与菜单权限集。
-   * 5、本接口中返回的图片/语音/视频为临时素材（临时素材每次获取都不同，3天内有效，通过素材管理-获取临时素材接口来获取这些素材），本接口返回的图文消息为永久素材素材（通过素材管理-获取永久素材接口来获取这些素材）。
-   *  接口调用请求说明:
-   * http请求方式: GET（请使用https协议）
-   * https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info?access_token=ACCESS_TOKEN
-   * </pre>
-   */
-  @Override
-  @GetMapping("/getSelfMenuInfo")
-  public WxMpGetSelfMenuInfoResult getSelfMenuInfo() throws WxErrorException {
-    return this.wxService.getMenuService().getSelfMenuInfo();
-  }
+        return R.ok();
+    }
+
+    /**
+     * 修改
+     */
+    @RequestMapping("/update")
+    @RequiresPermissions("wxmenu:update")
+    public R update(@RequestBody WxMenuEntity wxMenu) {
+            wxMenuService.update(wxMenu);
+
+        return R.ok();
+    }
+
+    /**
+     * 删除
+     */
+    @RequestMapping("/delete")
+    @RequiresPermissions("wxmenu:delete")
+    public R delete(@RequestBody String[] ids) {
+            wxMenuService.deleteBatch(ids);
+
+        return R.ok();
+    }
+
+    /**
+     * 查看所有列表
+     */
+    @RequestMapping("/queryAll")
+    public R queryAll(@RequestParam Map<String, Object> params) {
+
+        List<WxMenuEntity> list = wxMenuService.queryList(params);
+
+        return R.ok().put("list", list);
+    }
 }
