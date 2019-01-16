@@ -134,15 +134,18 @@ var vm = new Vue({
             return show ? '' : 'display:none;'
         },
         treeDataChildren: function (table, data, pid) {//树形数据的级联查找很是头疼
+            debugger
             var self = this;
             table.findIndex(function (obj) {
                 if (pid == obj.id) {//找到这条数据追加下级数据
-                    obj.children = data;
+                    obj.children = JSON.stringify(data);
                     obj.expanded = !obj.expanded;
                 } else if (obj.children && obj.children.length > 0) {
                     self.treeDataChildren(obj.children, data, pid);
                 }
             });
+            console.log('table:')
+            console.log(table)
         },
         // 展开下级
         treeTableChild: function (pid) {
@@ -155,16 +158,94 @@ var vm = new Vue({
                         self.treeDataChildren(self.tableData, data.data, pid);
                     } else {
                         self.tableData = data.data;
+
                     }
                     self.treeData = self.treeToArray(self.tableData);
+                    var data2 = {
+                        "code": 0,
+                        "data": [{
+
+                            "opAt": 1542878094,
+                            "menuName": "一级菜单1",
+                            "menuType": "",
+                            "wxid": "demo",
+                            "opBy": 1,
+                            "parentId": "",
+                            "url": null,
+                            "path": "001",
+                            "expanded": false,
+                            "children": [],
+                            "location": 1,
+                            "id": "524ef5c3ad794a1891ad7b3eac21c5c1",
+                            "delFlag": 0,
+                            "hasChildren": 1
+                        }, {
+                            "opAt": 1542878094,
+                            "menuName": "一级菜单2",
+                            "menuType": "",
+                            "wxid": "demo",
+                            "opBy": 1,
+                            "parentId": "",
+                            "url": null,
+                            "path": "0002",
+                            "expanded": false,
+                            "children": [],
+                            "location": 2,
+                            "id": "5f9baa83de5249e6a2161a777c0ff2b7",
+                            "delFlag": 0,
+                            "hasChildren": 0
+                        }]
+                    }
+                    var datanow = {
+                        "code": 0,
+                        "msg": "操作成功",
+                        "data": [{
+                            "id": "524ef5c3ad794a1891ad7b3eac21c5c1",
+                            "parentId": "",
+                            "path": "0001",
+                            "menuName": "一级菜单1",
+                            "menuType": "",
+                            "url": null,
+                            "location": 1,
+                            "hasChildren": 1,
+                            "wxid": "demo",
+                            "opBy": "d2e9784edbe24804a5539dbbbe21938a",
+                            "opAt": 1542878094,
+                            "delFlag": 0,
+                            "expanded": false,
+                            "children": []
+                        }, {
+                            "id": "5f9baa83de5249e6a2161a777c0ff2b7",
+                            "parentId": "",
+                            "path": "0002",
+                            "menuName": "一级菜单2",
+                            "menuType": "",
+                            "url": null,
+                            "location": 2,
+                            "hasChildren": 0,
+                            "wxid": "demo",
+                            "opBy": "d2e9784edbe24804a5539dbbbe21938a",
+                            "opAt": 1542878101,
+                            "delFlag": false,
+                            "expanded": false,
+                            "children": []
+                        }]
+                    }
+                    // self.treeData = datanow.data;
+                    // self.treeData = self.treeToArray(data2.data);
+
+                    // console.log(Array.from(self.treeData))
                 }
-            }, "json");
+            });
 
         },
         treeToArray: function (data, parent, level, expandedAll) {
             var tmp = [];
             var self = this;
+            console.log('-----------')
+            console.log(Array.from(data))
             Array.from(data).forEach(function (record) {
+                console.log(record)
                 if (record._expanded === undefined) {
                     Vue.set(record, '_expanded', expandedAll);
                 }
@@ -182,10 +263,13 @@ var vm = new Vue({
                     tmp = tmp.concat(children);
                 }
             });
+            console.log('tmp:')
+            console.log(tmp)
             return tmp;
         },
         // 点击展开和关闭的时候，图标的切换
         treeTableIconShow: function (record) {
+
             return record.haschildren;
         },
         formatAt: function (val) {
@@ -543,7 +627,7 @@ var vm = new Vue({
             window.location.href = "${base}/platform/wx/conf/menu/index/" + val;
         }
     },
-    created: function () {
+    mounted: function () {
         debugger
         this.treeTableChild("");
     }

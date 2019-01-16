@@ -64,9 +64,11 @@ public class WxMenuController {
             if (wxMenuService.queryCountByPid(menu.getParentid()) > 0) {
                 menu.setHaschildren(1);
             }
+
             Map map = MapUtils.beanToMap(menu);
 //            NutMap map = Lang.obj2nutmap(menu);
             map.put("expanded", false);
+
             map.put("children", new ArrayList<>());
             treeList.add(map);
         }

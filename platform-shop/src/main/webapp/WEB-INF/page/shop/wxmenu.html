@@ -109,7 +109,6 @@
     </Card>
 </div>-->
 
-
 <div id="rrapp" v-cloak>
     <el-row class="header navbar bg-white shadow">
         <div class="btn-group tool-button mt5">
@@ -140,6 +139,7 @@
         </div>
     </el-row>
     <el-row class="el-table-container">
+        {{treeData}}
         <el-table :data="treeData" style="width: 100%" :row-style="treeTableShowTr" size="small"
                   :highlight-current-row="true">
             <el-table-column label="菜单名称" header-align="center" prop="name"
@@ -153,11 +153,11 @@
 
                         <span v-if="scope.row.expanded"
                               class="el-tree-node__expand-icon el-icon-caret-right expanded" title="关闭"></span>
-                        {{ scope.row.menuName }}
+                        {{ scope.row.menuname }}
                     </span>
                     <span v-if="!treeTableIconShow(scope.row)">
                         <span class="ms-tree-space"></span>
-                        {{ scope.row.menuName }}
+                        {{ scope.row.menuname }}
                     </span>
                 </template>
             </el-table-column>
@@ -165,20 +165,20 @@
             <el-table-column label="菜单类型" header-align="center" align="center" prop="menuType"
                              :show-overflow-tooltip="true" width="120">
                 <template slot-scope="scope">
-                    <span v-if="scope.row.menuType==''">菜单</span>
-                    <span v-if="scope.row.menuType=='view'">链接</span>
-                    <span v-if="scope.row.menuType=='click'">点击事件</span>
-                    <span v-if="scope.row.menuType=='miniprogram'">小程序</span>
+                    <span v-if="scope.row.menutype==''">菜单</span>
+                    <span v-if="scope.row.menutype=='view'">链接</span>
+                    <span v-if="scope.row.menutype=='click'">点击事件</span>
+                    <span v-if="scope.row.menutype=='miniprogram'">小程序</span>
                 </template>
             </el-table-column>
 
             <el-table-column label="配置内容" header-align="left"
                              :show-overflow-tooltip="true">
                 <template slot-scope="scope">
-                    <span v-if="scope.row.menuType==''">-</span>
-                    <span v-if="scope.row.menuType=='view'">{{scope.row.url}}</span>
-                    <span v-if="scope.row.menuType=='click'">绑定关键词: {{scope.row.menuKey}}</span>
-                    <span v-if="scope.row.menuType=='miniprogram'">小程序appid: {{scope.row.appid}}</span>
+                    <span v-if="scope.row.menutype==''">-</span>
+                    <span v-if="scope.row.menutype=='view'">{{scope.row.url}}</span>
+                    <span v-if="scope.row.menutype=='click'">绑定关键词: {{scope.row.menukey}}</span>
+                    <span v-if="scope.row.menutype=='miniprogram'">小程序appid: {{scope.row.appid}}</span>
                 </template>
             </el-table-column>
 
@@ -188,19 +188,19 @@
                 <template slot-scope="scope">
                     <el-dropdown @command="dropdownCommand">
                         <el-button size="mini">
-                            <i class="ti-settings"></i>
-                            <span class="ti-angle-down"></span>
+                            <i class="el-icon-setting"></i>
+                            <span class="el-icon-arrow-down"></span>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item
-                                    :command="{type:'add',id:scope.row.id,name:scope.row.menuName}">
+                                    :command="{type:'add',id:scope.row.id,name:scope.row.menuname}">
                                 添加子菜单
                             </el-dropdown-item>
                             <el-dropdown-item divided
-                                              :command="{type:'edit',id:scope.row.id,name:scope.row.menuName}">
+                                              :command="{type:'edit',id:scope.row.id,name:scope.row.menuname}">
                                 修改
                             </el-dropdown-item>
-                            <el-dropdown-item :command="{type:'delete',id:scope.row.id,name:scope.row.menuName}">
+                            <el-dropdown-item :command="{type:'delete',id:scope.row.id,name:scope.row.menuname}">
                                 删除
                             </el-dropdown-item>
                         </el-dropdown-menu>
@@ -434,5 +434,6 @@
 
 
 <script src="${rc.contextPath}/js/shop/wxmenu.js?_${date.systemTime}"></script>
+
 </body>
 </html>
