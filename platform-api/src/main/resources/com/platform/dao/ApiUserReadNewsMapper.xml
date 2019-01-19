@@ -88,7 +88,35 @@
 			limit #{offset}, #{limit}
 		</if>
 	</select>
-	
+
+	<select id="queryRankList" resultType="com.platform.entity.UserReadNewsVo">
+ 		SELECT
+		urn.userid,
+		nu.avatar,
+		nu.gender,
+		nu.intergral,
+		nu.nickname,
+		count(*)
+		from
+		user_read_news as urn
+		INNER JOIN nideshop_user as nu on nu.id = urn.userid
+		WHERE 1=1
+		GROUP BY userid
+		<choose>
+			<when test="order!= null and order!= ''">
+				order by COUNT(*) ${order}
+			</when>
+			<otherwise>
+				order by COUNT(*) desc
+			</otherwise>
+		</choose>
+		<if test="limit != null">
+			limit #{limit}
+		</if>
+	</select>
+
+
+
  	<select id="queryTotal" resultType="int">
 		select count(*) from user_read_news
 		WHERE 1=1

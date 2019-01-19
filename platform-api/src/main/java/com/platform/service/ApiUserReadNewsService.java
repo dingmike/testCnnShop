@@ -34,6 +34,11 @@ public class ApiUserReadNewsService {
         return userReadNewsDao.queryListByUserId(map);
     }
 
+    public List<UserReadNewsVo> queryRankList(Map<String, Object> map) {
+
+        return userReadNewsDao.queryRankList(map);
+    }
+
 
     public int queryTotal(Map<String, Object> map) {
         return userReadNewsDao.queryTotal(map);
@@ -47,6 +52,7 @@ public class ApiUserReadNewsService {
 
         return userReadNewsDao.queryTotalByUserIdAndNewsId(map);
     }
+
 
     public int save(UserReadNewsVo userReadNews) {
         return userReadNewsDao.save(userReadNews);

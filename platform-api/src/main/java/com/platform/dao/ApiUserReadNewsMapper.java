@@ -17,4 +17,5 @@ public interface ApiUserReadNewsMapper extends BaseDao<UserReadNewsVo> {
     List<Integer> queryTotalNewsIdByUserId(Map<String, Object> params);
     int queryTotalByUserId(Map<String, Object> params);
     int queryTotalByUserIdAndNewsId(Map<String, Object> params);
+    List<UserReadNewsVo> queryRankList(Map<String, Object> params);
 }

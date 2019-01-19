@@ -1,6 +1,7 @@
 package com.platform.api;
 
 import com.alibaba.fastjson.JSONObject;
+import com.platform.annotation.IgnoreAuth;
 import com.platform.entity.*;
 //import com.platform.entity.SmsConfig;
 //import com.platform.entity.SmsLogVo;
@@ -229,8 +230,8 @@ public class ApiGongduController extends ApiBaseAction {
                 userCard.setLearnTypeId(learnTypeId);
                 // 规定时间5-10点
 
-                //2：00-23：59小时有效打卡
-                if(hour>=2&&hour<=23){
+                //2：00-23：59小时有效打卡 or 5:00-10:00
+                if(hour>=5&&hour<=9){
                     userCard.setReasonable(1);
                 }else{
                     userCard.setReasonable(0);
@@ -595,5 +596,28 @@ public class ApiGongduController extends ApiBaseAction {
         // 获取阅读能力券抵扣率参数id=2
             CnnSysParamsVo couponParams = cnnSysParamsService.queryObject(2);
             return toResponsSuccess(couponParams.getIncreaseparams());
+    }
+
+    /**
+     *
+     * 每日打卡排行
+     * @params order
+     * @params limit
+     * */
+    @IgnoreAuth
+    @ApiOperation(value = "每日打卡排行", response = Map.class)
+    @GetMapping(value = "rankList")
+    public Object rankList(@RequestParam(value ="order", defaultValue = "1") Integer order,
+                           @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+        Map params = new HashMap();
+        if(order == 1){
+            params.put("order", "desc"); // null和1都是倒序 ，0是顺序
+        }else{
+            params.put("order", "asc"); // null和1都是倒序 ，0是顺序
+        }
+            params.put("limit", limit); // 数量
+            List<UserReadNewsVo> userReadNewsVoList = apiUserReadNewsService.queryRankList(params);
+            return toResponsSuccess(userReadNewsVoList);
+
     }
 }
