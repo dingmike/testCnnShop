@@ -1,6 +1,9 @@
 package com.platform.entity;
 
+import io.swagger.models.auth.In;
+
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -36,6 +39,13 @@ public class UserReadNewsVo implements Serializable {
     private Integer useTime;
     //添加时间
     private Date addTime;
+
+    //性别
+    private Integer gender;
+    //积分
+    private BigDecimal intergral;
+    // 阅读数量
+    private Integer readPage;
 
     /**
      * 设置：
@@ -191,6 +201,37 @@ public class UserReadNewsVo implements Serializable {
     public String getDescript() {
         return descript;
     }
+    /**
+     * 设置：积分
+     */
+    public void setIntergral(BigDecimal intergral) {
+        this.intergral = intergral;
+    }
 
+    /**
+     * 获取：积分
+     */
+    public BigDecimal getIntergral() {
+        return intergral;
+    }
+    public Integer getGender() {
+        return gender;
+    }
 
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+    /**
+     * 设置：阅读数量
+     */
+    public void setReadPage(Integer readPage) {
+        this.readPage = readPage;
+    }
+
+    /**
+     * 获取：阅读数量
+     */
+    public Integer getReadPage() {
+        return readPage;
+    }
 }

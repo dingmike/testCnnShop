@@ -13,8 +13,11 @@
         <result property="title" column="title"/>
         <result property="descript" column="descript"/>
         <result property="imageUrl" column="imageUrl"/>
-        <result property="useTime" column="use_time"/>
-        <result property="addTime" column="add_time"/>
+        <result property="gender" column="gender"/>
+        <result property="intergral" column="intergral"/>
+		<result property="readPage" column="readPage"/>
+		<result property="useTime" column="use_time"/>
+		<result property="addTime" column="add_time"/>
     </resultMap>
 
 	<select id="queryObject" resultType="com.platform.entity.UserReadNewsVo">
@@ -92,11 +95,11 @@
 	<select id="queryRankList" resultType="com.platform.entity.UserReadNewsVo">
  		SELECT
 		urn.userid,
-		nu.avatar,
+		nu.avatar as imageUrl,
 		nu.gender,
 		nu.intergral,
 		nu.nickname,
-		count(*)
+		count(*) as readPage
 		from
 		user_read_news as urn
 		INNER JOIN nideshop_user as nu on nu.id = urn.userid

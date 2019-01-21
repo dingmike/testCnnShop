@@ -604,7 +604,7 @@ public class ApiGongduController extends ApiBaseAction {
      * @params order
      * @params limit
      * */
-    @IgnoreAuth
+   /* @IgnoreAuth
     @ApiOperation(value = "每日打卡排行", response = Map.class)
     @GetMapping(value = "rankList")
     public Object rankList(@RequestParam(value ="order", defaultValue = "1") Integer order,
@@ -618,6 +618,22 @@ public class ApiGongduController extends ApiBaseAction {
             params.put("limit", limit); // 数量
             List<UserReadNewsVo> userReadNewsVoList = apiUserReadNewsService.queryRankList(params);
             return toResponsSuccess(userReadNewsVoList);
+
+    }*/
+    @IgnoreAuth
+    @ApiOperation(value = "每日打卡排行", response = Map.class)
+    @PostMapping(value = "rankList")
+    public Object rankList(UserVo loginUser) {
+        JSONObject jsonParams = getJsonRequest();
+        Map params = new HashMap();
+        if(jsonParams.getInteger("order") == 1){
+            params.put("order", "desc"); // null和1都是倒序 ，0是顺序
+        }else{
+            params.put("order", "asc"); // null和1都是倒序 ，0是顺序
+        }
+        params.put("limit", jsonParams.getInteger("limit")); // 数量
+        List<UserReadNewsVo> userReadNewsVoList = apiUserReadNewsService.queryRankList(params);
+        return toResponsSuccess(userReadNewsVoList);
 
     }
 }

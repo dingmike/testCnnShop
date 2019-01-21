@@ -40,8 +40,8 @@ public class NotifiyTask {
     @Autowired
     private ApiUserService userService;
 
-    @Autowired
-    private UserService cnnUserService;
+//    @Autowired
+//    private UserService cnnUserService;
     @Autowired
     private ScheduleJobService scheduleJobService;
 
@@ -53,8 +53,8 @@ public class NotifiyTask {
 
     @Autowired
     private ApiUserReadNewsService apiUserReadNewsService;
-    @Autowired
-    private OrderGoodsService orderGoodsService;
+//    @Autowired
+//    private OrderGoodsService orderGoodsService;
 
     // 更新user_learn unlocks
     public void notifiyUser(String params) {
