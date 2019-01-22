@@ -40,11 +40,13 @@
             <type>war</type>
         </dependency>
         <!--验证码生成工具-->
-        <dependency>
+        <!--20190122注释 -start-->
+        <!--<dependency>
             <groupId>com.github.penggle</groupId>
             <artifactId>kaptcha</artifactId>
             <version>${kaptcha.version}</version>
-        </dependency>
+        </dependency>-->
+        <!--20190122注释 -end-->
     </dependencies>
 
     <profiles>

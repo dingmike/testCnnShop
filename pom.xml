@@ -246,11 +246,11 @@
             </exclusions>
         </dependency>
         <!-- JSP视图所需jar -->
-        <dependency>
+       <!-- <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
             <version>${jstl-version}</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>taglibs</groupId>
             <artifactId>standard</artifactId>
@@ -271,11 +271,13 @@
             <!--<artifactId>kaptcha</artifactId>-->
             <!--<version>${kaptcha.version}</version>-->
         </dependency>
-        <dependency>
+        <!--20190122注释 -start-->
+       <!-- <dependency>
             <groupId>net.oschina.j2cache</groupId>
             <artifactId>j2cache-core</artifactId>
             <version>${j2cache.version}</version>
-        </dependency>
+        </dependency>-->
+        <!--20190122注释 -end-->
     </dependencies>
     <build>
         <plugins>

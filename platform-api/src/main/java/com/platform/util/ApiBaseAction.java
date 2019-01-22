@@ -1,5 +1,6 @@
 package com.platform.util;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.platform.entity.TokenEntity;
 import com.platform.interceptor.AuthorizationInterceptor;
@@ -132,9 +133,9 @@ public class ApiBaseAction {
     }
 
     public JSONObject getJsonRequest() {
-        JSONObject result = null;
+       /* JSONObject result = null;
         StringBuilder sb = new StringBuilder();
-        try (BufferedReader reader = request.getReader();) {
+        *//*try (BufferedReader reader = request.getReader();) {
             char[] buff = new char[1024];
             int len;
             while ((len = reader.read(buff)) != -1) {
@@ -143,8 +144,24 @@ public class ApiBaseAction {
             result = JSONObject.parseObject(sb.toString());
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*//*
 
+        result =  JSONObject.parseObject(JSON.toJSONString(request.getParameterMap()));
+        return result;*/
+
+
+        JSONObject result = null;
+        StringBuffer jb = new StringBuffer();
+        String line = null;
+        try {
+            BufferedReader reader = request.getReader();
+            while ((line = reader.readLine()) != null)
+                jb.append(line);
+            result = JSONObject.parseObject(jb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            /*report an error*/
+        }
         return result;
     }
 

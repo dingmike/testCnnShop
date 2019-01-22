@@ -626,12 +626,12 @@ public class ApiGongduController extends ApiBaseAction {
     public Object rankList(UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         Map params = new HashMap();
-        if(jsonParams.getInteger("order") == 1){
+        if(jsonParams.getJSONArray("order").get(0).equals("1")){
             params.put("order", "desc"); // null和1都是倒序 ，0是顺序
         }else{
             params.put("order", "asc"); // null和1都是倒序 ，0是顺序
         }
-        params.put("limit", jsonParams.getInteger("limit")); // 数量
+        params.put("limit", jsonParams.getString("limit")); // 数量
         List<UserReadNewsVo> userReadNewsVoList = apiUserReadNewsService.queryRankList(params);
         return toResponsSuccess(userReadNewsVoList);
 
