@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.platform.entity.TokenEntity;
 import com.platform.interceptor.AuthorizationInterceptor;
 import com.platform.service.TokenService;
+import com.platform.utils.MapUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.TypeMismatchException;
@@ -24,6 +25,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -133,9 +135,9 @@ public class ApiBaseAction {
     }
 
     public JSONObject getJsonRequest() {
-       /* JSONObject result = null;
+        /*JSONObject result = null;
         StringBuilder sb = new StringBuilder();
-        *//*try (BufferedReader reader = request.getReader();) {
+        try (BufferedReader reader = request.getReader();) {
             char[] buff = new char[1024];
             int len;
             while ((len = reader.read(buff)) != -1) {
@@ -144,25 +146,14 @@ public class ApiBaseAction {
             result = JSONObject.parseObject(sb.toString());
         } catch (IOException e) {
             e.printStackTrace();
-        }*//*
-
-        result =  JSONObject.parseObject(JSON.toJSONString(request.getParameterMap()));
-        return result;*/
-
-
-        JSONObject result = null;
-        StringBuffer jb = new StringBuffer();
-        String line = null;
-        try {
-            BufferedReader reader = request.getReader();
-            while ((line = reader.readLine()) != null)
-                jb.append(line);
-            result = JSONObject.parseObject(jb.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            /*report an error*/
         }
-        return result;
+
+        //result =  JSONObject.parseObject(JSON.toJSONString(request.getParameterMap()));
+        return result;*/
+        Map map=request.getParameterMap();
+        Map writeAbleMap = MapUtils.getParameterObjMap(map);
+        return JSONObject.parseObject(JSONObject.toJSONString(writeAbleMap));
+
     }
 
     /**

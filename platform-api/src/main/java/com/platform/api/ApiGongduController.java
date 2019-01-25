@@ -622,18 +622,21 @@ public class ApiGongduController extends ApiBaseAction {
     }*/
     @IgnoreAuth
     @ApiOperation(value = "每日打卡排行", response = Map.class)
-    @PostMapping(value = "rankList")
-    public Object rankList(UserVo loginUser) {
+    @PostMapping("rankList")
+    public Object rankList() {
         JSONObject jsonParams = getJsonRequest();
         Map params = new HashMap();
-        if(jsonParams.getJSONArray("order").get(0).equals("1")){
-            params.put("order", "desc"); // null和1都是倒序 ，0是顺序
-        }else{
-            params.put("order", "asc"); // null和1都是倒序 ，0是顺序
+        if(null!=jsonParams){
+            if(jsonParams.getInteger("order")==1){
+                params.put("order", "desc"); // null和1都是倒序 ，0是顺序
+            }else{
+                params.put("order", "asc"); // null和1都是倒序 ，0是顺序
+            }
+            params.put("limit", jsonParams.getInteger("limit")); // 数量
+            List<UserReadNewsVo> userReadNewsVoList = apiUserReadNewsService.queryRankList(params);
+            return toResponsSuccess(userReadNewsVoList);
         }
-        params.put("limit", jsonParams.getString("limit")); // 数量
-        List<UserReadNewsVo> userReadNewsVoList = apiUserReadNewsService.queryRankList(params);
-        return toResponsSuccess(userReadNewsVoList);
+        return toResponsFail("参数错误");
 
     }
 }

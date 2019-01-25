@@ -8,10 +8,7 @@ import java.beans.PropertyDescriptor;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 获取map中值的工具类,自动进行类型转换
@@ -296,5 +293,70 @@ public class MapUtils {
         }
         return xmlStr.toString();
     }
+
+
+    /**
+     *
+     * Map转String
+     * @param map
+     * @return
+     */
+
+    public static String getMapToString(Map<String,Object> map){
+        Set<String> keySet = map.keySet();
+        //将set集合转换为数组
+        String[] keyArray = keySet.toArray(new String[keySet.size()]);
+        //给数组排序(升序)
+        Arrays.sort(keyArray);
+        //因为String拼接效率会很低的，所以转用StringBuilder
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < keyArray.length; i++) {
+            // 参数值为空，则不参与签名 这个方法trim()是去空格
+            if ((String.valueOf(map.get(keyArray[i]))).trim().length() > 0) {
+                sb.append(keyArray[i]).append(":").append(String.valueOf(map.get(keyArray[i])).trim());
+            }
+            if(i != keyArray.length-1){
+                sb.append(",");
+            }
+        }
+        return sb.toString();
+    }
+    public static Map  getParameterObjMap(Map<String,String[]> map){
+//        Map<String,String[]> map = new HashMap<String,String[]>();
+//        Map<String,Object> returnMap = new HashMap<String,Object>();
+//        map = request.getParameterMap();
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+        Iterator entries = map.entrySet().iterator();
+        Map.Entry entry;
+        String name ="";
+        String value=null;
+        while (entries.hasNext()){
+            entry=(Map.Entry)entries.next();
+            name = (String) entry.getKey();
+            Object objvalue = entry.getValue();
+            if(objvalue == null){
+                value = null;
+            }else if(objvalue instanceof String[]){
+                /**条件如果成立，objvalue就是一个数组，需要将它转换成为字符串，并拼接上逗号，并吧末尾的逗号去掉*/
+                String[] values = (String[]) objvalue;
+                for(int i=0;i<values.length;i++){
+                    value = values[i]+",";//这里我拼接的是英文的逗号。
+                }
+                value = value.substring(0,value.length()-1);//截掉最后一个逗号。
+            }else{
+                value = objvalue.toString();
+            }
+            returnMap.put(name , value);
+        }
+        Iterator it = returnMap.keySet().iterator();
+        while (it.hasNext()){
+            Object key = it.next();
+            if(returnMap.get(key) == null || "".equals (((String)returnMap.get(key)).trim())){
+                returnMap.put((String) key, null);
+            }
+        }
+        return returnMap;
+    }
+
 }
 
