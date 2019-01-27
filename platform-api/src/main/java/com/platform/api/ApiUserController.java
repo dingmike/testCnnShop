@@ -158,6 +158,7 @@ public class ApiUserController extends ApiBaseAction {
     /**
      * 微信授权后获取用户学习信息
      */
+    @IgnoreAuth
     @ApiOperation(value = "微信授权后获取用户学习信息")
 //    @RequestMapping("getLearnInfo")
     @PostMapping("getLearnInfo")

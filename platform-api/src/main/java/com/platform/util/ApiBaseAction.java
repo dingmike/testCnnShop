@@ -135,7 +135,7 @@ public class ApiBaseAction {
     }
 
     public JSONObject getJsonRequest() {
-        /*JSONObject result = null;
+        JSONObject result = null;
         StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = request.getReader();) {
             char[] buff = new char[1024];
@@ -149,10 +149,10 @@ public class ApiBaseAction {
         }
 
         //result =  JSONObject.parseObject(JSON.toJSONString(request.getParameterMap()));
-        return result;*/
-        Map map=request.getParameterMap();
-        Map writeAbleMap = MapUtils.getParameterObjMap(map);
-        return JSONObject.parseObject(JSONObject.toJSONString(writeAbleMap));
+        return result;
+        //Map map=request.getParameterMap();
+        //Map writeAbleMap = MapUtils.getParameterObjMap(map);
+        //return JSONObject.parseObject(JSONObject.toJSONString(writeAbleMap));
 
     }
 
