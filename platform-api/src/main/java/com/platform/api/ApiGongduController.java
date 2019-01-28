@@ -2,6 +2,7 @@ package com.platform.api;
 
 import com.alibaba.fastjson.JSONObject;
 import com.platform.annotation.IgnoreAuth;
+import com.platform.annotation.LoginUser;
 import com.platform.entity.*;
 //import com.platform.entity.SmsConfig;
 //import com.platform.entity.SmsLogVo;
@@ -75,7 +76,7 @@ public class ApiGongduController extends ApiBaseAction {
      */
     @RequestMapping("getContent")
     @ApiOperation(value = "获取共读内容接口", response = Map.class)
-    public Object getContent(UserVo loginUser) {
+    public Object getContent(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         Integer unlockdays = jsonParams.getInteger("days");
         Integer type = jsonParams.getInteger("type");
@@ -96,7 +97,7 @@ public class ApiGongduController extends ApiBaseAction {
      */
     @PostMapping("getOraleDetail")
     @ApiOperation(value = "获取共读重点以及问答接口", response = Map.class)
-    public Object getOraleDetail(UserVo loginUser) {
+    public Object getOraleDetail(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         Integer unlockdays = jsonParams.getInteger("days"); // 第几天的学习内容
         Integer type = jsonParams.getInteger("type");
@@ -116,7 +117,7 @@ public class ApiGongduController extends ApiBaseAction {
 //    @RequestMapping("getOneCard")
     @PostMapping("getOneCard")
     @ApiOperation(value = "获取某天打卡接口", response = Map.class)
-    public Object getOneCard(UserVo loginUser) {
+    public Object getOneCard(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         Integer type = jsonParams.getInteger("type");
         Integer day = jsonParams.getInteger("day");
@@ -138,7 +139,7 @@ public class ApiGongduController extends ApiBaseAction {
      */
     @RequestMapping("getCardNums")
     @ApiOperation(value = "获取有效打卡记录数接口", response = Map.class)
-    public Object getCardNums(UserVo loginUser) {
+    public Object getCardNums(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         Integer type = jsonParams.getInteger("type");
         String openid =  loginUser.getWeixin_openid();
@@ -155,7 +156,7 @@ public class ApiGongduController extends ApiBaseAction {
      */
     @RequestMapping("getCardRecord")
     @ApiOperation(value = "获取打卡记录数接口", response = Map.class)
-    public Object getCardRecord(UserVo loginUser) {
+    public Object getCardRecord(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         Integer type = jsonParams.getInteger("type");
         String openid =  loginUser.getWeixin_openid();
@@ -174,7 +175,7 @@ public class ApiGongduController extends ApiBaseAction {
     * */
     @RequestMapping("setCardById")
     @ApiOperation(value = "类型21天打卡", response = Map.class)
-    public Object setCardById(UserVo loginUser) {
+    public Object setCardById(@LoginUser UserVo loginUser) {
 
         JSONObject jsonParams = getJsonRequest();
         Integer learnTypeId = jsonParams.getInteger("type");
@@ -351,7 +352,7 @@ public class ApiGongduController extends ApiBaseAction {
 
     @RequestMapping("setRemindTime")
     @ApiOperation(value = "设置提醒时间接口", response = Map.class)
-    public Object setRemindTime(UserVo loginUser) {
+    public Object setRemindTime(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         Integer learnTypeId = jsonParams.getInteger("type");
         String setupTime = jsonParams.getString("setupTime");
@@ -381,7 +382,7 @@ public class ApiGongduController extends ApiBaseAction {
      * */
     @ApiOperation(value = "获取用户已阅读文章", response = Map.class)
     @GetMapping(value = "getReadNewsByUserId")
-    public Object getReadNewsByUserId(UserVo loginUser,
+    public Object getReadNewsByUserId(@LoginUser UserVo loginUser,
                                       @RequestParam(value ="page", defaultValue = "1") Integer page,
                                       @RequestParam(value = "size", defaultValue = "10") Integer size) {
 
@@ -407,7 +408,7 @@ public class ApiGongduController extends ApiBaseAction {
      * */
     @ApiOperation(value = "获取用户已阅读文章ID", response = Map.class)
     @GetMapping(value = "getAllReadNewsId")
-    public Object getAllReadNewsId(UserVo loginUser) {
+    public Object getAllReadNewsId(@LoginUser UserVo loginUser) {
 
         Map params = new HashMap();
         params.put("userid", loginUser.getUserId());
@@ -424,7 +425,7 @@ public class ApiGongduController extends ApiBaseAction {
      * */
     @ApiOperation(value = "根据文章ID获取文章详情", response = Map.class)
     @RequestMapping(value = "getNewsById")
-    public Object getNewsById(UserVo loginUser) {
+    public Object getNewsById(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         Integer pageId = jsonParams.getInteger("pageId");
         CnnNewsVo cnnNewsVo = apiCnnNewsService.queryObject(pageId);
@@ -440,7 +441,7 @@ public class ApiGongduController extends ApiBaseAction {
      * */
     @ApiOperation(value = "获取全部文章", response = Map.class)
     @GetMapping(value = "getAllNews")
-    public Object getAllNews(UserVo loginUser,
+    public Object getAllNews(@LoginUser UserVo loginUser,
                              @RequestParam(value ="page", defaultValue = "1") Integer page,
                              @RequestParam(value = "size", defaultValue = "10") Integer size) {
 
@@ -466,7 +467,7 @@ public class ApiGongduController extends ApiBaseAction {
      * */
     @ApiOperation(value = "每日阅读文章打卡", response = Map.class)
     @RequestMapping(value = "setNewsCard")
-    public Object setNewsCard(UserVo loginUser) {
+    public Object setNewsCard(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         Integer newsId = jsonParams.getInteger("newsId");
         Integer learnTypeId = jsonParams.getInteger("learnTypeId");
@@ -520,7 +521,7 @@ public class ApiGongduController extends ApiBaseAction {
      * */
     @ApiOperation(value = "当天打卡阅读的文章", response = Map.class)
     @GetMapping(value = "getTodayNews")
-    public Object getTodayNews(UserVo loginUser) {
+    public Object getTodayNews(@LoginUser UserVo loginUser) {
         Map params = new HashMap();
         params.put("isToday",1);
         CnnNewsVo cnnNewsVo = apiCnnNewsService.queryObjectByToday(params);
@@ -550,7 +551,7 @@ public class ApiGongduController extends ApiBaseAction {
      * */
     @ApiOperation(value = "是否已打卡当天文章", response = Map.class)
     @PostMapping(value = "haveReaded")
-    public Object haveReaded(UserVo loginUser) {
+    public Object haveReaded(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         String openid = loginUser.getWeixin_openid();
         if(null != jsonParams&& openid.equals(jsonParams.getString("uid"))){
@@ -571,7 +572,7 @@ public class ApiGongduController extends ApiBaseAction {
      * */
     @ApiOperation(value = "添加formId", response = Map.class)
     @PostMapping(value = "addFormId")
-    public Object addFormId(UserVo loginUser) {
+    public Object addFormId(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         String openid = loginUser.getWeixin_openid();
         if(null != jsonParams&& openid.equals(jsonParams.getString("uid"))){

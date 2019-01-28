@@ -5,6 +5,7 @@ import com.platform.cache.J2CacheUtils;
 import com.platform.dao.ApiCouponMapper;
 import com.platform.entity.BuyGoodsVo;
 import com.qiniu.util.StringUtils;
+import com.platform.annotation.LoginUser;
 import com.platform.entity.CouponInfoVo;
 import com.platform.entity.*;
 import com.platform.service.*;
@@ -14,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Generated;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +52,7 @@ public class ApiCartController extends ApiBaseAction {
     @ApiOperation(value = "获取购物车中的数据")
 //    @RequestMapping("getCart")
     @GetMapping("getCart")
-    public Object getCart(UserVo loginUser) {
+    public Object getCart(@LoginUser UserVo loginUser) {
         Map<String, Object> resultObj = new HashMap();
         //查询列表数据
         Map param = new HashMap();
@@ -127,7 +129,7 @@ public class ApiCartController extends ApiBaseAction {
     @ApiOperation(value = "获取购物车信息")
 //    @RequestMapping("index")
     @GetMapping("index")
-    public Object index(UserVo loginUser) {
+    public Object index(@LoginUser UserVo loginUser) {
         return toResponsSuccess(getCart(loginUser));
     }
 
@@ -148,7 +150,7 @@ public class ApiCartController extends ApiBaseAction {
     @ApiOperation(value = "添加商品到购物车")
 //    @RequestMapping("add")
     @PostMapping("add")
-    public Object add(UserVo loginUser) {
+    public Object add(@LoginUser UserVo loginUser) {
         JSONObject jsonParam = getJsonRequest();
         Integer goodsId = jsonParam.getInteger("goodsId");
         Integer productId = jsonParam.getInteger("productId");
@@ -223,7 +225,7 @@ public class ApiCartController extends ApiBaseAction {
     @ApiOperation(value = "减少商品到购物车")
 //    @RequestMapping("minus")
     @PostMapping("minus")
-    public Object minus(UserVo loginUser) {
+    public Object minus(@LoginUser UserVo loginUser) {
         JSONObject jsonParam = getJsonRequest();
         Integer goodsId = jsonParam.getInteger("goodsId");
         Integer productId = jsonParam.getInteger("productId");
@@ -255,7 +257,7 @@ public class ApiCartController extends ApiBaseAction {
     @ApiOperation(value = "更新指定的购物车信息")
 //    @RequestMapping("update")
     @PostMapping("update")
-    public Object update(UserVo loginUser) {
+    public Object update(@LoginUser UserVo loginUser) {
         JSONObject jsonParam = getJsonRequest();
         Integer goodsId = jsonParam.getInteger("goodsId");
         Integer productId = jsonParam.getInteger("productId");
@@ -347,7 +349,7 @@ public class ApiCartController extends ApiBaseAction {
     @ApiOperation(value = "是否选择商品")
 //    @RequestMapping("checked")
     @PostMapping("checked")
-    public Object checked(UserVo loginUser) {
+    public Object checked(@LoginUser UserVo loginUser) {
         JSONObject jsonParam = getJsonRequest();
         String productIds = jsonParam.getString("productIds");
         Integer isChecked = jsonParam.getInteger("isChecked");
@@ -363,7 +365,7 @@ public class ApiCartController extends ApiBaseAction {
     @ApiOperation(value = "删除商品")
 //    @RequestMapping("delete")
     @PostMapping("delete")
-    public Object delete(UserVo loginUser) {
+    public Object delete(@LoginUser UserVo loginUser) {
         Long userId = loginUser.getUserId();
 
         JSONObject jsonObject = getJsonRequest();
@@ -382,7 +384,7 @@ public class ApiCartController extends ApiBaseAction {
     @ApiOperation(value = "获取购物车商品的总件件数")
     @GetMapping("goodscount")
 //    @RequestMapping("goodscount")
-    public Object goodscount(UserVo loginUser) {
+    public Object goodscount(@LoginUser UserVo loginUser) {
         if (null == loginUser || null == loginUser.getUserId()) {
             return toResponsFail("未登录");
         }
@@ -411,7 +413,7 @@ public class ApiCartController extends ApiBaseAction {
     @ApiOperation(value = "订单提交前的检验和填写相关订单信息")
 //    @RequestMapping("checkout")
     @GetMapping("checkout")
-    public Object checkout(UserVo loginUser, Integer couponId, Integer addressId, @RequestParam(defaultValue = "cart") String type) {
+    public Object checkout(@LoginUser UserVo loginUser, Integer couponId, Integer addressId, @RequestParam(defaultValue = "cart") String type) {
         Map<String, Object> resultObj = new HashMap();
         //根据收货地址计算运费
 
@@ -436,7 +438,7 @@ public class ApiCartController extends ApiBaseAction {
                 }else if(addressVo.getIs_default()==1){
                     resultObj.put("checkedAddress", addressVo);
                 }
-               // System.out.println(attribute);
+                // System.out.println(attribute);
             }
 
         }
@@ -504,7 +506,7 @@ public class ApiCartController extends ApiBaseAction {
      */
     @ApiOperation(value = "选择优惠券列表")
     @RequestMapping("checkedCouponList")
-    public Object checkedCouponList(UserVo loginUser) {
+    public Object checkedCouponList(@LoginUser UserVo loginUser) {
         //
         Map param = new HashMap();
         param.put("user_id", loginUser.getUserId());

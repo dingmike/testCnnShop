@@ -23,4 +23,5 @@
     </mvc:interceptors>
 
     <bean id="authorizationInterceptor" class="com.platform.interceptor.AuthorizationInterceptor"/>
+    <bean id="apiUserService" class="com.platform.service.ApiUserService"/>
 </beans>

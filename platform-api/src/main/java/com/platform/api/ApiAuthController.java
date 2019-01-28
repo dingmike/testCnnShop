@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.platform.annotation.IgnoreAuth;
 import com.platform.util.AccessTokenTask;
 import org.apache.commons.collections.MapUtils;
 import org.apache.log4j.Logger;
@@ -54,6 +55,7 @@ public class ApiAuthController extends ApiBaseAction {
     /**
      * 登录
      */
+    @IgnoreAuth
     @RequestMapping("login")
     @ApiOperation(value = "登录接口")
     public R login(String mobile, String password) {
@@ -72,6 +74,7 @@ public class ApiAuthController extends ApiBaseAction {
     /**
      * 登录
      */
+    @IgnoreAuth
     @ApiOperation(value = "登录")
     @RequestMapping("login_by_weixin")
     public Object loginByWeixin() {
@@ -98,13 +101,6 @@ public class ApiAuthController extends ApiBaseAction {
         if (null == sessionData || StringUtils.isNullOrEmpty(sessionData.getString("openid"))) {
             return toResponsFail("登录失败");
         }
-
-
-
-
-
-
-
         //获取openid和session_key
 
 

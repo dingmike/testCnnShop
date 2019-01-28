@@ -1,5 +1,6 @@
 package com.platform.api;
 
+import com.platform.annotation.IgnoreAuth;
 import com.platform.oss.OSSFactory;
 import com.platform.util.ApiBaseAction;
 import com.platform.utils.RRException;
@@ -25,7 +26,8 @@ public class ApiUploadController extends ApiBaseAction {
      * 上传文件
      */
     @ApiOperation(value = "上传文件")
-    //    @RequestMapping("/upload")
+    @IgnoreAuth
+//    @RequestMapping("/upload")
     @PostMapping("/upload")
     public Object upload(@RequestParam("file") MultipartFile file) throws Exception {
         if (file.isEmpty()) {

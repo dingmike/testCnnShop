@@ -1,6 +1,8 @@
 package com.platform.api;
 
 import com.alibaba.fastjson.JSONObject;
+import com.platform.annotation.IgnoreAuth;
+import com.platform.annotation.LoginUser;
 import com.platform.entity.OrderGoodsVo;
 import com.platform.entity.OrderVo;
 import com.platform.entity.UserVo;
@@ -44,9 +46,10 @@ public class ApiOrderController extends ApiBaseAction {
     /**
      */
     @ApiOperation(value = "订单首页")
-    //    @RequestMapping("index")
+    @IgnoreAuth
+//    @RequestMapping("index")
     @GetMapping("index")
-    public Object index(UserVo loginUser) {
+    public Object index(@LoginUser UserVo loginUser) {
         //
         return toResponsSuccess("");
     }
@@ -57,7 +60,7 @@ public class ApiOrderController extends ApiBaseAction {
     @ApiOperation(value = "获取订单列表")
 //    @RequestMapping("list")
     @GetMapping("list")
-    public Object list(UserVo loginUser,
+    public Object list(@LoginUser UserVo loginUser,
                        @RequestParam(value = "orderStatus", defaultValue = "") Integer orderStatus,
                        @RequestParam(value = "page", defaultValue = "1") Integer page,
                        @RequestParam(value = "size", defaultValue = "10") Integer size) {
@@ -96,7 +99,7 @@ public class ApiOrderController extends ApiBaseAction {
     @ApiOperation(value = "获取订单详情")
 //    @RequestMapping("detail")
     @GetMapping("detail")
-    public Object detail(UserVo loginUser, Integer orderId) {
+    public Object detail(@LoginUser UserVo loginUser, Integer orderId) {
         Map resultObj = new HashMap();
         //
         OrderVo orderInfo = orderService.queryObject(orderId);
@@ -134,7 +137,7 @@ public class ApiOrderController extends ApiBaseAction {
     @ApiOperation(value = "修改订单")
 //    @RequestMapping("updateSuccess")
     @PostMapping("updateSuccess")
-    public Object updateSuccess(UserVo loginUser, Integer orderId) {
+    public Object updateSuccess(@LoginUser UserVo loginUser, Integer orderId) {
         OrderVo orderInfo = orderService.queryObject(orderId);
         if (orderInfo==null) {
             return toResponsFail("订单不存在");
@@ -161,7 +164,7 @@ public class ApiOrderController extends ApiBaseAction {
     @ApiOperation(value = "订单提交")
 //    @RequestMapping("submit")
     @PostMapping("submit")
-    public Object submit(UserVo loginUser) {
+    public Object submit(@LoginUser UserVo loginUser) {
         Map resultObj;
         JSONObject jsonParams = getJsonRequest();
         try {
@@ -189,7 +192,7 @@ public class ApiOrderController extends ApiBaseAction {
     @ApiOperation(value = "取消订单")
     @GetMapping("cancelOrder")
 //    @RequestMapping("cancelOrder")
-    public Object cancelOrder(UserVo loginUser, Integer orderId) {
+    public Object cancelOrder(@LoginUser UserVo loginUser, Integer orderId) {
         try {
             OrderVo orderVo = orderService.queryObject(orderId);
             if (orderVo.getOrder_status() == 300) {

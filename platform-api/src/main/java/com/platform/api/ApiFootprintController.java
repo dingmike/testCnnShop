@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.github.pagehelper.PageHelper;
+import com.platform.annotation.LoginUser;
 import com.platform.entity.FootprintVo;
 import com.platform.entity.UserVo;
 import com.platform.service.ApiFootprintService;
@@ -40,7 +41,7 @@ public class ApiFootprintController extends ApiBaseAction {
     @ApiOperation(value = "删除足迹")
     @ApiImplicitParams({@ApiImplicitParam(name = "footprintId", value = "足迹id", paramType = "path", required = true)})
     @GetMapping("delete")
-    public Object delete(UserVo loginUser, Integer footprintId) {
+    public Object delete(@LoginUser UserVo loginUser, Integer footprintId) {
         if (footprintId == null) {
             return toResponsFail("删除出错");
         }
@@ -63,7 +64,7 @@ public class ApiFootprintController extends ApiBaseAction {
      */
     @ApiOperation(value = "获取足迹列表")
     @GetMapping("list")
-    public Object list(UserVo loginUser,
+    public Object list(@LoginUser UserVo loginUser,
                        @RequestParam(value = "page", defaultValue = "1") Integer page,
                        @RequestParam(value = "size", defaultValue = "10") Integer size) {
         Map<String, Object> resultObj = new HashMap<String, Object>();
@@ -71,7 +72,7 @@ public class ApiFootprintController extends ApiBaseAction {
         //查询列表数据
         PageHelper.startPage(0, 10, false);
         List<FootprintVo> footprintVos = footprintService.queryListFootprint(loginUser.getUserId()+"");
-      
+
         ApiPageUtils pageUtil = new ApiPageUtils(footprintVos, 0, size, page);
         //
         Map<String, List<FootprintVo>> footPrintMap = new TreeMap<String, List<FootprintVo>>(new Comparator<String>() {
@@ -101,7 +102,7 @@ public class ApiFootprintController extends ApiBaseAction {
             }
             List<List<FootprintVo>>  footprintVoList = new ArrayList<List<FootprintVo>>();
             for (Map.Entry<String, List<FootprintVo>> entry : footPrintMap.entrySet()) {
-            	footprintVoList.add(entry.getValue());
+                footprintVoList.add(entry.getValue());
             }
             resultObj.put("count", pageUtil.getCount());
             resultObj.put("totalPages", pageUtil.getTotalPages());
@@ -119,7 +120,7 @@ public class ApiFootprintController extends ApiBaseAction {
     @ApiOperation(value = "分享足迹")
 //    @RequestMapping("sharelist")
     @PostMapping("sharelist")
-    public Object sharelist(UserVo loginUser,
+    public Object sharelist(@LoginUser UserVo loginUser,
                             @RequestParam(value = "page", defaultValue = "1") Integer page,
                             @RequestParam(value = "size", defaultValue = "10") Integer size) {
         Map<String, List<FootprintVo>> resultObj = new HashMap<String, List<FootprintVo>>();

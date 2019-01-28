@@ -1,6 +1,7 @@
 package com.platform.api;
 
 import com.alibaba.fastjson.JSONObject;
+import com.platform.annotation.LoginUser;
 import com.platform.entity.FeedbackVo;
 import com.platform.entity.UserVo;
 import com.platform.service.ApiFeedbackService;
@@ -32,7 +33,7 @@ public class ApiFeedbackController extends ApiBaseAction {
     @ApiOperation(value = "添加反馈")
 //    @RequestMapping("save")
     @PostMapping("save")
-    public Object save(UserVo loginUser) {
+    public Object save(@LoginUser UserVo loginUser) {
         JSONObject feedbackJson = super.getJsonRequest();
         if (null != feedbackJson) {
             FeedbackVo feedbackVo = new FeedbackVo();

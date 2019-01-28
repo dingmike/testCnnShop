@@ -2,6 +2,7 @@ package com.platform.api;
 
 import com.alibaba.fastjson.JSONObject;
 import com.platform.annotation.IgnoreAuth;
+import com.platform.annotation.LoginUser;
 import com.platform.entity.SmsConfig;
 import com.platform.entity.SmsLogVo;
 import com.platform.entity.UserLearnVo;
@@ -45,7 +46,7 @@ public class ApiUserController extends ApiBaseAction {
     @ApiOperation(value = "发送短信")
     @PostMapping("smscode")
 //    @RequestMapping("smscode")
-    public Object smscode(UserVo loginUser) {
+    public Object smscode(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         String phone = jsonParams.getString("phone");
         // 一分钟之内不能重复发送短信
@@ -106,7 +107,7 @@ public class ApiUserController extends ApiBaseAction {
     @ApiOperation(value = "获取当前会员等级")
     @GetMapping("getUserLevel")
 //    @RequestMapping("getUserLevel")
-    public Object getUserLevel(UserVo loginUser) {
+    public Object getUserLevel(@LoginUser UserVo loginUser) {
         String userLevel = userService.getUserLevel(loginUser);
         return toResponsSuccess(userLevel);
     }
@@ -117,7 +118,7 @@ public class ApiUserController extends ApiBaseAction {
     @ApiOperation(value = "绑定手机")
     @PostMapping("bindMobile")
 //    @RequestMapping("bindMobile")
-    public Object bindMobile(UserVo loginUser) {
+    public Object bindMobile(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         SmsLogVo smsLogVo = userService.querySmsCodeByUserId(loginUser.getUserId());
 
@@ -139,7 +140,7 @@ public class ApiUserController extends ApiBaseAction {
     @ApiOperation(value = "微信授权后更新微信用户的信息")
     @PostMapping("updateUserInfo")
 //    @RequestMapping("updateUserInfo")
-    public Object updateUserInfo(UserVo loginUser) {
+    public Object updateUserInfo(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         UserVo entity = new UserVo();
         String openid =  loginUser.getWeixin_openid();
@@ -158,11 +159,10 @@ public class ApiUserController extends ApiBaseAction {
     /**
      * 微信授权后获取用户学习信息
      */
-    @IgnoreAuth
     @ApiOperation(value = "微信授权后获取用户学习信息")
 //    @RequestMapping("getLearnInfo")
     @PostMapping("getLearnInfo")
-    public Object getLearnInfo(UserVo loginUser) {
+    public Object getLearnInfo(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         String openid =  loginUser.getWeixin_openid();
         if (null != jsonParams&& openid.equals(jsonParams.getString("uid"))) {
@@ -180,7 +180,7 @@ public class ApiUserController extends ApiBaseAction {
     @ApiOperation(value = "微信授权后获取用户积分余额信息")
 //    @RequestMapping("getLearnInfo")
     @PostMapping("getUserIntergralInfo")
-    public Object getUserIntergralInfo(UserVo loginUser) {
+    public Object getUserIntergralInfo(@LoginUser UserVo loginUser) {
         JSONObject jsonParams = getJsonRequest();
         String openid =  loginUser.getWeixin_openid();
         if (null != jsonParams&& openid.equals(jsonParams.getString("uid"))) {
@@ -200,7 +200,7 @@ public class ApiUserController extends ApiBaseAction {
      */
     @ApiOperation(value = "支付完后绑定微信号和手机号")
     @PostMapping("submitPhone")
-    public Object submitPhone(UserVo loginUser){
+    public Object submitPhone(@LoginUser UserVo loginUser){
         JSONObject jsonParams = getJsonRequest();
         String openid =  loginUser.getWeixin_openid();
         Integer learnTypeId = jsonParams.getInteger("learnTypeId");

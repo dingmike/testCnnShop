@@ -1,5 +1,7 @@
 package com.platform.api;
 
+import com.platform.annotation.IgnoreAuth;
+import com.platform.annotation.LoginUser;
 import com.platform.entity.CategoryVo;
 import com.platform.entity.UserVo;
 import com.platform.service.ApiCategoryService;
@@ -34,9 +36,10 @@ public class ApiCatalogController extends ApiBaseAction {
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "id", paramType = "query", required = false),
             @ApiImplicitParam(name = "page", value = "page", paramType = "query", required = false),
             @ApiImplicitParam(name = "size", value = "size", paramType = "query", required = false)})
-    //    @RequestMapping(value = "index", method = RequestMethod.GET)
+    @IgnoreAuth
+//    @RequestMapping(value = "index", method = RequestMethod.GET)
     @GetMapping(value = "index")
-    public Object index(UserVo loginUser, Integer id,
+    public Object index(@LoginUser UserVo loginUser, Integer id,
                         @RequestParam(value = "page", defaultValue = "1") Integer page,
                         @RequestParam(value = "size", defaultValue = "10") Integer size) {
         Map<String, Object> resultObj = new HashMap();
@@ -74,9 +77,10 @@ public class ApiCatalogController extends ApiBaseAction {
      */
     @ApiOperation(value = "分类目录当前分类数据接口")
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "id", paramType = "query", required = false)})
-    //    @RequestMapping(value = "current", method = RequestMethod.GET)
+    @IgnoreAuth
+//    @RequestMapping(value = "current", method = RequestMethod.GET)
     @GetMapping(value = "current")
-    public Object current(UserVo loginUser, Integer id) {
+    public Object current(@LoginUser UserVo loginUser, Integer id) {
         Map<String, Object> resultObj = new HashMap();
         Map params = new HashMap();
         params.put("parent_id", 0);

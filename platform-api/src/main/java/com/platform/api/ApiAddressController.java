@@ -1,6 +1,8 @@
 package com.platform.api;
 
 import com.alibaba.fastjson.JSONObject;
+import com.platform.annotation.IgnoreAuth;
+import com.platform.annotation.LoginUser;
 import com.platform.entity.AddressVo;
 import com.platform.entity.UserVo;
 import com.platform.service.ApiAddressService;
@@ -32,7 +34,7 @@ public class ApiAddressController extends ApiBaseAction {
      */
     @ApiOperation(value = "获取用户的收货地址接口", response = Map.class)
     @RequestMapping("list")
-    public Object list(UserVo loginUser) {
+    public Object list(@LoginUser UserVo loginUser) {
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("user_id", loginUser.getUserId());
         List<AddressVo> addressEntities = addressService.queryList(param);
@@ -42,6 +44,7 @@ public class ApiAddressController extends ApiBaseAction {
     /**
      * 获取收货地址的详情
      */
+    @IgnoreAuth
     @RequestMapping("detail")
     public Object detail(Integer id) {
         AddressVo entity = addressService.queryObject(id);
@@ -52,7 +55,7 @@ public class ApiAddressController extends ApiBaseAction {
      * 添加或更新收货地址
      */
     @RequestMapping("save")
-    public Object save(UserVo loginUser) {
+    public Object save(@LoginUser UserVo loginUser) {
         JSONObject addressJson = this.getJsonRequest();
         AddressVo entity = new AddressVo();
         if (null != addressJson) {
@@ -83,6 +86,7 @@ public class ApiAddressController extends ApiBaseAction {
     /**
      * 删除指定的收货地址
      */
+    @IgnoreAuth
     @RequestMapping("delete")
     public Object delete() {
         JSONObject jsonParam = this.getJsonRequest();

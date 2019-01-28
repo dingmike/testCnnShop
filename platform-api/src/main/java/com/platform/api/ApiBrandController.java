@@ -1,5 +1,6 @@
 package com.platform.api;
 
+import com.platform.annotation.IgnoreAuth;
 import com.platform.entity.BrandVo;
 import com.platform.service.ApiBrandService;
 import com.platform.util.ApiBaseAction;
@@ -28,6 +29,7 @@ public class ApiBrandController extends ApiBaseAction {
     /**
      * 品牌首页
      */
+    @IgnoreAuth
     @RequestMapping("index")
     public Object index() {
         Map param = new HashMap();
@@ -38,6 +40,7 @@ public class ApiBrandController extends ApiBaseAction {
     /**
      * 分页获取品牌
      */
+    @IgnoreAuth
     @RequestMapping("list")
     public Object list(@RequestParam(value = "page", defaultValue = "1") Integer page,
                        @RequestParam(value = "size", defaultValue = "10") Integer size) {
@@ -60,6 +63,7 @@ public class ApiBrandController extends ApiBaseAction {
     /**
      * 品牌详情
      */
+    @IgnoreAuth
     @RequestMapping("detail")
     public Object detail(@RequestParam Integer id) {
         Map<String, Object> resultObj = new HashMap();
