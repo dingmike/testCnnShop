@@ -1,4 +1,4 @@
-package com.platform.controller;
+package com.platform.mpi;
 
 import com.platform.annotation.IgnoreAuth;
 import com.platform.service.MpMenuService;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2018-10-30 13:01:47
  */
 @Controller
-@RequestMapping("/mp/menu")
+@RequestMapping("/mpi/menu")
 public class MpMenuController {
     @Autowired
     private MpMenuService mpMenuService;
@@ -47,12 +47,12 @@ public class MpMenuController {
      */
     public WxMenu initMenu() {
         WxMenuButton mainBtn1 = new WxMenuButton();
-        mainBtn1.setName("官网");
+        mainBtn1.setName("官网1");
         mainBtn1.setType(WxConsts.MenuButtonType.VIEW);
-        mainBtn1.setUrl("http://fly2you.cn");
+        mainBtn1.setUrl("http://www.sina.cn");
 
         WxMenuButton btn21 = new WxMenuButton();
-        btn21.setName("便利主义超市");
+        btn21.setName("便利主义超市1");
         btn21.setType(WxConsts.MenuButtonType.MINIPROGRAM);
         btn21.setUrl("http://mp.weixin.qq.com");
         btn21.setAppId("wx2a601dffd92609df");
@@ -73,22 +73,22 @@ public class MpMenuController {
         WxMenuButton btn31 = new WxMenuButton();
         btn31.setName("历史消息");
         btn31.setType(WxConsts.MenuButtonType.VIEW);
-        btn31.setUrl("https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzIxMTc5MzUyMQ==#wechat_redirect");
+        btn31.setUrl("https://www.baidu.com");
 
         WxMenuButton btn32 = new WxMenuButton();
         btn32.setName("商务合作");
         btn32.setType(WxConsts.MenuButtonType.VIEW);
-        btn32.setUrl("https://mp.weixin.qq.com/s/srJyUVzwK6wGwGFCQFch1A");
+        btn32.setUrl("https://www.baidu.com");
 
         WxMenuButton btn33 = new WxMenuButton();
         btn33.setName("更多资讯");
         btn33.setType(WxConsts.MenuButtonType.VIEW);
-        btn33.setUrl("http://mp.weixin.qq.com/mp/homepage?__biz=MzIxMTc5MzUyMQ==&hid=1&sn=f8765358ef19c3423224069d333be5bf&scene=18#wechat_redirect");
+        btn33.setUrl("https://www.baidu.com");
 
         WxMenuButton btn34 = new WxMenuButton();
         btn34.setName("曾获荣誉");
         btn34.setType(WxConsts.MenuButtonType.VIEW);
-        btn34.setUrl("https://mp.weixin.qq.com/s/5mbU7Kp2TavasrZhfOUc7w");
+        btn34.setUrl("https://www.baidu.com");
 
         WxMenuButton mainBtn3 = new WxMenuButton();
         mainBtn3.setName("更多");
@@ -111,28 +111,33 @@ public class MpMenuController {
         return mpMenuService.menuCreate(json);
     }
 
+    @IgnoreAuth
     @GetMapping("/delete")
     public void menuDelete() throws Exception {
         mpMenuService.menuDelete();
     }
 
+    @IgnoreAuth
     @GetMapping("/delete/{menuId}")
     public void menuDelete(@PathVariable String menuId) throws Exception {
         mpMenuService.menuDelete(menuId);
     }
 
+    @IgnoreAuth
     @GetMapping("/get")
     @ResponseBody
     public WxMpMenu menuGet() throws Exception {
         return mpMenuService.menuGet();
     }
 
+    @IgnoreAuth
     @GetMapping("/menuTryMatch/{userid}")
     @ResponseBody
     public WxMenu menuTryMatch(@PathVariable String userid) throws Exception {
         return mpMenuService.menuTryMatch(userid);
     }
 
+    @IgnoreAuth
     @GetMapping("/getSelfMenuInfo")
     @ResponseBody
     public WxMpGetSelfMenuInfoResult getSelfMenuInfo() throws Exception {

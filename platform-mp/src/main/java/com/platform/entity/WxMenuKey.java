@@ -5,8 +5,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * 菜单的dto对象
  *
- * @author liepngjun
- * @email 939961241@qq.com
+ * @author admin
+ * @email 2252277509@qq.com
  * @date 2018-12-16 13:01:47
  */
 public class WxMenuKey {

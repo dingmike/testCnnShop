@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 @Service("mpMenuService")
 public class MpMenuService extends WxMpMenuServiceImpl {
-
     public MpMenuService(WxMpService wxMpService) {
         super(wxMpService);
     }
