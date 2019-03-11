@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author Binary Wang
+ * @author admin
  */
 @RestController
 @RequestMapping("/mpi/portal")
